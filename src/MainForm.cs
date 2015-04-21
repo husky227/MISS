@@ -53,12 +53,8 @@ namespace CityDriver
         private Label label1;
         private Label label2;
         private Label label3;
-<<<<<<< HEAD
-        private ThreadStart refreshThreadStarter;
-=======
         private Panel panel1;
 		private ThreadStart refreshThreadStarter;
->>>>>>> 9d80d5e8452974b6bb0b60eabcaa398d4d9a3004
 
 
         public MainForm()
@@ -315,30 +311,6 @@ namespace CityDriver
             }
         }
 
-<<<<<<< HEAD
-        //TODO: mess, and bangladesh type. link robots names with robot objects to avoid searching
-        private void drawDebugRectangle()
-        {
-            Object text = (string)GetSelectedRobot();
-            if (text != null)
-            {
-                Robot current = null;
-                foreach (Robot robot in communicator.robots)
-                {
-                    if (robot.name.Equals(text))
-                    {
-                        current = robot;
-                        SetRobotData(robot);
-                        break;
-                    }
-                }
-
-            }
-        }
-
-        private void RefreshThread()
-        {
-=======
 	    private void drawBackground(Graphics g)
 	    {
             g.FillRectangle(new SolidBrush(Color.FromArgb(0, Color.Black)), panel1.DisplayRectangle);
@@ -414,22 +386,11 @@ namespace CityDriver
 
 		private void RefreshThread()
 		{
-            
-		/*	try
-			{*/
-				while (true)
-				{
-                    //drawDebugRectangle();
-					if (communicator.Receive(Communicator.RECEIVEBLOCKLEVEL_WaitForNewTimestamp) < 0)
-					{
-                        Console.WriteLine("koniec 1");
->>>>>>> 9d80d5e8452974b6bb0b60eabcaa398d4d9a3004
-
             /*	try
                 {*/
             while (true)
             {
-                drawDebugRectangle();
+//                drawDebugRectangle();
                 if (communicator.Receive(Communicator.RECEIVEBLOCKLEVEL_WaitForNewTimestamp) < 0)
                 {
                     Console.WriteLine("koniec 1");

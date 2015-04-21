@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-<<<<<<< HEAD
-//using GraphSharp;
-//using GraphSharp.Algorithms.Layout.Contextual;
-=======
->>>>>>> 9d80d5e8452974b6bb0b60eabcaa398d4d9a3004
 
 namespace CityDriver
 {
