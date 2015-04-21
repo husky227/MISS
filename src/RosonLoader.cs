@@ -10,11 +10,13 @@ namespace CityDriver
     {
         private Dictionary<string, Wall> walls;
         private Dictionary<string, Space> spaces;
+        private Dictionary<string, Node> nodes;
 
         public void LoadRoson(string path)
         {
             walls = new Dictionary<string, Wall>();
             spaces = new Dictionary<string, Space>();
+            nodes = new Dictionary<string, Node>();
 
             var json = System.IO.File.ReadAllText(path);
 
@@ -95,6 +97,35 @@ namespace CityDriver
                         Console.WriteLine("\n");
                     }*/
                 }
+            }
+            foreach (JObject obj in objects["nodes"])
+            {
+                var id = obj.GetValue("id").Value<string>();
+                var kind = obj.GetValue("kind").Value<string>();
+                JObject position = (JObject)obj.GetValue("position");
+                var x1 = (double)position.GetValue("x").Value<double>();
+                var y1 = position.GetValue("y").Value<double>();
+
+                CityDriver.NodeKind enumType = CityDriver.NodeKind.GateNode;
+                if (kind.Equals("gateNode"))
+                {
+                    enumType = CityDriver.NodeKind.GateNode;
+                } else if (kind.Equals("gateNode"))
+                {
+                    enumType = CityDriver.NodeKind.GateNode;
+                }
+                Node node = new Node(enumType, id, x1, y1);
+                nodes.Add(id, node);
+            }
+
+            foreach (JObject obj in objects["node-nodes"])
+            {
+                var nodeFromId = obj.GetValue("nodeFromId").Value<string>();
+                Node from = nodes[nodeFromId];
+                var nodeToId = obj.GetValue("nodeToId").Value<string>();
+                Node to = nodes[nodeToId];
+                from.Nodes.Add(to);
+                to.Nodes.Add(from);
             }
             foreach (JObject obj in objects["space-walls"])
             {
