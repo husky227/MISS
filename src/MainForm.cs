@@ -399,7 +399,7 @@ namespace CityDriver
                 if(current != null) { 
                     foreach (Robot robot in communicator.robots)
                     {
-                        if (robot != current && robot.position)
+                        if (robot != current)
                         {
                             current = robot;
                             SetRobotData(robot);
