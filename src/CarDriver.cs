@@ -17,6 +17,7 @@
  *                                                                       *
  *************************************************************************/
 using System;
+using System.Collections.Generic;
 using RoBOSSCommunicator;
 
 
@@ -27,28 +28,39 @@ namespace CityDriver
 	/// </summary>
 	public class CarDriver
 	{
-		public static double maxSpeed = 1;
+	    private List<CarParameters> lastParameters;
 
+		public static double maxSpeed = 1;
 		public Robot myRobot;
 
 		public CarDriver(Robot myRobot)
 		{
 			this.myRobot = myRobot;
             Console.WriteLine("New robot attached: " + myRobot.name);
-
 		}
 
-		public void Refresh()
+		public unsafe void Refresh(List<CarParameters> visibleDrivers)
 		{
 			double newSpeed = maxSpeed;
 
-            //myRobot.joints[2].motorDesiredPosition = newSpeed;
-            //myRobot.joints[1].motorDesiredPosition = myRobot.joints[1].motorDesiredPosition + 1;
-            //myRobot.joints[0].motorDesiredVelocity2 = newSpeed;
-			myRobot.joints[0].motorDesiredVelocity = newSpeed;
-			myRobot.joints[1].motorDesiredVelocity = newSpeed;
-            myRobot.joints[2].motorDesiredVelocity = newSpeed;
-            myRobot.joints[3].motorDesiredVelocity = newSpeed;
+//            if (myRobot.id == 0)
+//                Console.WriteLine(myRobot.position[0] + " " + myRobot.position[1]);
+
+		    if (visibleDrivers.Count > 0)
+		    {
+
+		        myRobot.joints[0].motorDesiredVelocity = newSpeed;
+		        myRobot.joints[1].motorDesiredVelocity = -newSpeed;
+		        myRobot.joints[2].motorDesiredVelocity = newSpeed;
+		        myRobot.joints[3].motorDesiredVelocity = -newSpeed;
+		    }
+		    else
+		    {
+                myRobot.joints[0].motorDesiredVelocity = newSpeed;
+                myRobot.joints[1].motorDesiredVelocity = newSpeed;
+                myRobot.joints[2].motorDesiredVelocity = newSpeed;
+                myRobot.joints[3].motorDesiredVelocity = newSpeed;
+		    }
 
 			return;
 		}

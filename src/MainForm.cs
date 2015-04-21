@@ -33,16 +33,16 @@ using Newtonsoft.Json.Linq;
 
 namespace CityDriver
 {
-	/// <summary>
-	/// Summary description for Form1.
-	/// </summary>
-	public class MainForm : System.Windows.Forms.Form
+    /// <summary>
+    /// Summary description for Form1.
+    /// </summary>
+    public class MainForm : System.Windows.Forms.Form
     {
-		private System.ComponentModel.IContainer components;
+        private System.ComponentModel.IContainer components;
 
         private Communicator communicator = null;
 
-		ArrayList drivers;
+        ArrayList drivers;
         private Thread refreshThread;
         private Label connectionStatusLabel;
         private Button connectButton;
@@ -53,52 +53,52 @@ namespace CityDriver
         private Label label1;
         private Label label2;
         private Label label3;
-		private ThreadStart refreshThreadStarter;
+        private ThreadStart refreshThreadStarter;
 
 
-		public MainForm()
-		{
-			//
-			// Required for Windows Form Designer support
-			//
-			InitializeComponent();
+        public MainForm()
+        {
+            //
+            // Required for Windows Form Designer support
+            //
+            InitializeComponent();
 
-			addressTextBox.Text = Dns.Resolve(Dns.GetHostName()).AddressList[0].ToString();
-			drivers = new ArrayList();
+            addressTextBox.Text = Dns.Resolve(Dns.GetHostName()).AddressList[0].ToString();
+            drivers = new ArrayList();
 
-			//
-			// TODO: Add any constructor code after InitializeComponent call
-			//
-		}
+            //
+            // TODO: Add any constructor code after InitializeComponent call
+            //
+        }
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
 
-			if (communicator != null)
-			{
-				connectButton_Click(this, null);
-			}
+            if (communicator != null)
+            {
+                connectButton_Click(this, null);
+            }
 
-			if( disposing )
-			{
-				if (components != null) 
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        #region Windows Form Designer generated code
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.connectionStatusLabel = new System.Windows.Forms.Label();
             this.connectButton = new System.Windows.Forms.Button();
@@ -213,64 +213,64 @@ namespace CityDriver
             this.ResumeLayout(false);
             this.PerformLayout();
 
-		}
-		#endregion
+        }
+        #endregion
 
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
-		[STAThread]
-		static void Main()
-		{
-            new RosonLoader().LoadRoson(@"f:\SampleMap.roson");
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            new RosonLoader().LoadRoson(@"..\..\..\..\WorldDefinition\SampleMap.roson");
             //Console.ReadKey();
-			Application.Run(new MainForm());
-		}
+            Application.Run(new MainForm());
+        }
 
 
-		private void connectButton_Click(object sender, System.EventArgs e)
-		{
-			if (communicator != null)
-			{
-				refreshThread.Abort();
-				drivers.Clear();
-				communicator.Dispose();
-				communicator = null;
-				return;	
-			}
+        private void connectButton_Click(object sender, System.EventArgs e)
+        {
+            if (communicator != null)
+            {
+                refreshThread.Abort();
+                drivers.Clear();
+                communicator.Dispose();
+                communicator = null;
+                return;
+            }
 
-			communicator = new Communicator();
-			connectionStatusLabel.Text = "Connecting to Controller...";
-			Refresh();
-			if (communicator.Connect(addressTextBox.Text,portTextBox.Text, "servo tester") <0)
-			{
-				connectionStatusLabel.Text = "Unable to contact Controller";
-				Refresh();
-				communicator.Dispose();
-				communicator = null;
-				return;
-			}
+            communicator = new Communicator();
+            connectionStatusLabel.Text = "Connecting to Controller...";
+            Refresh();
+            if (communicator.Connect(addressTextBox.Text, portTextBox.Text, "servo tester") < 0)
+            {
+                connectionStatusLabel.Text = "Unable to contact Controller";
+                Refresh();
+                communicator.Dispose();
+                communicator = null;
+                return;
+            }
 
-			connectButton.Text = "Disconnect";
+            connectButton.Text = "Disconnect";
 
-            
-            foreach(Robot robot in communicator.robots)
+
+            foreach (Robot robot in communicator.robots)
             {
                 listBox1.Items.Add(robot.name);
             }
 
-			refreshThreadStarter = new ThreadStart(this.RefreshThread);
-			refreshThread = new Thread(refreshThreadStarter);
-			refreshThread.Priority = ThreadPriority.Normal;
-			refreshThread.Start();
-			connectionStatusLabel.Text = "Connected to Controller";
-		}
+            refreshThreadStarter = new ThreadStart(this.RefreshThread);
+            refreshThread = new Thread(refreshThreadStarter);
+            refreshThread.Priority = ThreadPriority.Normal;
+            refreshThread.Start();
+            connectionStatusLabel.Text = "Connected to Controller";
+        }
 
         delegate object GetSelectedRobotCallback();
         delegate void SetRobotDataCallback(Robot robot);
 
-	    private object GetSelectedRobot()
-	    {
+        private object GetSelectedRobot()
+        {
             if (this.listBox1.InvokeRequired)
             {
                 GetSelectedRobotCallback d = new GetSelectedRobotCallback(GetSelectedRobot);
@@ -280,7 +280,7 @@ namespace CityDriver
             {
                 return listBox1.SelectedItem;
             }
-	    }
+        }
 
         private void SetRobotData(Robot robot)
         {
@@ -292,7 +292,8 @@ namespace CityDriver
             else
             {
                 label1.Text = robot.name;
-                unsafe {
+                unsafe
+                {
                     label2.Text = (*robot.lineralVelocity).ToString();
                     label3.Text = (*robot.rotation).ToString();
                 }
@@ -300,70 +301,80 @@ namespace CityDriver
         }
 
         //TODO: mess, and bangladesh type. link robots names with robot objects to avoid searching
-	    private void drawDebugRectangle()
-	    {
-	        Object text = (string)GetSelectedRobot();
-            if(text != null) {
-	            Robot current = null;
-	            foreach (Robot robot in communicator.robots)
-	            {
-	                if (robot.name.Equals(text))
-	                {
-	                    current = robot;
-	                    SetRobotData(robot);
-	                    break;
-	                }
-	            }
+        private void drawDebugRectangle()
+        {
+            Object text = (string)GetSelectedRobot();
+            if (text != null)
+            {
+                Robot current = null;
+                foreach (Robot robot in communicator.robots)
+                {
+                    if (robot.name.Equals(text))
+                    {
+                        current = robot;
+                        SetRobotData(robot);
+                        break;
+                    }
+                }
 
             }
-	    }
+        }
 
-		private void RefreshThread()
-		{
-            
-		/*	try
-			{*/
-				while (true)
-				{
-                    drawDebugRectangle();
-					if (communicator.Receive(Communicator.RECEIVEBLOCKLEVEL_WaitForNewTimestamp) < 0)
-					{
-                        Console.WriteLine("koniec 1");
+        private void RefreshThread()
+        {
 
-						connectButton_Click(this, null);
-						return;
-					}
-                    if (drivers.Count < communicator.robots.Length)
-					{
-						try
-						{
-							int newRobotId = communicator.RequestRobot("Capo");
-							drivers.Add(new CarDriver(communicator.robots[newRobotId]));
-						}
-						catch 
-						{	
+            /*	try
+                {*/
+            while (true)
+            {
+                drawDebugRectangle();
+                if (communicator.Receive(Communicator.RECEIVEBLOCKLEVEL_WaitForNewTimestamp) < 0)
+                {
+                    Console.WriteLine("koniec 1");
 
-                            Console.WriteLine("Error!");
-						}
-					}
-                    else if (drivers.Count > communicator.robots.Length)
-					{
-						communicator.ReleaseRobot(((CarDriver)drivers[0]).myRobot.id);
-						drivers.RemoveAt(0);
-					}
-					//ownedLabel.Text = "cars owned: "+drivers.Count.ToString();
-					foreach (CarDriver driver in drivers)
-					{
-						driver.Refresh();
-					}
+                    connectButton_Click(this, null);
+                    return;
+                }
+                if (drivers.Count < communicator.robots.Length)
+                {
+                    try
+                    {
+                        int newRobotId = communicator.RequestRobot("Capo");
+                        drivers.Add(new CarDriver(communicator.robots[newRobotId]));
+                    }
+                    catch
+                    {
 
-					if (communicator.Send() < 0)
-					{
-                        Console.WriteLine("koniec 2");
-						connectButton_Click(this, null);
-						return;
-					}
-				}/*
+                        Console.WriteLine("Error!");
+                    }
+                }
+                else if (drivers.Count > communicator.robots.Length)
+                {
+                    communicator.ReleaseRobot(((CarDriver)drivers[0]).myRobot.id);
+                    drivers.RemoveAt(0);
+                }
+                //ownedLabel.Text = "cars owned: "+drivers.Count.ToString();
+                foreach (CarDriver driver in drivers)
+                {
+                    List<CarParameters> visibleCars = new List<CarParameters>();
+                    foreach (CarDriver driv in drivers)
+                    {
+                        if (driv != driver && IsClose(driver, driv))
+                            unsafe
+                            {
+                                visibleCars.Add(new CarParameters(driv.myRobot.position, driv.myRobot.rotation));
+                            }
+                    }
+                    driver.Refresh(visibleCars);
+                }
+
+                if (communicator.Send() < 0)
+                {
+                    Console.WriteLine("koniec 2");
+                    connectButton_Click(this, null);
+                    return;
+                }
+            }/*
 			}
 			catch(Exception e)
 			{
@@ -372,8 +383,12 @@ namespace CityDriver
 				connectButton_Click(this, null);
 				return;
 			}*/
-		}
+        }
 
-
-	}
+        private static unsafe bool IsClose(CarDriver driver, CarDriver driv)
+        {
+            
+            return Math.Sqrt((driver.myRobot.position[0] - driv.myRobot.position[0]) * (driver.myRobot.position[0] - driv.myRobot.position[0]) + (driver.myRobot.position[1] - driv.myRobot.position[1]) * (driver.myRobot.position[1] - driv.myRobot.position[1])) <= 1;
+        }
+    }
 }
