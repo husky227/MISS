@@ -53,7 +53,12 @@ namespace CityDriver
         private Label label1;
         private Label label2;
         private Label label3;
+<<<<<<< HEAD
         private ThreadStart refreshThreadStarter;
+=======
+        private Panel panel1;
+		private ThreadStart refreshThreadStarter;
+>>>>>>> 9d80d5e8452974b6bb0b60eabcaa398d4d9a3004
 
 
         public MainForm()
@@ -109,6 +114,7 @@ namespace CityDriver
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.controllerConnectionGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -196,10 +202,18 @@ namespace CityDriver
             this.label3.TabIndex = 18;
             this.label3.Text = "Rotation: 0";
             // 
+            // panel1
+            // 
+            this.panel1.Location = new System.Drawing.Point(247, 13);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(759, 547);
+            this.panel1.TabIndex = 19;
+            // 
             // MainForm
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.ClientSize = new System.Drawing.Size(1018, 572);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -266,6 +280,7 @@ namespace CityDriver
             connectionStatusLabel.Text = "Connected to Controller";
         }
 
+        //TODO: mess, and bangladesh type. link robots names with robot objects to avoid searching
         delegate object GetSelectedRobotCallback();
         delegate void SetRobotDataCallback(Robot robot);
 
@@ -300,6 +315,7 @@ namespace CityDriver
             }
         }
 
+<<<<<<< HEAD
         //TODO: mess, and bangladesh type. link robots names with robot objects to avoid searching
         private void drawDebugRectangle()
         {
@@ -322,6 +338,92 @@ namespace CityDriver
 
         private void RefreshThread()
         {
+=======
+	    private void drawBackground(Graphics g)
+	    {
+            g.FillRectangle(new SolidBrush(Color.FromArgb(0, Color.Black)), panel1.DisplayRectangle);
+
+            System.Drawing.Point[] points = new System.Drawing.Point[4];
+
+            points[0] = new System.Drawing.Point(0, 0);
+            points[1] = new System.Drawing.Point(0, panel1.Height);
+            points[2] = new System.Drawing.Point(panel1.Width, panel1.Height);
+            points[3] = new System.Drawing.Point(panel1.Width, 0);
+
+            Brush brush = new SolidBrush(Color.Black);
+
+            g.FillPolygon(brush, points);
+	    }
+
+        private void drawRobot(Graphics g, Robot currenRobot, int x, int y, int width, int height, double angle)
+        {
+            g.FillRectangle(new SolidBrush(Color.FromArgb(0, Color.Black)), panel1.DisplayRectangle);
+
+            System.Drawing.Point[] points = new System.Drawing.Point[4];
+
+            int hWidth = width/2;
+            int hHeight = height/2;
+
+            points[0] = new System.Drawing.Point(x-hWidth, y-hHeight);
+            points[1] = new System.Drawing.Point(x - hWidth, y+hHeight);
+            points[2] = new System.Drawing.Point(x + hWidth, y + hHeight);
+            points[3] = new System.Drawing.Point(x + hWidth, y - hHeight);
+
+            Brush brush = new SolidBrush(Color.GreenYellow);
+
+            g.FillPolygon(brush, points);
+        }
+
+	    private void drawOnPanel(Robot currenRobot)
+	    {
+            Graphics g = panel1.CreateGraphics();
+	        drawBackground(g);
+	        drawRobot(g, currenRobot, 20, 20, 10, 20, 0);
+	    }
+
+        
+	    private void drawDebugRectangle()
+	    {
+	        Object text = (string)GetSelectedRobot();
+            if(text != null) {
+	            Robot current = null;
+	            foreach (Robot robot in communicator.robots)
+	            {
+	                if (robot.name.Equals(text))
+	                {
+	                    current = robot;
+	                    SetRobotData(robot);
+	                    break;
+	                }
+	            }
+                if(current != null) { 
+                    foreach (Robot robot in communicator.robots)
+                    {
+                        if (robot != current && robot.position)
+                        {
+                            current = robot;
+                            SetRobotData(robot);
+                            break;
+                        }
+                    }
+                    drawOnPanel(current);
+                }
+            }
+	    }
+        //TODO: end of bangladesh style
+
+		private void RefreshThread()
+		{
+            
+		/*	try
+			{*/
+				while (true)
+				{
+                    //drawDebugRectangle();
+					if (communicator.Receive(Communicator.RECEIVEBLOCKLEVEL_WaitForNewTimestamp) < 0)
+					{
+                        Console.WriteLine("koniec 1");
+>>>>>>> 9d80d5e8452974b6bb0b60eabcaa398d4d9a3004
 
             /*	try
                 {*/
