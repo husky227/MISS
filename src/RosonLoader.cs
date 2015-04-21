@@ -8,8 +8,14 @@ namespace CityDriver
 {
     class RosonLoader
     {
-        public static void LoadRoson(string path)
+        private Dictionary<string, Wall> walls;
+        private Dictionary<string, Space> spaces;
+
+        public void LoadRoson(string path)
         {
+            walls = new Dictionary<string, Wall>();
+            spaces = new Dictionary<string, Space>();
+
             var json = System.IO.File.ReadAllText(path);
 
             Dictionary<String, JArray> objects = JsonConvert.DeserializeObject<Dictionary<String, JArray>>(json);
@@ -19,28 +25,52 @@ namespace CityDriver
                 JArray objectsArray = objects[jObject];
                 foreach (JObject obj in objectsArray)
                 {
-                    /*
                     var type = (string)obj.GetValue("type");
                     if (type != null)
                     {
                         switch (type)
                         {
                             case "wall":
-                                var id = (string)obj.GetValue("id");
-                                var width = (string)obj.GetValue("width");
-                                var height = (string)obj.GetValue("height");
-                                var color = (string)obj.GetValue("color");
-                                JObject from = (string)obj.GetValue("from");
-                                JObject to = (string)obj.GetValue("to");
+                                var id = obj.GetValue("id").Value<string>();
+                                var width = obj.GetValue("width").Value<double>();
+                                var height = obj.GetValue("height").Value<double>();
+                                var color = obj.GetValue("color").Value<string>();
 
+                                JObject from = (JObject)obj.GetValue("from");
+                                var x1 = from.GetValue("x").Value<double>();
+                                var y1 = from.GetValue("y").Value<double>();
 
+                                JObject to = (JObject)obj.GetValue("to");
+                                var x2 = (double)to.GetValue("x").Value<double>();
+                                var y2 = to.GetValue("y").Value<double>();
 
                                 Wall wall = new Wall(id, width, height, color, x1, y1, x2, y2);
+                                walls.Add(id, wall);
+                                break;
+                            case "space":
+                                var name = obj.GetValue("name").Value<string>();
+                                var spaceType = obj.GetValue("type").Value<string>();
+
+                                CityDriver.SpaceKind enumType = CityDriver.SpaceKind.Room;
+                                if (spaceType.Equals("corridor"))
+                                {
+                                    enumType = CityDriver.SpaceKind.Corridor;
+                                } else if (spaceType.Equals("room"))
+                                {
+                                    enumType = CityDriver.SpaceKind.Room;
+                                }
+                                var idS = obj.GetValue("id").Value<string>();
+                                var area = obj.GetValue("area").Value<double>();
+                                var diameter = obj.GetValue("diameter").Value<double>();
+
+                                Space space = new Space(enumType, name, idS, area, diameter);
+                                spaces.Add(idS, space);
                                 break;
                             default:
                                 break;
                         }
-                    }*/
+                    }
+                    /*
                     foreach (KeyValuePair<String, JToken> app in obj)
                     {
                         var appName = obj;
@@ -63,8 +93,16 @@ namespace CityDriver
                         Console.WriteLine(description);
                         Console.WriteLine(value);
                         Console.WriteLine("\n");
-                    }
+                    }*/
                 }
+            }
+            foreach (JObject obj in objects["space-walls"])
+            {
+                var spaceId = obj.GetValue("spaceId").Value<string>();
+                var wallId = obj.GetValue("wallId").Value<string>();
+                Space space = spaces[spaceId];
+                Wall wall = walls[wallId];
+                space.walls.Add(wall);
             }
         }
     }

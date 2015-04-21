@@ -222,7 +222,7 @@ namespace CityDriver
 		[STAThread]
 		static void Main()
 		{
-            RosonLoader.LoadRoson(@"f:\SampleMap.roson");
+            new RosonLoader().LoadRoson(@"f:\SampleMap.roson");
             //Console.ReadKey();
 			Application.Run(new MainForm());
 		}
