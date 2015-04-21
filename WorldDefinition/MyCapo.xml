@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- /Box.xml -->
+<Robot type="MyCapo">
+    <Parts>
+        <Part name="Body" position_z="0.07">
+            <Mass type="box" size_x="0.2" size_y="0.25" size_z="0.06" mass="1.584"/>
+            <Geoms>
+			<Geom  type="box" size_x="0.2" size_y="0.25" size_z="0.06" friction="0.02" bouncyness="0.0"/>
+            </Geoms>
+        </Part>
+        <Part name="LeftFrontWheel" position_x="-0.1351" position_y="0.095" position_z="0.07">
+            <Mass type="cylinder" size_x="0.06" size_y="0.07" mass="0.1"/>
+            <Geoms>
+			<Geom  type="cylinder"  color="00662211" rotation_y="1.5707963267948966192313216916398"
+			size_x="0.06" size_y="0.07" friction="3.9" bouncyness="0.0"/>
+            </Geoms>
+        </Part>
+        <Part name="RightFrontWheel" position_x="0.1351" position_y="0.095" position_z="0.07">
+            <Mass type="cylinder" size_x="0.06" size_y="0.07" mass="0.1"/>
+            <Geoms>
+			<Geom  type="cylinder" color="00662211"  rotation_y="1.5707963267948966192313216916398"
+			size_x="0.06" size_y="0.07" friction="3.9" bouncyness="0.0"/>
+			
+            </Geoms>
+        </Part>
+        <Part name="LeftRearWheel" position_x="-0.1351" position_y="-0.095" position_z="0.07">
+            <Mass type="cylinder" size_x="0.06" size_y="0.07" mass="0.1"/>
+            <Geoms>
+			<Geom  type="cylinder" color="00662211"  rotation_y="1.5707963267948966192313216916398"
+			size_x="0.06" size_y="0.07" friction="2.6" bouncyness="0.0"/>
+			
+            </Geoms>
+        </Part>
+        <Part name="RightRearWheel" position_x="0.1351" position_y="-0.095" position_z="0.07">
+            <Mass type="cylinder" size_x="0.06" size_y="0.07" mass="0.1"/>
+            <Geoms>
+			<Geom  type="cylinder" color="00662211"  rotation_y="1.5707963267948966192313216916398"  
+			size_x="0.06" size_y="0.07" friction="2.6" bouncyness="0.0"/>
+			
+            </Geoms>
+        </Part>
+    </Parts>
+
+    <Sensors>
+	<!-- <Sensor name="left_ahead" type="rangefinder" part="Body" 
+		direction_x="-0.001" direction_y="1"
+		position_x="-0.099" position_y="0.124" position_z="0.07" range="40"/>
+	<Sensor name="right_ahead" type="rangefinder" part="Body" 
+		direction_x="0.001" direction_y="1"                      
+		position_x="0.099" position_y="0.124" position_z="0.07" range="40"/>
+	<Sensor name="left" type="rangefinder" part="Body" 
+		direction_x="-1" direction_y="1.4"
+		position_x="-0.099" position_y="0.124" position_z="0.07" range="60"/>
+	<Sensor name="right" type="rangefinder" part="Body" 
+		direction_x="1" direction_y="1.4"
+		position_x="0.099" position_y="0.124" position_z="0.07" range="60"/>
+	<Sensor name="odoRight" type="odometer" joint="rightRear" wheel_radius="0.06"/>
+	<Sensor name="odoLeft" type="odometer" joint="leftRear" wheel_radius="0.06"/> -->
+    </Sensors>    
+   
+    <Joints>
+
+	<Joint name="leftFront" part1="Body" part2="LeftFrontWheel" type="hinge" 
+		direction_x="1" direction_y="0" direction_z="0" 
+		anchor_x="-0.1351" anchor_y="0.095" anchor_z="0.07">
+		<Motor const_force="1" />
+	</Joint>
+	<Joint name="rightFront" part1="Body" part2="RightFrontWheel" type="hinge" 
+		direction_x="1" direction_y="0" direction_z="0" 
+		anchor_x="0.1351" anchor_y="0.095" anchor_z="0.07">
+	    <Motor const_force="1" />
+	</Joint>
+	<Joint name="leftRear" part1="Body" part2="LeftRearWheel" type="hinge"
+		direction_x="1" direction_y="0" direction_z="0" 
+		anchor_x="-0.1351" anchor_y="-0.095" anchor_z="0.07">
+	    <Motor const_force="1" />
+	</Joint>
+	<Joint name="rightRear" part1="Body" part2="RightRearWheel" type="hinge"
+		direction_x="1" direction_y="0" direction_z="0" 
+		anchor_x="0.1351" anchor_y="-0.095" anchor_z="0.07">
+	    <Motor const_force="1" />
+	</Joint>
+
+
+    </Joints>    
+</Robot>
+

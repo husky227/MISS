@@ -1,0 +1,57 @@
+<World name="sample" gravity="9.81">
+  <Robots>
+    <Robot type="Capo" name="Capo3" position_x="0.44" position_y="0.5" position_z="0" />
+    <Robot type="Capo" name="Capo4" position_x="0.44" position_y="4.52" position_z="0" />
+    <Robot type="Capo" name="Capo5" position_x="1.76" position_y="0.72" position_z="0" />
+    <Robot type="Capo" name="Capo6" position_x="3.88" position_y="1.41" position_z="0" />
+    <Robot type="Capo" name="Capo7" position_x="4.41" position_y="3.66" position_z="0" />
+    <Robot type="Capo" name="Capo8" position_x="3.26" position_y="3.9" position_z="0" />
+    <Robot type="Capo" name="Capo9" position_x="4.22" position_y="5.68" position_z="0" />
+    <Robot type="Capo" name="Capo10" position_x="4.26" position_y="9.23" position_z="0" />
+    <Robot type="Capo" name="Capo11" position_x="2.4" position_y="8.66" position_z="0" />
+    <Robot type="Capo" name="Capo12" position_x="3.23" position_y="7.01" position_z="0" />
+    <Robot type="Capo" name="Capo13" position_x="4.22" position_y="7.64" position_z="0" />
+    <Robot type="Capo" name="Capo14" position_x="1.57" position_y="7.12" position_z="0" />
+    <Robot type="Capo" name="Capo15" position_x="2.1" position_y="4.99" position_z="0" />
+    <Robot type="Capo" name="Capo16" position_x="0.44" position_y="7.12" position_z="0" />
+    <Robot type="Capo" name="Capo17" position_x="0.68" position_y="9.47" position_z="0" />
+    <Robot type="Capo" name="Capo18" position_x="0.82" position_y="8.27" position_z="0" />
+  </Robots>
+  <Environment>
+    <Geoms>
+      <Geom type="box" position_x="2.7" position_y="5.145" position_z="-0.5" size_x="5.4" size_y="10.39" size_z="1.0" color="00000000" />
+      <Geom type="box" position_x="0.8" position_y="10.2" position_z="0.15" size_x="1.2" size_y="0.1" size_z="0.3" rotation_z="3.14159265358979" color="ff8080ff" />
+      <Geom type="box" position_x="1.4" position_y="10" position_z="0.15" size_x="0.4" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="1.4" position_y="8.7" position_z="0.15" size_x="0.6" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="1.4" position_y="8" position_z="0.15" size_x="0.8" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="1.4" position_y="5.9" position_z="0.15" size_x="1.8" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="0.8" position_y="5" position_z="0.15" size_x="1.2" size_y="0.1" size_z="0.3" rotation_z="3.14159265358979" color="ff8080ff" />
+      <Geom type="box" position_x="0.2" position_y="7.6" position_z="0.15" size_x="5.2" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="5.2" position_y="9.3" position_z="0.15" size_x="1.8" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="4.4" position_y="8.4" position_z="0.15" size_x="1.6" size_y="0.1" size_z="0.3" rotation_z="3.14159265358979" color="ff8080ff" />
+      <Geom type="box" position_x="2.7" position_y="8.4" position_z="0.15" size_x="0.2" size_y="0.1" size_z="0.3" rotation_z="3.14159265358979" color="ff8080ff" />
+      <Geom type="box" position_x="2" position_y="8.4" position_z="0.15" size_x="1.2" size_y="0.1" size_z="0.3" rotation_z="3.14159265358979" color="ff8080ff" />
+      <Geom type="box" position_x="3.3" position_y="10.2" position_z="0.15" size_x="3.8" size_y="0.1" size_z="0.3" rotation_z="3.14159265358979" color="ff8080ff" />
+      <Geom type="box" position_x="5.2" position_y="7.6" position_z="0.15" size_x="1.6" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="3.9" position_y="6.8" position_z="0.15" size_x="2.6" size_y="0.1" size_z="0.3" rotation_z="3.14159265358979" color="ff8080ff" />
+      <Geom type="box" position_x="2.6" position_y="7.6" position_z="0.15" size_x="1.6" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="5.2" position_y="5.8" position_z="0.15" size_x="2" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="3.9" position_y="4.8" position_z="0.15" size_x="2.6" size_y="0.1" size_z="0.3" rotation_z="3.14159265358979" color="ff8080ff" />
+      <Geom type="box" position_x="2.6" position_y="5" position_z="0.15" size_x="0.4" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="2.6" position_y="6.4" position_z="0.15" size_x="0.8" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="3.9" position_y="0.2" position_z="0.15" size_x="2.6" size_y="0.1" size_z="0.3" rotation_z="3.14159265358979" color="ff8080ff" />
+      <Geom type="box" position_x="2.6" position_y="1" position_z="0.15" size_x="1.6" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="2.6" position_y="2.7" position_z="0.15" size_x="0.2" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="3.1" position_y="2.8" position_z="0.15" size_x="1" size_y="0.1" size_z="0.3" rotation_z="3.14159265358979" color="ff8080ff" />
+      <Geom type="box" position_x="4.8" position_y="2.8" position_z="0.15" size_x="0.8" size_y="0.1" size_z="0.3" rotation_z="3.14159265358979" color="ff8080ff" />
+      <Geom type="box" position_x="5.2" position_y="1.5" position_z="0.15" size_x="2.6" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="2.6" position_y="3.8" position_z="0.15" size_x="2" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="5.2" position_y="3.8" position_z="0.15" size_x="2" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="2" position_y="0.2" position_z="0.15" size_x="1.2" size_y="0.1" size_z="0.3" rotation_z="3.14159265358979" color="ff8080ff" />
+      <Geom type="box" position_x="1.4" position_y="1.3" position_z="0.15" size_x="2.2" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="1.4" position_y="4.1" position_z="0.15" size_x="1.8" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="0.8" position_y="0.2" position_z="0.15" size_x="1.2" size_y="0.1" size_z="0.3" rotation_z="3.14159265358979" color="ff8080ff" />
+      <Geom type="box" position_x="0.2" position_y="2.6" position_z="0.15" size_x="4.8" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+    </Geoms>
+  </Environment>
+</World>

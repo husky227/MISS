@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- /CarWorld.xml, jedynsotki w ukladzie SI -->
+
+<World name="city">
+    <Robots>
+	<Robot name="car 0" type="Capo"   position_x="-20"  position_y="10" position_z="2" />
+	<Robot name="car 1" type="Capo"   position_x="-15"  position_y="10" position_z="2" />
+	<Robot name="car 2" type="Capo"   position_x="-10"  position_y="10" position_z="2" />
+	<Robot name="car 3" type="Capo"   position_x="-5"   position_y="10" position_z="2" />
+	<Robot name="car 4" type="Capo"   position_x="0"    position_y="10" position_z="2" />
+	<Robot name="car 5" type="Capo"   position_x="5"    position_y="10" position_z="2" />
+	<Robot name="car 6" type="Capo"   position_x="10"   position_y="10" position_z="2" />
+	<Robot name="car 7" type="Capo"   position_x="15"   position_y="10" position_z="2" />
+	<Robot name="car 8" type="Capo"   position_x="20"   position_y="10" position_z="2" />
+	<Robot name="car 9" type="Capo"   position_x="25"   position_y="10" position_z="2" />
+
+	<Robot name="car 10" type="Capo"  position_x="-20"  position_y="5" position_z="2" />
+	<Robot name="car 11" type="Capo"  position_x="-15"  position_y="5" position_z="2" />
+	<Robot name="car 12" type="Capo"  position_x="-10"  position_y="5" position_z="2" />
+	<Robot name="car 13" type="Capo"  position_x="-5"   position_y="5" position_z="2" />
+	<Robot name="car 14" type="Capo"  position_x="0"    position_y="5" position_z="2" />
+	<Robot name="car 15" type="Capo"  position_x="5"    position_y="5" position_z="2" />
+	<Robot name="car 16" type="Capo"  position_x="10"   position_y="5" position_z="2" />
+	<Robot name="car 17" type="Capo"  position_x="15"   position_y="5" position_z="2" />
+	<Robot name="car 18" type="Capo"  position_x="20"   position_y="5" position_z="2" />
+	<Robot name="car 19" type="Capo"  position_x="25"   position_y="5" position_z="2" />
+
+	<Robot name="car 20" type="Capo"  position_x="-20"  position_y="0" position_z="2" />
+	<Robot name="car 21" type="Capo"  position_x="-15"  position_y="0" position_z="2" />
+	<Robot name="car 22" type="Capo"  position_x="-10"  position_y="0" position_z="2" />
+	<Robot name="car 23" type="Capo"  position_x="-5"   position_y="0" position_z="2" />
+	<Robot name="car 24" type="Capo"  position_x="0"    position_y="0" position_z="2" />
+	<Robot name="car 25" type="Capo"  position_x="5"    position_y="0" position_z="2" />
+	<Robot name="car 26" type="Capo"  position_x="10"   position_y="0" position_z="2" />
+	<Robot name="car 27" type="Capo"  position_x="15"   position_y="0" position_z="2" />
+	<Robot name="car 28" type="Capo"  position_x="20"   position_y="0" position_z="2" />
+	<Robot name="car 29" type="Capo"  position_x="25"   position_y="0" position_z="2" />
+
+	<Robot name="car 30" type="Capo"  position_x="-20"  position_y="-5" position_z="2" />
+	<Robot name="car 31" type="Capo"  position_x="-15"  position_y="-5" position_z="2" />
+	<Robot name="car 32" type="Capo"  position_x="-10"  position_y="-5" position_z="2" />
+	<Robot name="car 33" type="Capo"  position_x="-5"   position_y="-5" position_z="2" />
+	<Robot name="car 34" type="Capo"  position_x="0"    position_y="-5" position_z="2" />
+	<Robot name="car 35" type="Capo"  position_x="5"    position_y="-5" position_z="2" />
+	<Robot name="car 36" type="Capo"  position_x="10"   position_y="-5" position_z="2" />
+	<Robot name="car 37" type="Capo"  position_x="15"   position_y="-5" position_z="2" />
+	<Robot name="car 38" type="Capo"  position_x="20"   position_y="-5" position_z="2" />
+	<Robot name="car 39" type="Capo"  position_x="25"   position_y="-5" position_z="2" />
+
+	<Robot name="car 40" type="Capo"  position_x="-20"  position_y="-10" position_z="2" />
+	<Robot name="car 41" type="Capo"  position_x="-15"  position_y="-10" position_z="2" />
+	<Robot name="car 42" type="Capo"  position_x="-10"  position_y="-10" position_z="2" />
+	<Robot name="car 43" type="Capo"  position_x="-5"   position_y="-10" position_z="2" />
+	<Robot name="car 44" type="Capo"  position_x="0"    position_y="-10" position_z="2" />
+	<Robot name="car 45" type="Capo"  position_x="5"    position_y="-10" position_z="2" />
+	<Robot name="car 46" type="Capo"  position_x="10"   position_y="-10" position_z="2" />
+	<Robot name="car 47" type="Capo"  position_x="15"   position_y="-10" position_z="2" />
+	<Robot name="car 48" type="Capo"  position_x="20"   position_y="-10" position_z="2" />
+	<Robot name="car 49" type="Capo"  position_x="25"   position_y="-10" position_z="2" />
+
+    </Robots>
+    
+    <Environment> <!-- like ground, wall -->
+            <Geoms>
+			<Geom  type="box"  
+			position_x="0" position_y="0" position_z="0" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="1000" size_y="1000" size_z="1" friction="1" bouncyness="0.6"/>
+
+			<Geom  type="box"  color="80003366" 
+			position_x="0" position_y="200" position_z="0" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="1000" size_y="1" size_z="10" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box"  color="80003366" 
+			position_x="0" position_y="-200" position_z="0" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="1000" size_y="1" size_z="10" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366"  
+			position_x="200" position_y="0" position_z="0" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="1" size_y="1000" size_z="10" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box"  color="80003366" 
+			position_x="-200" position_y="0" position_z="0" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="1" size_y="1000" size_z="10" friction="0.1" bouncyness="0.3"/>
+
+
+
+			<Geom  type="box" color="80003366" 
+			position_x="-160" position_y="-160" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="-100" position_y="-170" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="60" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="-40" position_y="-160" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="20" position_y="-170" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="60" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="80" position_y="-160" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="150" position_y="-160" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="60" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+
+			<Geom  type="box" color="80003366" 
+			position_x="-170" position_y="-100" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="60" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="-110" position_y="-90" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="20" size_y="60" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="-60" position_y="-100" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="0" position_y="-100" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="50" position_y="-100" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="20" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="70" position_y="-110" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="20" size_y="60" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="120" position_y="-100" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="180" position_y="-100" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+
+			<Geom  type="box" color="80003366" 
+			position_x="-160" position_y="-40" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="-100" position_y="-40" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="-40" position_y="-40" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="20" position_y="-40" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="80" position_y="-40" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="140" position_y="-40" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+
+			<Geom  type="box" color="80003366" 
+			position_x="-180" position_y="20" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="-120" position_y="20" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="-60" position_y="20" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="70" position_y="10" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="20" size_y="60" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="120" position_y="20" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="180" position_y="20" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+
+			<Geom  type="box" color="80003366" 
+			position_x="-160" position_y="80" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="-110" position_y="70" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="20" size_y="60" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="-90" position_y="80" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="20" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="-40" position_y="80" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="10" position_y="90" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="20" size_y="60" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="70" position_y="80" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="60" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="130" position_y="90" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="20" size_y="60" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="170" position_y="80" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="20" size_y="40" size_z="6" friction="0.1" bouncyness="0.3"/>
+
+			<Geom  type="box" color="80003366" 
+			position_x="-180" position_y="150" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="60" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="-120" position_y="150" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="60" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="-60" position_y="160" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="80" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="0" position_y="150" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="60" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="60" position_y="160" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="80" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="120" position_y="150" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="60" size_z="6" friction="0.1" bouncyness="0.3"/>
+			<Geom  type="box" color="80003366" 
+			position_x="180" position_y="150" 
+			position_z="3.5" rotation_x="0" rotation_y="0" rotation_z="0" 
+			size_x="40" size_y="60" size_z="6" friction="0.1" bouncyness="0.3"/>
+
+
+
+            </Geoms>
+    </Environment>
+</World>
