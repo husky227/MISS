@@ -16,173 +16,202 @@
  * LICENSE.TXT for more details.                                         *
  *                                                                       *
  *************************************************************************/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using RoBOSSCommunicator;
-
 
 namespace CityDriver
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	public class CarDriver
-	{
-	    private Dictionary<int, CarParameters> lastParameters;
-	    private DateTime lastTime;
+    /// <summary>
+    /// </summary>
+    public class CarDriver
+    {
+        public static double maxSpeed = 1;
+        private readonly Dictionary<string, Node> allNodes;
+        private readonly Dictionary<string, Space> allSpaceNodes;
+        private readonly GraphBuilder graphBuilder;
+        private readonly Dictionary<int, CarParameters> lastParameters;
 
-		public static double maxSpeed = 1;
-		public Robot myRobot;
+        private Node currentNode;
+        private List<Node> currentPath;
+        private DateTime lastTime;
+        public Robot myRobot;
+        private double rotation;
+        private Node targetNode;
+        private double targetRotation;
+        public double AngularVelocity;
+        public double Velocity;
 
-	    private GraphBuilder graphBuilder;
-	    private List<Node> currentPath;
-	    private Dictionary<string, Node> allNodes;
-        private Dictionary<string, Space> allSpaceNodes;
-	    private Node currentNode;
-	    private Node targetNode;
-
-		public CarDriver(Robot myRobot, List<Node> nodesList)
-		{
+        public CarDriver(Robot myRobot, List<Node> nodesList)
+        {
             graphBuilder = new GraphBuilder(nodesList);
             FindCurrentNode();
 
-			this.myRobot = myRobot;
-            lastParameters = new Dictionary<int, CarParameters>();
-            lastTime = DateTime.Now;
-            RosonLoader rl = new RosonLoader();
+            this.myRobot = myRobot;
+            var rl = new RosonLoader();
             rl.LoadRoson(@"..\..\..\..\WorldDefinition\SampleMap.roson");
-            this.allNodes = rl.GetNodes();
-            this.allSpaceNodes = rl.GetSpaces();
+            allNodes = rl.GetNodes();
+            allSpaceNodes = rl.GetSpaces();
+            lastParameters = new Dictionary<int, CarParameters>();
             Console.WriteLine("New robot attached: " + myRobot.name);
-		}
+            lastTime = DateTime.Now;
+        }
 
-	    public void SetTargetNode(Node node)
-	    {
-	        targetNode = node;
+        public void SetTargetNode(Node node)
+        {
+            targetNode = node;
             CreatePath(currentNode, targetNode);
-	    }
+        }
 
-	    public void RandTargetNode()
-	    {
-	        var rand = new Random();
-	        SetTargetNode(allNodes.ElementAt(rand.Next(allNodes.Count)).Value);
-	    }
+        public void RandTargetNode()
+        {
+            var rand = new Random();
+            SetTargetNode(allNodes.ElementAt(rand.Next(allNodes.Count)).Value);
+        }
 
-		public void Refresh(Dictionary<int, CarParameters> visibleDrivers)
-		{
-
-
-			double newSpeed = maxSpeed;
+        public void Refresh(Dictionary<int, CarParameters> visibleDrivers)
+        {
+            var newSpeed = maxSpeed;
 
 //            if (myRobot.id == 0)
 //                Console.WriteLine(myRobot.position[0] + " " + myRobot.position[1]);
 
             if (visibleDrivers.Count > 0 && myRobot.id == 14)
-		    {
-
-		        myRobot.joints[0].motorDesiredVelocity = newSpeed;
-		        myRobot.joints[1].motorDesiredVelocity = -newSpeed;
-		        myRobot.joints[2].motorDesiredVelocity = newSpeed;
+            {
+                myRobot.joints[0].motorDesiredVelocity = newSpeed;
+                myRobot.joints[1].motorDesiredVelocity = -newSpeed;
+                myRobot.joints[2].motorDesiredVelocity = newSpeed;
                 myRobot.joints[3].motorDesiredVelocity = -newSpeed;
                 //Console.WriteLine(myRobot.id + ": " + myRobot.rotation[0] + " " + myRobot.rotation[1] + " " + myRobot.rotation[2]);
-		    }
-		    else
-		    {
+            }
+            else
+            {
                 myRobot.joints[0].motorDesiredVelocity = newSpeed;
                 myRobot.joints[1].motorDesiredVelocity = newSpeed;
                 myRobot.joints[2].motorDesiredVelocity = newSpeed;
                 myRobot.joints[3].motorDesiredVelocity = newSpeed;
-		    }
+            }
 
             FindCurrentNode();
-			return;
-		}
+        }
 
-	    private void FindCurrentNode()
-	    {
+        private void FindCurrentNode()
+        {
             if (graphBuilder == null)
             {
                 Console.WriteLine("Current node not found :<");
                 return;
             }
 
-            unsafe {
+            unsafe
+            {
                 if (myRobot == null || myRobot.position == null)
                 {
                     return;
                 }
-                
-                double* position = myRobot.position;
-                double x = position[0];
-                double y = position[1];
-            
+
+                var position = myRobot.position;
+                var x = position[0];
+                var y = position[1];
+
                 Console.WriteLine("X: " + x + " Y: " + y);
                 if (allNodes == null)
                 {
                     return;
                 }
 
-                foreach (String key in allSpaceNodes.Keys) {
-                    Space node = allSpaceNodes[key];
-                    if(node.isInside(x, y)) {
+                foreach (var key in allSpaceNodes.Keys)
+                {
+                    var node = allSpaceNodes[key];
+                    if (node.isInside(x, y))
+                    {
                         Console.WriteLine("spacenode found! " + myRobot.name + " , " + node.Id);
                         currentNode = allNodes[node.NodeName];
                         //break;
                     }
                 }
             }
-	    }
+        }
 
-	    private void CreatePath(Node start, Node end)
-	    {
-	        String position = start.Name;
-            String target = end.Name;
-            List<String> path = graphBuilder.GetGraph().shortest_path(position, target);
+        private void CreatePath(Node start, Node end)
+        {
+            var position = start.Name;
+            var target = end.Name;
+            var path = graphBuilder.GetGraph().shortest_path(position, target);
             currentPath = new List<Node>();
-	        
-            foreach (String nodeName in path)
-	        {
-	            currentPath.Add(allNodes[nodeName]);
-	        }
 
-	    }
+            foreach (var nodeName in path)
+            {
+                currentPath.Add(allNodes[nodeName]);
+            }
+        }
 
-	    private void MakeNextStep(Dictionary<int, CarParameters> visibleDrivers)
-	    {
-	        if (currentNode == targetNode)
-	        {
-	            return;
-	        }
+        private unsafe void MakeNextStep(Dictionary<int, CarParameters> visibleDrivers)
+        {
+            if (currentNode == targetNode)
+            {
+                return;
+            }
 
-	        UpdateVisibleDriversParameters(visibleDrivers);
-	    }
+            var currentTime = DateTime.Now;
+            var deltaTime = currentTime - lastTime;
+            lastTime = currentTime;
+            UpdateVisibleDriversParameters(visibleDrivers, deltaTime);
+            targetRotation = 2*Math.PI - Vector.AngleBetween(new Vector(1, 0),
+                new Vector(currentPath[currentPath.IndexOf(currentNode) + 1].Position.X - myRobot.position[0],
+                    currentPath[currentPath.IndexOf(currentNode) + 1].Position.Y - myRobot.position[1]));
+            rotation = CountRotation(myRobot.rotation[0], myRobot.rotation[3]);
+            double deltaRotation = targetRotation - rotation;
+            if (deltaRotation > Math.PI)
+            {
+                deltaRotation -= 2*Math.PI;
+            }
+            else if (deltaRotation < -Math.PI)
+            {
+                deltaRotation += 2*Math.PI;
+            }
 
-	    private void UpdateVisibleDriversParameters(Dictionary<int, CarParameters> visibleDrivers)
-	    {
-	        foreach (var driver in lastParameters)
-	        {
-	            if (!visibleDrivers.ContainsKey(driver.Key))
-	            {
-	                lastParameters.Remove(driver.Key);
-	            }
-	        }
+            if (deltaRotation > 0.01)
+            {
 
-	        DateTime currentTime = DateTime.Now;
-	        TimeSpan delta = lastTime - currentTime;
-	        foreach (var driver in visibleDrivers)
-	        {
-	            CarParameters value;
-	            if (lastParameters.TryGetValue(driver.Key, out value))
-	            {
-	                value.SetNewPosition(driver.Value.Position, delta);
-	                value.SetNewRotation(driver.Value.Rotation, delta);
-	            }
-	            else
-	            {
-	                lastParameters.Add(driver.Key, driver.Value);
-	            }
-	        }
-	    }
-	}
+            }
+            else if (deltaRotation < -0.01)
+            {
+
+            }
+        }
+
+        private void UpdateVisibleDriversParameters(Dictionary<int, CarParameters> visibleDrivers, TimeSpan delta)
+        {
+            foreach (var driver in lastParameters)
+            {
+                if (!visibleDrivers.ContainsKey(driver.Key))
+                {
+                    lastParameters.Remove(driver.Key);
+                }
+            }
+
+            foreach (var driver in visibleDrivers)
+            {
+                CarParameters value;
+                if (lastParameters.TryGetValue(driver.Key, out value))
+                {
+                    value.SetNewPosition(driver.Value.Position, delta);
+                    value.SetNewRotation(driver.Value.Rotation, delta);
+                }
+                else
+                {
+                    lastParameters.Add(driver.Key, driver.Value);
+                }
+            }
+        }
+
+        private double CountRotation(double w, double z)
+        {
+            return w*z >= 0 ? Math.Asin(Math.Abs(z)) : Math.Asin(Math.Abs(z)) + Math.PI;
+        }
+    }
 }

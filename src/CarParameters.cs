@@ -4,10 +4,10 @@ namespace CityDriver
 {
     public class CarParameters
     {
-        public double AngularVelocity;
         public int Id;
         public double[] Position = new double[2];
         public double Rotation;
+        public double AngularVelocity;
         public double Velocity;
 
         public unsafe CarParameters(int id, double* position, double* rotation)
