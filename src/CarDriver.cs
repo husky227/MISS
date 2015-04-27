@@ -74,6 +74,32 @@ namespace CityDriver
             SetTargetNode(allNodes.ElementAt(rand.Next(allNodes.Count)).Value);
         }
 
+        public void Move()
+        {
+            if (Velocity != 0)
+            {
+                if (Velocity > maxSpeed)
+                {
+                    Velocity = maxSpeed;
+                }
+                myRobot.joints[0].motorDesiredVelocity = Velocity; //lF
+                myRobot.joints[1].motorDesiredVelocity = Velocity; //rF
+                myRobot.joints[2].motorDesiredVelocity = Velocity; //lR
+                myRobot.joints[3].motorDesiredVelocity = Velocity; //rR
+            }
+            else if (AngularVelocity != 0)
+            {
+                if (AngularVelocity > maxSpeed)
+                {
+                    AngularVelocity = maxSpeed;
+                }
+                myRobot.joints[0].motorDesiredVelocity = -AngularVelocity;
+                myRobot.joints[1].motorDesiredVelocity = AngularVelocity;
+                myRobot.joints[2].motorDesiredVelocity = -AngularVelocity;
+                myRobot.joints[3].motorDesiredVelocity = AngularVelocity;
+            }
+        }
+
         public void Refresh(Dictionary<int, CarParameters> visibleDrivers)
         {
             var newSpeed = maxSpeed;
@@ -83,9 +109,9 @@ namespace CityDriver
 
             MakeNextStep(visibleDrivers);
 
-            //TODO - zmiana V i angularV na kola
+            Move();
 
-            if (visibleDrivers.Count > 0 && myRobot.id == 14)
+            /*if (visibleDrivers.Count > 0 && myRobot.id == 14)
             {
                 myRobot.joints[0].motorDesiredVelocity = newSpeed;
                 myRobot.joints[1].motorDesiredVelocity = -newSpeed;
@@ -99,7 +125,7 @@ namespace CityDriver
                 myRobot.joints[1].motorDesiredVelocity = newSpeed;
                 myRobot.joints[2].motorDesiredVelocity = newSpeed;
                 myRobot.joints[3].motorDesiredVelocity = newSpeed;
-            }
+            }*/
 
             FindCurrentNode();
         }
