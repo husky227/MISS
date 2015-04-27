@@ -86,7 +86,11 @@ namespace CityDriver
                 Dictionary<string, int> neighbors = new Dictionary<string, int>();
                 foreach (var neighbor in node.Nodes)
                 {
-                    neighbors.Add(neighbor.Id, 1);
+                    if(neighbors.ContainsKey(neighbor.Id)) {
+                        Console.WriteLine("Trying to add already added key");
+                    } else {
+                        neighbors.Add(neighbor.Id, 1);
+                    }
                 }
                 graph.add_vertex(node.Id, neighbors);
             }

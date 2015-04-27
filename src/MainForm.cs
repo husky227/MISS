@@ -233,7 +233,7 @@ namespace CityDriver
         static void Main()
         {
             RosonLoader rl = new RosonLoader();
-            rl.LoadRoson(@"..\..\..\WorldDefinition\SampleMap.roson");
+            rl.LoadRoson(@"..\..\..\..\WorldDefinition\SampleMap.roson");
             nodesList.AddRange(rl.GetNodes().Values);
             //Console.ReadKey();
             Application.Run(new MainForm());
@@ -402,16 +402,18 @@ namespace CityDriver
                 }
                 if (drivers.Count < communicator.robots.Length)
                 {
-                    try
-                    {
+                    /*try
+                    {*/
                         int newRobotId = communicator.RequestRobot("Capo");
-                        drivers.Add(new CarDriver(communicator.robots[newRobotId], nodesList));
+                        if (newRobotId != -1)
+                        {
+                            drivers.Add(new CarDriver(communicator.robots[newRobotId], nodesList));
+                        }/*
                     }
-                    catch
-                    {
-
-                        Console.WriteLine("Error!");
-                    }
+                    catch (Exception e) {
+                        Console.WriteLine(e.StackTrace);
+                        Console.WriteLine("Error while adding new robot");
+                    }*/
                 }
                 else if (drivers.Count > communicator.robots.Length)
                 {

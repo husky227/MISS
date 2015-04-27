@@ -110,9 +110,9 @@ namespace CityDriver
                 if (kind.Equals("gateNode"))
                 {
                     enumType = CityDriver.NodeKind.GateNode;
-                } else if (kind.Equals("gateNode"))
+                } else if (kind.Equals("spaceNode"))
                 {
-                    enumType = CityDriver.NodeKind.GateNode;
+                    enumType = CityDriver.NodeKind.SpaceNode;
                 }
                 Node node = new Node(enumType, id, x1, y1);
                 nodes.Add(id, node);
@@ -135,11 +135,27 @@ namespace CityDriver
                 Wall wall = walls[wallId];
                 space.walls.Add(wall);
             }
+            foreach (JObject obj in objects["space-nodes"])
+            {
+                var spaceId = obj.GetValue("spaceId").Value<string>();
+                var nodeId = obj.GetValue("nodeId").Value<string>();
+                Space space = spaces[spaceId];
+                space.NodeName = nodeId;
+            }
+            foreach (Space space in spaces.Values)
+            {
+                space.generateArray();
+            }
         }
 
         public Dictionary<String, Node> GetNodes()
         {
             return nodes;
-        }  
+        }
+
+        public Dictionary<String, Space> GetSpaces()
+        {
+            return spaces;
+        }
     }
 }
