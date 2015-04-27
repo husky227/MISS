@@ -18,6 +18,7 @@
  *************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using RoBOSSCommunicator;
 
 
@@ -28,23 +29,28 @@ namespace CityDriver
 	/// </summary>
 	public class CarDriver
 	{
-	    private List<CarParameters> lastParameters;
+	    private Dictionary<int, CarParameters> lastParameters;
+	    private DateTime lastTime;
 
 		public static double maxSpeed = 1;
 		public Robot myRobot;
+
 	    private GraphBuilder graphBuilder;
 	    private List<Node> currentPath;
 	    private Dictionary<string, Node> allNodes;
 	    private Node currentNode;
 	    private Node targetNode;
 
-		public unsafe CarDriver(Robot myRobot, List<Node> nodesList)
+		public CarDriver(Robot myRobot, List<Node> nodesList)
 		{
             graphBuilder = new GraphBuilder(nodesList);
             FindCurrentNode();
 
 			this.myRobot = myRobot;
             this.allNodes = new RosonLoader().GetNodes();
+            FindCurrentNode();
+            lastParameters = new Dictionary<int, CarParameters>();
+            lastTime = DateTime.Now;
             //Console.WriteLine("New robot attached: " + myRobot.name);
 		}
 
@@ -54,8 +60,16 @@ namespace CityDriver
             CreatePath(currentNode, targetNode);
 	    }
 
-		public unsafe void Refresh(List<CarParameters> visibleDrivers)
+	    public void RandTargetNode()
+	    {
+	        var rand = new Random();
+	        SetTargetNode(allNodes.ElementAt(rand.Next(allNodes.Count)).Value);
+	    }
+
+		public void Refresh(Dictionary<int, CarParameters> visibleDrivers)
 		{
+
+
 			double newSpeed = maxSpeed;
 
 //            if (myRobot.id == 0)
@@ -81,11 +95,6 @@ namespace CityDriver
 			return;
 		}
 
-        private void SetGraphBuilder(GraphBuilder gb)
-        {
-            this.graphBuilder = gb;
-        }
-
 	    private void FindCurrentNode()
 	    {
 	        Node node;
@@ -105,6 +114,43 @@ namespace CityDriver
 	            currentPath.Add(allNodes[nodeName]);
 	        }
 
-	    } 
+	    }
+
+	    private void MakeNextStep(Dictionary<int, CarParameters> visibleDrivers)
+	    {
+	        if (currentNode == targetNode)
+	        {
+	            return;
+	        }
+
+	        UpdateVisibleDriversParameters(visibleDrivers);
+	    }
+
+	    private void UpdateVisibleDriversParameters(Dictionary<int, CarParameters> visibleDrivers)
+	    {
+	        foreach (var driver in lastParameters)
+	        {
+	            if (!visibleDrivers.ContainsKey(driver.Key))
+	            {
+	                lastParameters.Remove(driver.Key);
+	            }
+	        }
+
+	        DateTime currentTime = DateTime.Now;
+	        TimeSpan delta = lastTime - currentTime;
+	        foreach (var driver in visibleDrivers)
+	        {
+	            CarParameters value;
+	            if (lastParameters.TryGetValue(driver.Key, out value))
+	            {
+	                value.SetNewPosition(driver.Value.Position, delta);
+	                value.SetNewRotation(driver.Value.Rotation, delta);
+	            }
+	            else
+	            {
+	                lastParameters.Add(driver.Key, driver.Value);
+	            }
+	        }
+	    }
 	}
 }

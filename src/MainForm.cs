@@ -421,13 +421,13 @@ namespace CityDriver
                 //ownedLabel.Text = "cars owned: "+drivers.Count.ToString();
                 foreach (CarDriver driver in drivers)
                 {
-                    List<CarParameters> visibleCars = new List<CarParameters>();
+                    Dictionary<int, CarParameters> visibleCars = new Dictionary<int, CarParameters>();
                     foreach (CarDriver driv in drivers)
                     {
                         if (driv != driver && IsClose(driver, driv))
                             unsafe
                             {
-                                visibleCars.Add(new CarParameters(driv.myRobot.id,driv.myRobot.position, driv.myRobot.rotation));
+                                visibleCars.Add(driv.myRobot.id, new CarParameters(driv.myRobot.id, driv.myRobot.position, driv.myRobot.rotation));
                             }
                     }
                     driver.Refresh(visibleCars);
