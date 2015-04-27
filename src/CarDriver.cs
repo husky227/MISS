@@ -34,7 +34,7 @@ namespace CityDriver
 		public Robot myRobot;
 	    private GraphBuilder graphBuilder;
 	    private List<Node> currentPath;
-	    private Dictionary<String, Node> allNodes;
+	    private Dictionary<string, Node> allNodes;
 	    private Node currentNode;
 	    private Node targetNode;
 
