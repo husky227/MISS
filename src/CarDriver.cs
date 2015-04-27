@@ -51,7 +51,7 @@ namespace CityDriver
 	    public void SetTargetNode(Node node)
 	    {
 	        targetNode = node;
-            createPath(currentNode, targetNode);
+            CreatePath(currentNode, targetNode);
 	    }
 
 		public unsafe void Refresh(List<CarParameters> visibleDrivers)
@@ -93,7 +93,7 @@ namespace CityDriver
 	        currentNode = node;
 	    }
 
-	    private void createPath(Node start, Node end)
+	    private void CreatePath(Node start, Node end)
 	    {
 	        String position = start.Name;
             String target = end.Name;
