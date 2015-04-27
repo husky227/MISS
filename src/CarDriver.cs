@@ -32,15 +32,23 @@ namespace CityDriver
 
 		public static double maxSpeed = 1;
 		public Robot myRobot;
+	    private GraphBuilder graphBuilder;
+	    private List<Node> currentPath;
+	    private Dictionary<String, Node> allNodes;
 
-		public unsafe CarDriver(Robot myRobot, GraphBuilder gb)
+		public unsafe CarDriver(Robot myRobot, List<Node> nodesList)
 		{
+            graphBuilder = new GraphBuilder(nodesList);
+
 			this.myRobot = myRobot;
-		    String position = this.myRobot.name;
-		    String target = "node240";
-            gb.GetGraph().shortest_path(position, target);
-            Console.WriteLine("New robot attached: " + myRobot.name);
+            this.allNodes = new RosonLoader().GetNodes();
+            //Console.WriteLine("New robot attached: " + myRobot.name);
 		}
+
+	    private void setGraphBuilder(GraphBuilder gb)
+	    {
+	        this.graphBuilder = gb;
+	    }
 
 		public unsafe void Refresh(List<CarParameters> visibleDrivers)
 		{
@@ -56,7 +64,7 @@ namespace CityDriver
 		        myRobot.joints[1].motorDesiredVelocity = -newSpeed;
 		        myRobot.joints[2].motorDesiredVelocity = newSpeed;
                 myRobot.joints[3].motorDesiredVelocity = -newSpeed;
-                Console.WriteLine(myRobot.id + ": " + myRobot.rotation[0] + " " + myRobot.rotation[1] + " " + myRobot.rotation[2]);
+                //Console.WriteLine(myRobot.id + ": " + myRobot.rotation[0] + " " + myRobot.rotation[1] + " " + myRobot.rotation[2]);
 		    }
 		    else
 		    {
@@ -68,5 +76,19 @@ namespace CityDriver
 
 			return;
 		}
+
+	    private void createPath(Node start, Node end)
+	    {
+	        String position = start.Name;
+            String target = end.Name;
+            List<String> path = graphBuilder.GetGraph().shortest_path(position, target);
+            currentPath = new List<Node>();
+	        
+            foreach (String nodeName in path)
+	        {
+	            currentPath.Add(allNodes[nodeName]);
+	        }
+
+	    } 
 	}
 }
