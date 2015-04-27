@@ -35,19 +35,23 @@ namespace CityDriver
 	    private GraphBuilder graphBuilder;
 	    private List<Node> currentPath;
 	    private Dictionary<String, Node> allNodes;
+	    private Node currentNode;
+	    private Node targetNode;
 
 		public unsafe CarDriver(Robot myRobot, List<Node> nodesList)
 		{
             graphBuilder = new GraphBuilder(nodesList);
+            FindCurrentNode();
 
 			this.myRobot = myRobot;
             this.allNodes = new RosonLoader().GetNodes();
             //Console.WriteLine("New robot attached: " + myRobot.name);
 		}
 
-	    private void setGraphBuilder(GraphBuilder gb)
+	    public void SetTargetNode(Node node)
 	    {
-	        this.graphBuilder = gb;
+	        targetNode = node;
+            createPath(currentNode, targetNode);
 	    }
 
 		public unsafe void Refresh(List<CarParameters> visibleDrivers)
@@ -76,6 +80,18 @@ namespace CityDriver
 
 			return;
 		}
+
+        private void SetGraphBuilder(GraphBuilder gb)
+        {
+            this.graphBuilder = gb;
+        }
+
+	    private void FindCurrentNode()
+	    {
+	        Node node;
+	        // TODO Piotruœ
+	        currentNode = node;
+	    }
 
 	    private void createPath(Node start, Node end)
 	    {
