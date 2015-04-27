@@ -74,20 +74,27 @@ namespace CityDriver
         }
     }
 
-    internal class GraphBuilder
+    public class GraphBuilder
     {
+        private Graph graph;
+
         public GraphBuilder(List<Node> nodesList)
         {
-            Graph g = new Graph();
+            graph = new Graph();
             foreach (Node node in nodesList)
             {
                 Dictionary<string, int> neighbors = new Dictionary<string, int>();
                 foreach (var neighbor in node.Nodes)
                 {
-                    neighbors.Add(neighbor.Name, 1);
+                    neighbors.Add(neighbor.Id, 1);
                 }
-                g.add_vertex(node.Name, neighbors);
+                graph.add_vertex(node.Id, neighbors);
             }
+        }
+
+        public Graph GetGraph()
+        {
+            return graph;
         }
     }
 

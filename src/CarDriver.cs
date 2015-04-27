@@ -33,9 +33,12 @@ namespace CityDriver
 		public static double maxSpeed = 1;
 		public Robot myRobot;
 
-		public CarDriver(Robot myRobot)
+		public unsafe CarDriver(Robot myRobot, GraphBuilder gb)
 		{
 			this.myRobot = myRobot;
+		    String position = this.myRobot.name;
+		    String target = "node240";
+            gb.GetGraph().shortest_path(position, target);
             Console.WriteLine("New robot attached: " + myRobot.name);
 		}
 

@@ -136,5 +136,10 @@ namespace CityDriver
                 space.walls.Add(wall);
             }
         }
+
+        public Dictionary<String, Node> GetNodes()
+        {
+            return nodes;
+        }  
     }
 }
