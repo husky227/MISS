@@ -11,7 +11,7 @@ namespace CityDriver
         SpaceNode
     }
 
-    class Node
+    public class Node
     {
         public NodeKind Type { get; set; }
         public string Name { get; set; }

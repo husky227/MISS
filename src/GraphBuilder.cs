@@ -74,7 +74,7 @@ namespace CityDriver
         }
     }
 
-    public class GraphBuilder
+    internal class GraphBuilder
     {
         private Graph graph;
 

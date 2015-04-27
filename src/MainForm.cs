@@ -55,7 +55,7 @@ namespace CityDriver
         private Label label3;
         private Panel panel1;
 		private ThreadStart refreshThreadStarter;
-        private static GraphBuilder gb;
+        static private List<Node> nodesList = new List<Node>();
 
         public MainForm()
         {
@@ -234,9 +234,7 @@ namespace CityDriver
         {
             RosonLoader rl = new RosonLoader();
             rl.LoadRoson(@"..\..\..\WorldDefinition\SampleMap.roson");
-            List<Node> nodesList = new List<Node>();
             nodesList.AddRange(rl.GetNodes().Values);
-            gb = new GraphBuilder(nodesList);
             //Console.ReadKey();
             Application.Run(new MainForm());
         }
@@ -407,7 +405,7 @@ namespace CityDriver
                     try
                     {
                         int newRobotId = communicator.RequestRobot("Capo");
-                        drivers.Add(new CarDriver(communicator.robots[newRobotId], gb));
+                        drivers.Add(new CarDriver(communicator.robots[newRobotId], nodesList));
                     }
                     catch
                     {

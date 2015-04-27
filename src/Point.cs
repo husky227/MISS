@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CityDriver
 {
-    class Point
+    public class Point
     {
         public Double X { get; set; }
         public Double Y { get; set; }
