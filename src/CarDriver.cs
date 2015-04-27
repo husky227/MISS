@@ -38,6 +38,7 @@ namespace CityDriver
 	    private GraphBuilder graphBuilder;
 	    private List<Node> currentPath;
 	    private Dictionary<string, Node> allNodes;
+        private Dictionary<string, Space> allSpaceNodes;
 	    private Node currentNode;
 	    private Node targetNode;
 
@@ -47,11 +48,13 @@ namespace CityDriver
             FindCurrentNode();
 
 			this.myRobot = myRobot;
-            this.allNodes = new RosonLoader().GetNodes();
-            FindCurrentNode();
             lastParameters = new Dictionary<int, CarParameters>();
             lastTime = DateTime.Now;
-            //Console.WriteLine("New robot attached: " + myRobot.name);
+            RosonLoader rl = new RosonLoader();
+            rl.LoadRoson(@"..\..\..\..\WorldDefinition\SampleMap.roson");
+            this.allNodes = rl.GetNodes();
+            this.allSpaceNodes = rl.GetSpaces();
+            Console.WriteLine("New robot attached: " + myRobot.name);
 		}
 
 	    public void SetTargetNode(Node node)
@@ -92,14 +95,43 @@ namespace CityDriver
                 myRobot.joints[3].motorDesiredVelocity = newSpeed;
 		    }
 
+            FindCurrentNode();
 			return;
 		}
 
 	    private void FindCurrentNode()
 	    {
-	        Node node;
-	        // TODO Piotruœ
-	        currentNode = node;
+            if (graphBuilder == null)
+            {
+                Console.WriteLine("Current node not found :<");
+                return;
+            }
+
+            unsafe {
+                if (myRobot == null || myRobot.position == null)
+                {
+                    return;
+                }
+                
+                double* position = myRobot.position;
+                double x = position[0];
+                double y = position[1];
+            
+                Console.WriteLine("X: " + x + " Y: " + y);
+                if (allNodes == null)
+                {
+                    return;
+                }
+
+                foreach (String key in allSpaceNodes.Keys) {
+                    Space node = allSpaceNodes[key];
+                    if(node.isInside(x, y)) {
+                        Console.WriteLine("spacenode found! " + myRobot.name + " , " + node.Id);
+                        currentNode = allNodes[node.NodeName];
+                        //break;
+                    }
+                }
+            }
 	    }
 
 	    private void CreatePath(Node start, Node end)
