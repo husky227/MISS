@@ -79,6 +79,10 @@ namespace CityDriver
 //            if (myRobot.id == 0)
 //                Console.WriteLine(myRobot.position[0] + " " + myRobot.position[1]);
 
+            MakeNextStep(visibleDrivers);
+
+            //TODO - zmiana V i angularV na kola
+
             if (visibleDrivers.Count > 0 && myRobot.id == 14)
             {
                 myRobot.joints[0].motorDesiredVelocity = newSpeed;
