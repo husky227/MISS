@@ -40,12 +40,13 @@ namespace CityDriver
         private DateTime lastTime;
         public Robot myRobot;
         private double rotation;
+        private double lastRotation;
         private Node targetNode;
         private double targetRotation;
         public double AngularVelocity;
         public double Velocity;
 
-        public CarDriver(Robot myRobot, List<Node> nodesList)
+        public unsafe CarDriver(Robot myRobot, List<Node> nodesList)
         {
             graphBuilder = new GraphBuilder(nodesList);
             FindCurrentNode();
@@ -57,6 +58,7 @@ namespace CityDriver
             allSpaceNodes = rl.GetSpaces();
             lastParameters = new Dictionary<int, CarParameters>();
             Console.WriteLine("New robot attached: " + myRobot.name);
+            lastRotation = CountRotation(myRobot.rotation[0], myRobot.rotation[3]);
             lastTime = DateTime.Now;
         }
 
