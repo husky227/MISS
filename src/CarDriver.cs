@@ -46,13 +46,14 @@ namespace CityDriver
 //            if (myRobot.id == 0)
 //                Console.WriteLine(myRobot.position[0] + " " + myRobot.position[1]);
 
-		    if (visibleDrivers.Count > 0)
+            if (visibleDrivers.Count > 0 && myRobot.id == 14)
 		    {
 
 		        myRobot.joints[0].motorDesiredVelocity = newSpeed;
 		        myRobot.joints[1].motorDesiredVelocity = -newSpeed;
 		        myRobot.joints[2].motorDesiredVelocity = newSpeed;
-		        myRobot.joints[3].motorDesiredVelocity = -newSpeed;
+                myRobot.joints[3].motorDesiredVelocity = -newSpeed;
+                Console.WriteLine(myRobot.id + ": " + myRobot.rotation[0] + " " + myRobot.rotation[1] + " " + myRobot.rotation[2]);
 		    }
 		    else
 		    {
