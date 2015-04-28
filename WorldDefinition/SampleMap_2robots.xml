@@ -1,8 +1,8 @@
 <World name="sample" gravity="9.81">
   <Robots>
     <Robot type="Capo" name="Capo3" position_x="0.44" position_y="0.5" position_z="0" />
-    <Robot type="Capo" name="Capo4" position_x="0.44" position_y="4.52" position_z="0" />
-    <!-- <Robot type="Capo" name="Capo5" position_x="1.76" position_y="0.72" position_z="0" />
+    <!--<Robot type="Capo" name="Capo4" position_x="0.44" position_y="4.52" position_z="0" />
+    <Robot type="Capo" name="Capo5" position_x="1.76" position_y="0.72" position_z="0" />
     <Robot type="Capo" name="Capo6" position_x="3.88" position_y="1.41" position_z="0" />
     <Robot type="Capo" name="Capo7" position_x="4.41" position_y="3.66" position_z="0" />
     <Robot type="Capo" name="Capo8" position_x="3.26" position_y="3.9" position_z="0" />

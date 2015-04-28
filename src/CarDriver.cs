@@ -160,7 +160,7 @@ namespace CityDriver
                     var node = allSpaceNodes[key];
                     if (node.isInside(x, y))
                     {
-                        Console.WriteLine("spacenode found! " + myRobot.name + " , " + node.Id);
+//                        Console.WriteLine("spacenode found! " + myRobot.name + " , " + node.Id);
                         currentNode = allNodes[node.NodeName];
                         //break;
                     }
@@ -192,9 +192,7 @@ namespace CityDriver
             var deltaTime = currentTime - lastTime;
             lastTime = currentTime;
             UpdateVisibleDriversParameters(visibleDrivers, deltaTime);
-            targetRotation = 2*Math.PI - Vector.AngleBetween(new Vector(1, 0),
-                new Vector(currentPath[currentPath.IndexOf(currentNode) + 1].Position.X - myRobot.position[0],
-                    currentPath[currentPath.IndexOf(currentNode) + 1].Position.Y - myRobot.position[1]));
+            CountTargetRotation();
             rotation = CountRotation(myRobot.rotation[0], myRobot.rotation[3]);
             var deltaRotation = rotation - lastRotation;
             if (deltaRotation > Math.PI)
@@ -215,22 +213,22 @@ namespace CityDriver
                 toRotate += 2*Math.PI;
             }
 
-            if (toRotate > 0.01)
+            if (toRotate > 0.1)
             {
-                if (deltaRotation < 0 || deltaRotation > toRotate)
+                if (deltaRotation < -0.001 || deltaRotation > toRotate)
                 {
-                    AngularVelocity = toRotate / deltaTime.TotalSeconds;
+                    AngularVelocity = toRotate / deltaTime.TotalMilliseconds;
                 }
                 else
                 {
                     AngularVelocity = maxSpeed;
                 }
             }
-            else if (toRotate < -0.01)
+            else if (toRotate < -0.1)
             {
-                if (deltaRotation > 0 || deltaRotation < toRotate)
+                if (deltaRotation > 0.001 || deltaRotation < toRotate)
                 {
-                    AngularVelocity = toRotate/deltaTime.TotalSeconds;
+                    AngularVelocity = toRotate / deltaTime.TotalMilliseconds;
                 }
                 else
                 {
@@ -239,8 +237,16 @@ namespace CityDriver
             }
             else
             {
+                Velocity = maxSpeed;
                 //TODO dodac wyliczanie Velocity
             }
+        }
+
+        private unsafe void CountTargetRotation()
+        {
+            targetRotation = 2*Math.PI - Vector.AngleBetween(new Vector(1, 0),
+                new Vector(currentPath[currentPath.IndexOf(currentNode) + 1].Position.X - myRobot.position[0],
+                    currentPath[currentPath.IndexOf(currentNode) + 1].Position.Y - myRobot.position[1])) * Math.PI / 180;
         }
 
         private void UpdateVisibleDriversParameters(Dictionary<int, CarParameters> visibleDrivers, TimeSpan delta)
