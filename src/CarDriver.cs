@@ -239,7 +239,7 @@ namespace CityDriver
             }
             else
             {
-                
+                //TODO dodac wyliczanie Velocity
             }
         }
 
