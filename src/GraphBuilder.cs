@@ -87,7 +87,7 @@ namespace CityDriver
                 foreach (var neighbor in node.Nodes)
                 {
                     if(neighbors.ContainsKey(neighbor.Id)) {
-                        Console.WriteLine("Trying to add already added key");
+//                        Console.WriteLine("Trying to add already added key");
                     } else {
                         neighbors.Add(neighbor.Id, 1);
                     }

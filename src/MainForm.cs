@@ -406,9 +406,13 @@ namespace CityDriver
                     {*/
                         int newRobotId = communicator.RequestRobot("Capo");
                         if (newRobotId != -1)
-                        {
-                            drivers.Add(new CarDriver(communicator.robots[newRobotId], nodesList));
-                        }/*
+                            unsafe
+                            {
+//                                Console.WriteLine(newRobotId + ": " + communicator.robots[newRobotId].position[0] + " " +
+//                                                  communicator.robots[newRobotId].position[1]);
+                                drivers.Add(new CarDriver(communicator.robots[newRobotId], nodesList));
+                                ((CarDriver) drivers[drivers.Count - 1]).RandTargetNode();
+                            } /*
                     }
                     catch (Exception e) {
                         Console.WriteLine(e.StackTrace);

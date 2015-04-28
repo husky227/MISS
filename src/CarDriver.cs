@@ -34,30 +34,30 @@ namespace CityDriver
         private readonly Dictionary<string, Space> allSpaceNodes;
         private readonly GraphBuilder graphBuilder;
         private readonly Dictionary<int, CarParameters> lastParameters;
-
+        private readonly double lastRotation;
+        public double AngularVelocity;
         private Node currentNode;
         private List<Node> currentPath;
         private DateTime lastTime;
         public Robot myRobot;
         private double rotation;
-        private double lastRotation;
         private Node targetNode;
         private double targetRotation;
-        public double AngularVelocity;
         public double Velocity;
 
         public unsafe CarDriver(Robot myRobot, List<Node> nodesList)
         {
-            graphBuilder = new GraphBuilder(nodesList);
-            FindCurrentNode();
-
-            this.myRobot = myRobot;
             var rl = new RosonLoader();
             rl.LoadRoson(@"..\..\..\..\WorldDefinition\SampleMap.roson");
             allNodes = rl.GetNodes();
             allSpaceNodes = rl.GetSpaces();
+
+            this.myRobot = myRobot;
+            graphBuilder = new GraphBuilder(nodesList);
+            FindCurrentNode();
+
             lastParameters = new Dictionary<int, CarParameters>();
-            Console.WriteLine("New robot attached: " + myRobot.name);
+//            Console.WriteLine("New robot attached: " + myRobot.name);
             lastRotation = CountRotation(myRobot.rotation[0], myRobot.rotation[3]);
             lastTime = DateTime.Now;
         }
@@ -149,7 +149,7 @@ namespace CityDriver
                 var x = position[0];
                 var y = position[1];
 
-                Console.WriteLine("X: " + x + " Y: " + y);
+//                Console.WriteLine("X: " + x + " Y: " + y);
                 if (allNodes == null)
                 {
                     return;
@@ -170,8 +170,8 @@ namespace CityDriver
 
         private void CreatePath(Node start, Node end)
         {
-            var position = start.Name;
-            var target = end.Name;
+            var position = start.Id;
+            var target = end.Id;
             var path = graphBuilder.GetGraph().shortest_path(position, target);
             currentPath = new List<Node>();
 
@@ -196,7 +196,7 @@ namespace CityDriver
                 new Vector(currentPath[currentPath.IndexOf(currentNode) + 1].Position.X - myRobot.position[0],
                     currentPath[currentPath.IndexOf(currentNode) + 1].Position.Y - myRobot.position[1]));
             rotation = CountRotation(myRobot.rotation[0], myRobot.rotation[3]);
-            double deltaRotation = targetRotation - rotation;
+            var deltaRotation = rotation - lastRotation;
             if (deltaRotation > Math.PI)
             {
                 deltaRotation -= 2*Math.PI;
@@ -205,14 +205,41 @@ namespace CityDriver
             {
                 deltaRotation += 2*Math.PI;
             }
-
-            if (deltaRotation > 0.01)
+            var toRotate = targetRotation - rotation;
+            if (toRotate > Math.PI)
             {
-
+                toRotate -= 2*Math.PI;
             }
-            else if (deltaRotation < -0.01)
+            else if (toRotate < -Math.PI)
             {
+                toRotate += 2*Math.PI;
+            }
 
+            if (toRotate > 0.01)
+            {
+                if (deltaRotation < 0 || deltaRotation > toRotate)
+                {
+                    AngularVelocity = toRotate / deltaTime.TotalSeconds;
+                }
+                else
+                {
+                    AngularVelocity = maxSpeed;
+                }
+            }
+            else if (toRotate < -0.01)
+            {
+                if (deltaRotation > 0 || deltaRotation < toRotate)
+                {
+                    AngularVelocity = toRotate/deltaTime.TotalSeconds;
+                }
+                else
+                {
+                    AngularVelocity = maxSpeed;
+                }
+            }
+            else
+            {
+                
             }
         }
 
