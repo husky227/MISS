@@ -29,24 +29,24 @@ namespace CityDriver
     /// </summary>
     public class CarDriver
     {
-        private static double Radius = 0.0603;
-        public static double maxSpeed = 1;
+        private const double Radius = 0.0603;
+        private const double ConstAlfa = 0.1;
+        private const double ConstDistance = 0.3;
+        public static double maxSpeed = 0.3;
         private readonly Dictionary<string, Node> allNodes;
         private readonly Dictionary<string, Space> allSpaceNodes;
         private readonly GraphBuilder graphBuilder;
         private readonly Dictionary<int, CarParameters> lastParameters;
-        private readonly double lastRotation;
-        public double DeltaVelocity;
         private Node currentNode;
         private List<Node> currentPath;
+        public double DeltaVelocity;
         private DateTime lastTime;
         public Robot myRobot;
         private double rotation;
         private Node targetNode;
-        private double targetRotation;
         public double Velocity;
 
-        public unsafe CarDriver(Robot myRobot, List<Node> nodesList)
+        public CarDriver(Robot myRobot, List<Node> nodesList)
         {
             var rl = new RosonLoader();
             rl.LoadRoson(@"..\..\..\..\WorldDefinition\SampleMap.roson");
@@ -58,8 +58,7 @@ namespace CityDriver
             FindCurrentNode();
 
             lastParameters = new Dictionary<int, CarParameters>();
-//            Console.WriteLine("New robot attached: " + myRobot.name);
-            lastRotation = CountRotation(myRobot.rotation[0], myRobot.rotation[3]);
+            //            Console.WriteLine("New robot attached: " + myRobot.name);
             lastTime = DateTime.Now;
         }
 
@@ -77,57 +76,23 @@ namespace CityDriver
 
         public void Move()
         {
-            if (Velocity != 0)
-            {
-                if (Velocity > maxSpeed)
-                {
-                    Velocity = maxSpeed;
-                }
-                myRobot.joints[0].motorDesiredVelocity = Velocity / Radius; //lF
-                myRobot.joints[1].motorDesiredVelocity = Velocity / Radius; //rF
-                myRobot.joints[2].motorDesiredVelocity = Velocity / Radius; //lR
-                myRobot.joints[3].motorDesiredVelocity = Velocity / Radius; //rR
-            }
-            else if (DeltaVelocity != 0)
-            {
-                if (DeltaVelocity > maxSpeed)
-                {
-                    DeltaVelocity = maxSpeed;
-                }
-
-                myRobot.joints[0].motorDesiredVelocity = (Velocity - DeltaVelocity) / Radius;
-                myRobot.joints[1].motorDesiredVelocity = (Velocity + DeltaVelocity) / Radius;
-                myRobot.joints[2].motorDesiredVelocity = (Velocity - DeltaVelocity) / Radius;
-                myRobot.joints[3].motorDesiredVelocity = (Velocity + DeltaVelocity) / Radius;
-            }
+            myRobot.joints[0].motorDesiredVelocity = (Velocity + DeltaVelocity)/Radius;
+            myRobot.joints[1].motorDesiredVelocity = (Velocity - DeltaVelocity)/Radius;
+            myRobot.joints[2].motorDesiredVelocity = (Velocity + DeltaVelocity)/Radius;
+            myRobot.joints[3].motorDesiredVelocity = (Velocity - DeltaVelocity)/Radius;
+//            Console.WriteLine((Velocity + DeltaVelocity) / Radius + "   " + (Velocity - DeltaVelocity) / Radius);
         }
 
         public void Refresh(Dictionary<int, CarParameters> visibleDrivers)
         {
             var newSpeed = maxSpeed;
 
-//            if (myRobot.id == 0)
-//                Console.WriteLine(myRobot.position[0] + " " + myRobot.position[1]);
+            //            if (myRobot.id == 0)
+            //                Console.WriteLine(myRobot.position[0] + " " + myRobot.position[1]);
 
             MakeNextStep(visibleDrivers);
 
             Move();
-
-            /*if (visibleDrivers.Count > 0 && myRobot.id == 14)
-            {
-                myRobot.joints[0].motorDesiredVelocity = newSpeed;
-                myRobot.joints[1].motorDesiredVelocity = -newSpeed;
-                myRobot.joints[2].motorDesiredVelocity = newSpeed;
-                myRobot.joints[3].motorDesiredVelocity = -newSpeed;
-                //Console.WriteLine(myRobot.id + ": " + myRobot.rotation[0] + " " + myRobot.rotation[1] + " " + myRobot.rotation[2]);
-            }
-            else
-            {
-                myRobot.joints[0].motorDesiredVelocity = newSpeed;
-                myRobot.joints[1].motorDesiredVelocity = newSpeed;
-                myRobot.joints[2].motorDesiredVelocity = newSpeed;
-                myRobot.joints[3].motorDesiredVelocity = newSpeed;
-            }*/
 
             FindCurrentNode();
         }
@@ -151,7 +116,7 @@ namespace CityDriver
                 var x = position[0];
                 var y = position[1];
 
-//                Console.WriteLine("X: " + x + " Y: " + y);
+                //                Console.WriteLine("X: " + x + " Y: " + y);
                 if (allNodes == null)
                 {
                     return;
@@ -162,7 +127,7 @@ namespace CityDriver
                     var node = allSpaceNodes[key];
                     if (node.isInside(x, y))
                     {
-//                        Console.WriteLine("spacenode found! " + myRobot.name + " , " + node.Id);
+//                                                Console.WriteLine("spacenode found! " + myRobot.name + " , " + node.Id);
                         currentNode = allNodes[node.NodeName];
                         //break;
                     }
@@ -185,6 +150,20 @@ namespace CityDriver
 
         private unsafe void MakeNextStep(Dictionary<int, CarParameters> visibleDrivers)
         {
+//            foreach (var node in currentPath)
+//            {
+//                Console.WriteLine(node.Id);
+//            }
+//            
+//            Console.WriteLine(currentNode.Id + "   " + GetNextNode().Id + "    " + targetNode.Id);
+            var distance = CountDistance(myRobot.position[0], myRobot.position[1]);
+            if (distance < 0.2)
+            {
+                Velocity = 0;
+                DeltaVelocity = 0;
+                Console.WriteLine("jest punkt " + currentNode.Id);
+                currentNode = GetNextNode();
+            }
             if (currentNode == targetNode)
             {
                 return;
@@ -194,61 +173,15 @@ namespace CityDriver
             var deltaTime = currentTime - lastTime;
             lastTime = currentTime;
             UpdateVisibleDriversParameters(visibleDrivers, deltaTime);
-            CountTargetRotation();
+
             rotation = CountRotation(myRobot.rotation[0], myRobot.rotation[3]);
-            var deltaRotation = rotation - lastRotation;
-            if (deltaRotation > Math.PI)
-            {
-                deltaRotation -= 2*Math.PI;
-            }
-            else if (deltaRotation < -Math.PI)
-            {
-                deltaRotation += 2*Math.PI;
-            }
-            var toRotate = targetRotation - rotation;
-            if (toRotate > Math.PI)
-            {
-                toRotate -= 2*Math.PI;
-            }
-            else if (toRotate < -Math.PI)
-            {
-                toRotate += 2*Math.PI;
-            }
+//            Console.WriteLine(rotation);
+            var alfa = CountAlfa(myRobot.position[0], myRobot.position[1], rotation);
 
-            if (toRotate > 0.1)
-            {
-                if (deltaRotation < -0.001 || deltaRotation > toRotate)
-                {
-                    AngularVelocity = toRotate / deltaTime.TotalMilliseconds;
-                }
-                else
-                {
-                    AngularVelocity = maxSpeed;
-                }
-            }
-            else if (toRotate < -0.1)
-            {
-                if (deltaRotation > 0.001 || deltaRotation < toRotate)
-                {
-                    AngularVelocity = toRotate / deltaTime.TotalMilliseconds;
-                }
-                else
-                {
-                    AngularVelocity = maxSpeed;
-                }
-            }
-            else
-            {
-                Velocity = maxSpeed;
-                //TODO dodac wyliczanie Velocity
-            }
-        }
-
-        private unsafe void CountTargetRotation()
-        {
-            targetRotation = 2*Math.PI - Vector.AngleBetween(new Vector(1, 0),
-                new Vector(currentPath[currentPath.IndexOf(currentNode) + 1].Position.X - myRobot.position[0],
-                    currentPath[currentPath.IndexOf(currentNode) + 1].Position.Y - myRobot.position[1])) * Math.PI / 180;
+            DeltaVelocity = (alfa*ConstAlfa);
+            Velocity = maxSpeed * (distance * ConstDistance) > maxSpeed ? maxSpeed : maxSpeed * (distance * ConstDistance);
+            Console.WriteLine(alfa + " \t" + distance + " \t" + DeltaVelocity + " \t" + Velocity);
+            //TODO dodac wyliczanie Velocity
         }
 
         private void UpdateVisibleDriversParameters(Dictionary<int, CarParameters> visibleDrivers, TimeSpan delta)
@@ -274,6 +207,26 @@ namespace CityDriver
                     lastParameters.Add(driver.Key, driver.Value);
                 }
             }
+        }
+
+        private double CountAlfa(double x, double y, double rotation)
+        {
+            var angle = 2*Math.PI -
+                    (Vector.AngleBetween(new Vector(1, 0),
+                        new Vector(GetNextNode().Position.X - x, GetNextNode().Position.Y - y)) * Math.PI / 180) - rotation;
+            return angle > Math.PI ? angle - 2*Math.PI : angle < -Math.PI ? angle + 2*Math.PI : angle;
+        }
+
+        private Node GetNextNode()
+        {
+            return currentPath[(currentPath.IndexOf(currentNode) == -1 ? currentPath.Count : currentPath.IndexOf(currentNode)) - 1];
+        }
+
+        private double CountDistance(double x, double y)
+        {
+            return
+                Math.Sqrt((GetNextNode().Position.X - x)*(GetNextNode().Position.X - x) +
+                          (GetNextNode().Position.Y - y)*(GetNextNode().Position.Y - y));
         }
 
         private double CountRotation(double w, double z)
