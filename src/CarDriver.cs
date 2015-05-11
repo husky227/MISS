@@ -29,13 +29,14 @@ namespace CityDriver
     /// </summary>
     public class CarDriver
     {
+        private static double Radius = 0.0603;
         public static double maxSpeed = 1;
         private readonly Dictionary<string, Node> allNodes;
         private readonly Dictionary<string, Space> allSpaceNodes;
         private readonly GraphBuilder graphBuilder;
         private readonly Dictionary<int, CarParameters> lastParameters;
         private readonly double lastRotation;
-        public double AngularVelocity;
+        public double DeltaVelocity;
         private Node currentNode;
         private List<Node> currentPath;
         private DateTime lastTime;
@@ -82,21 +83,22 @@ namespace CityDriver
                 {
                     Velocity = maxSpeed;
                 }
-                myRobot.joints[0].motorDesiredVelocity = Velocity; //lF
-                myRobot.joints[1].motorDesiredVelocity = Velocity; //rF
-                myRobot.joints[2].motorDesiredVelocity = Velocity; //lR
-                myRobot.joints[3].motorDesiredVelocity = Velocity; //rR
+                myRobot.joints[0].motorDesiredVelocity = Velocity / Radius; //lF
+                myRobot.joints[1].motorDesiredVelocity = Velocity / Radius; //rF
+                myRobot.joints[2].motorDesiredVelocity = Velocity / Radius; //lR
+                myRobot.joints[3].motorDesiredVelocity = Velocity / Radius; //rR
             }
-            else if (AngularVelocity != 0)
+            else if (DeltaVelocity != 0)
             {
-                if (AngularVelocity > maxSpeed)
+                if (DeltaVelocity > maxSpeed)
                 {
-                    AngularVelocity = maxSpeed;
+                    DeltaVelocity = maxSpeed;
                 }
-                myRobot.joints[0].motorDesiredVelocity = -AngularVelocity;
-                myRobot.joints[1].motorDesiredVelocity = AngularVelocity;
-                myRobot.joints[2].motorDesiredVelocity = -AngularVelocity;
-                myRobot.joints[3].motorDesiredVelocity = AngularVelocity;
+
+                myRobot.joints[0].motorDesiredVelocity = (Velocity - DeltaVelocity) / Radius;
+                myRobot.joints[1].motorDesiredVelocity = (Velocity + DeltaVelocity) / Radius;
+                myRobot.joints[2].motorDesiredVelocity = (Velocity - DeltaVelocity) / Radius;
+                myRobot.joints[3].motorDesiredVelocity = (Velocity + DeltaVelocity) / Radius;
             }
         }
 
