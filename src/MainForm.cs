@@ -233,7 +233,7 @@ namespace CityDriver
         static void Main()
         {
             RosonLoader rl = new RosonLoader();
-            rl.LoadRoson(@"..\..\..\..\WorldDefinition\SampleMap.roson");
+            rl.LoadRoson(@"..\..\..\..\WorldDefinition\Mapa.roson");
             nodesList.AddRange(rl.GetNodes().Values);
             //Console.ReadKey();
             Application.Run(new MainForm());
@@ -433,7 +433,7 @@ namespace CityDriver
                         if (driv != driver && IsClose(driver, driv))
                             unsafe
                             {
-                                visibleCars.Add(driv.myRobot.id, new CarParameters(driv.myRobot.id, driv.myRobot.position, driv.myRobot.rotation));
+                                visibleCars.Add(driv.myRobot.id, new CarParameters(driv.myRobot.id, driv.myRobot.position));
                             }
                     }
                     driver.Refresh(visibleCars);

@@ -1,0 +1,21 @@
+<World name="Mapa" gravity="9.81">
+  <Robots>
+    <Robot type="Capo" name="Capo2" position_x="2.28" position_y="1.9" position_z="0.2" />
+  </Robots>
+  <Environment>
+    <Geoms>
+      <Geom type="box" position_z="-0.5" size_x="8" size_y="8" size_z="1.0" color="00000000" />
+      <Geom type="box" position_x="0" position_y="2" position_z="0.15" size_x="4" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="1.9" position_y="4" position_z="0.15" size_x="3.8" size_y="0.1" size_z="0.3" rotation_z="3.14159265358979" color="ff8080ff" />
+      <Geom type="box" position_x="3.8" position_y="2" position_z="0.15" size_x="4" size_y="0.1" size_z="0.3" rotation_z="1.5707963267949" color="ff8080ff" />
+      <Geom type="box" position_x="1.9" position_y="0" position_z="0.15" size_x="3.8" size_y="0.1" size_z="0.3" rotation_z="3.14159265358979" color="ff8080ff" />
+      <Geom type="box" position_x="1.4" position_y="0.3" position_z="0.15" size_x="0.6" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="1.4" position_y="2" position_z="0.15" size_x="1.6" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="1.9" position_y="2.6" position_z="0.15" size_x="1" size_y="0.1" size_z="0.3" rotation_z="3.14159265358979" color="ff8080ff" />
+      <Geom type="box" position_x="3.5" position_y="2.6" position_z="0.15" size_x="0.6" size_y="0.1" size_z="0.3" rotation_z="3.14159265358979" color="ff8080ff" />
+      <Geom type="box" position_x="3.8" position_y="2.1" position_z="0.15" size_x="1" size_y="0.1" size_z="0.3" rotation_z="1.5707963267949" color="ff8080ff" />
+      <Geom type="box" position_x="2.6" position_y="1.4" position_z="0.15" size_x="2.4" size_y="0.1" size_z="0.3" rotation_z="3.14159265358979" color="ff8080ff" />
+      <Geom type="box" position_x="1.4" position_y="3.8" position_z="0.15" size_x="0.4" size_y="0.1" size_z="0.3" rotation_z="1.5707963267949" color="ff8080ff" />
+    </Geoms>
+  </Environment>
+</World>

@@ -49,7 +49,7 @@ namespace CityDriver
         public CarDriver(Robot myRobot, List<Node> nodesList)
         {
             var rl = new RosonLoader();
-            rl.LoadRoson(@"..\..\..\..\WorldDefinition\SampleMap.roson");
+            rl.LoadRoson(@"..\..\..\..\WorldDefinition\Mapa.roson");
             allNodes = rl.GetNodes();
             allSpaceNodes = rl.GetSpaces();
 
@@ -76,11 +76,11 @@ namespace CityDriver
 
         public void Move()
         {
-            myRobot.joints[0].motorDesiredVelocity = (Velocity + DeltaVelocity)/Radius;
-            myRobot.joints[1].motorDesiredVelocity = (Velocity - DeltaVelocity)/Radius;
-            myRobot.joints[2].motorDesiredVelocity = (Velocity + DeltaVelocity)/Radius;
-            myRobot.joints[3].motorDesiredVelocity = (Velocity - DeltaVelocity)/Radius;
-//            Console.WriteLine((Velocity + DeltaVelocity) / Radius + "   " + (Velocity - DeltaVelocity) / Radius);
+            myRobot.joints[0].motorDesiredVelocity = (Velocity + DeltaVelocity) / Radius;
+            myRobot.joints[1].motorDesiredVelocity = (Velocity - DeltaVelocity) / Radius;
+            myRobot.joints[2].motorDesiredVelocity = (Velocity + DeltaVelocity) / Radius;
+            myRobot.joints[3].motorDesiredVelocity = (Velocity - DeltaVelocity) / Radius;
+            //            Console.WriteLine((Velocity + DeltaVelocity) / Radius + "   " + (Velocity - DeltaVelocity) / Radius);
         }
 
         public void Refresh(Dictionary<int, CarParameters> visibleDrivers)
@@ -127,7 +127,7 @@ namespace CityDriver
                     var node = allSpaceNodes[key];
                     if (node.isInside(x, y))
                     {
-//                                                Console.WriteLine("spacenode found! " + myRobot.name + " , " + node.Id);
+                        //                                                Console.WriteLine("spacenode found! " + myRobot.name + " , " + node.Id);
                         currentNode = allNodes[node.NodeName];
                         //break;
                     }
@@ -150,12 +150,12 @@ namespace CityDriver
 
         private unsafe void MakeNextStep(Dictionary<int, CarParameters> visibleDrivers)
         {
-//            foreach (var node in currentPath)
-//            {
-//                Console.WriteLine(node.Id);
-//            }
-//            
-//            Console.WriteLine(currentNode.Id + "   " + GetNextNode().Id + "    " + targetNode.Id);
+            //            foreach (var node in currentPath)
+            //            {
+            //                Console.WriteLine(node.Id);
+            //            }
+            //            
+            //            Console.WriteLine(currentNode.Id + "   " + GetNextNode().Id + "    " + targetNode.Id);
             var distance = CountDistance(myRobot.position[0], myRobot.position[1]);
             if (distance < 0.2)
             {
@@ -174,13 +174,13 @@ namespace CityDriver
             lastTime = currentTime;
             UpdateVisibleDriversParameters(visibleDrivers, deltaTime);
 
-            rotation = CountRotation(myRobot.rotation[0], myRobot.rotation[3]);
-//            Console.WriteLine(rotation);
+            rotation = CountRotation(myRobot.position[0], myRobot.position[1]);
+            //            Console.WriteLine(rotation);
             var alfa = CountAlfa(myRobot.position[0], myRobot.position[1], rotation);
 
-            DeltaVelocity = (alfa*ConstAlfa);
+            DeltaVelocity = (alfa * ConstAlfa);
             Velocity = maxSpeed * (distance * ConstDistance) > maxSpeed ? maxSpeed : maxSpeed * (distance * ConstDistance);
-            Console.WriteLine(alfa + " \t" + distance + " \t" + DeltaVelocity + " \t" + Velocity);
+                        Console.WriteLine(myRobot.position[0] + " \t" + myRobot.position[1] + " \t" + GetNextNode().Position.X + " \t" + GetNextNode().Position.Y + "\t" + alfa + "\t" + rotation);
             //TODO dodac wyliczanie Velocity
         }
 
@@ -211,10 +211,12 @@ namespace CityDriver
 
         private double CountAlfa(double x, double y, double rotation)
         {
-            var angle = 2*Math.PI -
+            var angle = 2 * Math.PI -
                     (Vector.AngleBetween(new Vector(1, 0),
-                        new Vector(GetNextNode().Position.X - x, GetNextNode().Position.Y - y)) * Math.PI / 180) - rotation;
-            return angle > Math.PI ? angle - 2*Math.PI : angle < -Math.PI ? angle + 2*Math.PI : angle;
+                        new Vector(GetNextNode().Position.X - x, GetNextNode().Position.Y - y)) * Math.PI / 180);
+//            Console.WriteLine(angle + " \t" + rotation + " \t" + (angle - rotation));
+            angle -= rotation;
+            return angle > Math.PI ? angle - 2 * Math.PI : angle < -Math.PI ? angle + 2 * Math.PI : angle;
         }
 
         private Node GetNextNode()
@@ -225,13 +227,15 @@ namespace CityDriver
         private double CountDistance(double x, double y)
         {
             return
-                Math.Sqrt((GetNextNode().Position.X - x)*(GetNextNode().Position.X - x) +
-                          (GetNextNode().Position.Y - y)*(GetNextNode().Position.Y - y));
+                Math.Sqrt((GetNextNode().Position.X - x) * (GetNextNode().Position.X - x) +
+                          (GetNextNode().Position.Y - y) * (GetNextNode().Position.Y - y));
         }
 
-        private double CountRotation(double w, double z)
+        private double CountRotation(double x, double y)
         {
-            return w*z >= 0 ? Math.Asin(Math.Abs(z)) : Math.Asin(Math.Abs(z)) + Math.PI;
+            return 2 * Math.PI -
+                    (Vector.AngleBetween(new Vector(1, 0),
+                        new Vector(x, y)) * Math.PI / 180);
         }
     }
 }

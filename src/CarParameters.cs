@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 
 namespace CityDriver
 {
@@ -10,14 +11,14 @@ namespace CityDriver
         public double AngularVelocity;
         public double Velocity;
 
-        public unsafe CarParameters(int id, double* position, double* rotation)
+        public unsafe CarParameters(int id, double* position)
         {
             Id = id;
             for (var i = 0; i < 2; i++)
             {
                 Position[i] = position[i];
             }
-            Rotation = CountRotation(rotation[0], rotation[3]);
+            Rotation = CountRotation(position[0], position[3]);
             Velocity = 0.0;
             AngularVelocity = 0.0;
         }
@@ -58,9 +59,11 @@ namespace CityDriver
             return tmp/delta.TotalSeconds;
         }
 
-        private double CountRotation(double w, double z)
+        private double CountRotation(double x, double y)
         {
-            return w*z >= 0 ? Math.Asin(Math.Abs(z)) : Math.Asin(Math.Abs(z)) + Math.PI;
+            return 2 * Math.PI -
+                    (Vector.AngleBetween(new Vector(1, 0),
+                        new Vector(x, y)) * Math.PI / 180);
         }
     }
 }
