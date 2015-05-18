@@ -30,8 +30,8 @@ namespace CityDriver
     public class CarDriver
     {
         private const double Radius = 0.0603;
-        private const double ConstAlfa = 0.1;
-        private const double ConstDistance = 0.3;
+        private const double ConstAlfa = 0.5;
+        private const double ConstDistance = 0.9;
         public static double maxSpeed = 0.3;
         private readonly Dictionary<string, Node> allNodes;
         private readonly Dictionary<string, Space> allSpaceNodes;
@@ -144,7 +144,12 @@ namespace CityDriver
 
             foreach (var nodeName in path)
             {
-                currentPath.Add(allNodes[nodeName]);
+                currentPath.Insert(0, allNodes[nodeName]);
+            }
+            currentPath.Insert(0, start);
+            foreach (var node in currentPath)
+            {
+                Console.WriteLine(node.Id);
             }
         }
 
@@ -156,17 +161,17 @@ namespace CityDriver
             //            }
             //            
             //            Console.WriteLine(currentNode.Id + "   " + GetNextNode().Id + "    " + targetNode.Id);
-            var distance = CountDistance(myRobot.position[0], myRobot.position[1]);
-            if (distance < 0.2)
+            if (currentNode == targetNode)
             {
                 Velocity = 0;
                 DeltaVelocity = 0;
+                return;
+            }
+            var distance = CountDistance(myRobot.position[0], myRobot.position[1]);
+            if (distance < 0.2)
+            {
                 Console.WriteLine("jest punkt " + currentNode.Id);
                 currentNode = GetNextNode();
-            }
-            if (currentNode == targetNode)
-            {
-                return;
             }
 
             var currentTime = DateTime.Now;
@@ -174,13 +179,13 @@ namespace CityDriver
             lastTime = currentTime;
             UpdateVisibleDriversParameters(visibleDrivers, deltaTime);
 
-            rotation = CountRotation(myRobot.position[0], myRobot.position[1]);
+            rotation = CountRotation(myRobot.rotation);
             //            Console.WriteLine(rotation);
             var alfa = CountAlfa(myRobot.position[0], myRobot.position[1], rotation);
 
             DeltaVelocity = (alfa * ConstAlfa);
             Velocity = maxSpeed * (distance * ConstDistance) > maxSpeed ? maxSpeed : maxSpeed * (distance * ConstDistance);
-                        Console.WriteLine(myRobot.position[0] + " \t" + myRobot.position[1] + " \t" + GetNextNode().Position.X + " \t" + GetNextNode().Position.Y + "\t" + alfa + "\t" + rotation);
+//            Console.WriteLine(myRobot.position[0] + " \t" + myRobot.position[1] + " \t" + GetNextNode().Position.X + " \t" + GetNextNode().Position.Y + "\t" + alfa + "\t" + rotation);
             //TODO dodac wyliczanie Velocity
         }
 
@@ -211,17 +216,19 @@ namespace CityDriver
 
         private double CountAlfa(double x, double y, double rotation)
         {
-            var angle = 2 * Math.PI -
+            var angle = 
                     (Vector.AngleBetween(new Vector(1, 0),
-                        new Vector(GetNextNode().Position.X - x, GetNextNode().Position.Y - y)) * Math.PI / 180);
+                        new Vector(GetNextNode().Position.X - x, GetNextNode().Position.Y - y)) * Math.PI / 180) - Math.PI / 2;
+            angle = angle > Math.PI ? angle - 2 * Math.PI : angle < -Math.PI ? angle + 2 * Math.PI : angle;
 //            Console.WriteLine(angle + " \t" + rotation + " \t" + (angle - rotation));
             angle -= rotation;
-            return angle > Math.PI ? angle - 2 * Math.PI : angle < -Math.PI ? angle + 2 * Math.PI : angle;
+            angle = angle > Math.PI ? angle - 2 * Math.PI : angle < -Math.PI ? angle + 2 * Math.PI : angle;
+            return angle;
         }
 
         private Node GetNextNode()
         {
-            return currentPath[(currentPath.IndexOf(currentNode) == -1 ? currentPath.Count : currentPath.IndexOf(currentNode)) - 1];
+            return currentPath[currentPath.IndexOf(currentNode) + 1];
         }
 
         private double CountDistance(double x, double y)
@@ -231,11 +238,22 @@ namespace CityDriver
                           (GetNextNode().Position.Y - y) * (GetNextNode().Position.Y - y));
         }
 
-        private double CountRotation(double x, double y)
+        private unsafe double CountRotation(double* rotationQuaternion)
         {
-            return 2 * Math.PI -
-                    (Vector.AngleBetween(new Vector(1, 0),
-                        new Vector(x, y)) * Math.PI / 180);
+//            return w * z > 0 ? Math.Asin(z) : (Math.Asin(z) < 0 ? Math.Asin(z) : Math.Asin(z) + Math.PI);
+            double test = rotationQuaternion[1] * rotationQuaternion[3] + rotationQuaternion[2] * rotationQuaternion[0];
+            if (test > 0.4999)
+            { // singularity at north pole
+                return 2 * Math.Atan2(rotationQuaternion[1], rotationQuaternion[0]);
+            }
+            if (test < -0.4999)
+            { // singularity at south pole
+                return -2 * Math.Atan2(rotationQuaternion[1], rotationQuaternion[0]);
+            }
+            double sqx = rotationQuaternion[1] * rotationQuaternion[1];
+            double sqy = rotationQuaternion[3] * rotationQuaternion[3];
+            double sqz = rotationQuaternion[2] * rotationQuaternion[2];
+            return Math.Atan2(2 * rotationQuaternion[3] * rotationQuaternion[0] - 2 * rotationQuaternion[1] * rotationQuaternion[2], 1 - 2 * sqy - 2 * sqz);
         }
     }
 }

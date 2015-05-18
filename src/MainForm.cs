@@ -433,7 +433,7 @@ namespace CityDriver
                         if (driv != driver && IsClose(driver, driv))
                             unsafe
                             {
-                                visibleCars.Add(driv.myRobot.id, new CarParameters(driv.myRobot.id, driv.myRobot.position));
+                                visibleCars.Add(driv.myRobot.id, new CarParameters(driv.myRobot.id, driv.myRobot.position, driv.myRobot.rotation));
                             }
                     }
                     driver.Refresh(visibleCars);

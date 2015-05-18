@@ -11,14 +11,14 @@ namespace CityDriver
         public double AngularVelocity;
         public double Velocity;
 
-        public unsafe CarParameters(int id, double* position)
+        public unsafe CarParameters(int id, double* position, double* rotation)
         {
             Id = id;
             for (var i = 0; i < 2; i++)
             {
                 Position[i] = position[i];
             }
-            Rotation = CountRotation(position[0], position[3]);
+            Rotation = CountRotation(rotation[0], rotation[3]);
             Velocity = 0.0;
             AngularVelocity = 0.0;
         }
@@ -59,11 +59,9 @@ namespace CityDriver
             return tmp/delta.TotalSeconds;
         }
 
-        private double CountRotation(double x, double y)
+        private double CountRotation(double w, double z)
         {
-            return 2 * Math.PI -
-                    (Vector.AngleBetween(new Vector(1, 0),
-                        new Vector(x, y)) * Math.PI / 180);
+            return Math.Asin(z)*2;
         }
     }
 }
