@@ -46,10 +46,10 @@ namespace CityDriver
         private Node targetNode;
         public double Velocity;
 
-        public CarDriver(Robot myRobot, List<Node> nodesList)
+        public CarDriver(Robot myRobot, List<Node> nodesList, String rosonPath)
         {
             var rl = new RosonLoader();
-            rl.LoadRoson(@"..\..\..\..\WorldDefinition\Mapa.roson");
+            rl.LoadRoson(@rosonPath);
             allNodes = rl.GetNodes();
             allSpaceNodes = rl.GetSpaces();
 

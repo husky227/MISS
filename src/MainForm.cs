@@ -56,14 +56,15 @@ namespace CityDriver
         private Panel panel1;
 		private ThreadStart refreshThreadStarter;
         static private List<Node> nodesList = new List<Node>();
+        private static String _rosonPath;
 
         public MainForm()
         {
             //
             // Required for Windows Form Designer support
             //
-            InitializeComponent();
 
+            InitializeComponent();
             addressTextBox.Text = Dns.Resolve(Dns.GetHostName()).AddressList[0].ToString();
             drivers = new ArrayList();
 
@@ -232,11 +233,28 @@ namespace CityDriver
         [STAThread]
         static void Main()
         {
-            RosonLoader rl = new RosonLoader();
-            rl.LoadRoson(@"..\..\..\..\WorldDefinition\Mapa.roson");
-            nodesList.AddRange(rl.GetNodes().Values);
-            //Console.ReadKey();
-            Application.Run(new MainForm());
+            OpenFileDialog ofd = new OpenFileDialog();
+            if (ofd.ShowDialog() == DialogResult.OK) //wait until file is chosen
+            {
+                _rosonPath = ofd.FileName;
+                Console.WriteLine("Is type ok? " + _rosonPath.EndsWith(".roson"));
+                if (_rosonPath.EndsWith(".roson") != true)
+                {
+                    MessageBox.Show("Wrong file extension.",
+                            "Important Note",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error,
+                            MessageBoxDefaultButton.Button1);
+                    return;
+                }
+                RosonLoader rl = new RosonLoader();
+                rl.LoadRoson(@_rosonPath);
+                Console.WriteLine("Reading roson file from: " + _rosonPath);
+                nodesList.AddRange(rl.GetNodes().Values);
+                //Console.ReadKey();
+                Application.Run(new MainForm());
+            }
+
         }
 
 
@@ -410,7 +428,7 @@ namespace CityDriver
                             {
 //                                Console.WriteLine(newRobotId + ": " + communicator.robots[newRobotId].position[0] + " " +
 //                                                  communicator.robots[newRobotId].position[1]);
-                                drivers.Add(new CarDriver(communicator.robots[newRobotId], nodesList));
+                                drivers.Add(new CarDriver(communicator.robots[newRobotId], nodesList, _rosonPath));
                                 ((CarDriver) drivers[drivers.Count - 1]).RandTargetNode();
                             } /*
                     }
