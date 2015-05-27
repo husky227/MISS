@@ -94,7 +94,7 @@ namespace CityDriver
 
             Move();
 
-            FindCurrentNode();
+//            FindCurrentNode();
         }
 
         private void FindCurrentNode()
@@ -172,6 +172,7 @@ namespace CityDriver
             {
 //                Console.WriteLine("jest punkt " + currentNode.Id);
                 currentNode = GetNextNode();
+                return;
             }
 
             var currentTime = DateTime.Now;
