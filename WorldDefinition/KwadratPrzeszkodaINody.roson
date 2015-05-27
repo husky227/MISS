@@ -1,0 +1,447 @@
+{
+  "walls": [
+    {
+      "type": "wall",
+      "id": "Wall6",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 3.9,
+        "y": 0.05
+      },
+      "to": {
+        "x": 3.9,
+        "y": 1.47
+      }
+    },
+    {
+      "type": "wall",
+      "id": "Wall7",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 0.05,
+        "y": 0.05
+      },
+      "to": {
+        "x": 3.9,
+        "y": 0.05
+      }
+    },
+    {
+      "type": "wall",
+      "id": "Wall8",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 0.05,
+        "y": 0.05
+      },
+      "to": {
+        "x": 0.05,
+        "y": 2.24
+      }
+    },
+    {
+      "type": "wall",
+      "id": "Wall10",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 1.25,
+        "y": 2.0
+      },
+      "to": {
+        "x": 2.5,
+        "y": 1.75
+      }
+    },
+    {
+      "type": "wall",
+      "id": "Wall16",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 3.9,
+        "y": 1.47
+      },
+      "to": {
+        "x": 3.9,
+        "y": 3.9
+      }
+    },
+    {
+      "type": "wall",
+      "id": "Wall20",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 0.05,
+        "y": 2.24
+      },
+      "to": {
+        "x": 0.05,
+        "y": 3.9
+      }
+    },
+    {
+      "type": "wall",
+      "id": "Wall21",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 0.05,
+        "y": 3.9
+      },
+      "to": {
+        "x": 3.9,
+        "y": 3.9
+      }
+    }
+  ],
+  "gates": [
+    {
+      "type": "gate",
+      "id": "Wall9",
+      "kind": "door",
+      "blocked": 0.0,
+      "from": {
+        "x": 0.05,
+        "y": 2.24
+      },
+      "to": {
+        "x": 1.25,
+        "y": 2.0
+      }
+    },
+    {
+      "type": "gate",
+      "id": "Wall11",
+      "kind": "door",
+      "blocked": 0.0,
+      "from": {
+        "x": 2.5,
+        "y": 1.75
+      },
+      "to": {
+        "x": 3.9,
+        "y": 1.47
+      }
+    }
+  ],
+  "spaces": [
+    {
+      "type": "space",
+      "id": "Space12",
+      "kind": "room",
+      "name": null,
+      "function": null,
+      "expectedPersonCount": 2,
+      "area": 6.94925,
+      "diameter": 4.4292888819764284
+    },
+    {
+      "type": "space",
+      "id": "Space22",
+      "kind": "room",
+      "name": null,
+      "function": null,
+      "expectedPersonCount": 7,
+      "area": 7.87325,
+      "diameter": 4.5527354414681289
+    }
+  ],
+  "nodes": [
+    {
+      "type": "node",
+      "id": "Node13",
+      "kind": "spaceNode",
+      "position": {
+        "x": 1.8381348107109878,
+        "y": 0.96618651892890117
+      }
+    },
+    {
+      "type": "node",
+      "id": "Node14",
+      "kind": "gateNode",
+      "position": {
+        "x": 0.63074708269687885,
+        "y": 2.0215935977808495
+      }
+    },
+    {
+      "type": "node",
+      "id": "Node15",
+      "kind": "gateNode",
+      "position": {
+        "x": 3.1799363532596412,
+        "y": 1.5117282364737548
+      }
+    },
+    {
+      "type": "node",
+      "id": "Node23",
+      "kind": "spaceNode",
+      "position": {
+        "x": 2.0958027709861451,
+        "y": 2.8654197229013851
+      }
+    },
+    {
+      "type": "node",
+      "id": "Node24",
+      "kind": "gateNode",
+      "position": {
+        "x": 3.2192813960033417,
+        "y": 1.7084335091701093
+      }
+    },
+    {
+      "type": "node",
+      "id": "Node25",
+      "kind": "gateNode",
+      "position": {
+        "x": 0.67005602415334109,
+        "y": 2.2182871945720382
+      }
+    }
+  ],
+  "robots": [
+    {
+      "type": "robot",
+      "id": "Robot5",
+      "kind": "robot",
+      "location": {
+        "x": 0.71,
+        "y": 0.57,
+        "z": 0.2,
+        "alpha": 0.0001
+      }
+    }
+  ],
+  "victims": [],
+  "space-walls": [
+    {
+      "type": "space-wall",
+      "spaceId": "Space12",
+      "wallId": "Wall6"
+    },
+    {
+      "type": "space-wall",
+      "spaceId": "Space12",
+      "wallId": "Wall7"
+    },
+    {
+      "type": "space-wall",
+      "spaceId": "Space12",
+      "wallId": "Wall8"
+    },
+    {
+      "type": "space-wall",
+      "spaceId": "Space12",
+      "wallId": "Wall10"
+    },
+    {
+      "type": "space-wall",
+      "spaceId": "Space22",
+      "wallId": "Wall16"
+    },
+    {
+      "type": "space-wall",
+      "spaceId": "Space22",
+      "wallId": "Wall10"
+    },
+    {
+      "type": "space-wall",
+      "spaceId": "Space22",
+      "wallId": "Wall20"
+    },
+    {
+      "type": "space-wall",
+      "spaceId": "Space22",
+      "wallId": "Wall21"
+    }
+  ],
+  "space-gates": [
+    {
+      "type": "space-gate",
+      "spaceId": "Space12",
+      "gateId": "Wall9",
+      "passable": true
+    },
+    {
+      "type": "space-gate",
+      "spaceId": "Space12",
+      "gateId": "Wall11",
+      "passable": true
+    },
+    {
+      "type": "space-gate",
+      "spaceId": "Space22",
+      "gateId": "Wall11",
+      "passable": true
+    },
+    {
+      "type": "space-gate",
+      "spaceId": "Space22",
+      "gateId": "Wall9",
+      "passable": true
+    }
+  ],
+  "space-nodes": [
+    {
+      "type": "space-node",
+      "spaceId": "Space12",
+      "nodeId": "Node13"
+    },
+    {
+      "type": "space-node",
+      "spaceId": "Space12",
+      "nodeId": "Node14"
+    },
+    {
+      "type": "space-node",
+      "spaceId": "Space12",
+      "nodeId": "Node15"
+    },
+    {
+      "type": "space-node",
+      "spaceId": "Space22",
+      "nodeId": "Node23"
+    },
+    {
+      "type": "space-node",
+      "spaceId": "Space22",
+      "nodeId": "Node24"
+    },
+    {
+      "type": "space-node",
+      "spaceId": "Space22",
+      "nodeId": "Node25"
+    }
+  ],
+  "space-robots": [
+    {
+      "type": "space-robot",
+      "spaceId": "Space12",
+      "robotId": "Robot5"
+    }
+  ],
+  "space-victims": [],
+  "gate-nodes": [
+    {
+      "type": "gate-node",
+      "nodeId": "Node14",
+      "gateId": "Wall9"
+    },
+    {
+      "type": "gate-node",
+      "nodeId": "Node15",
+      "gateId": "Wall11"
+    },
+    {
+      "type": "gate-node",
+      "nodeId": "Node24",
+      "gateId": "Wall11"
+    },
+    {
+      "type": "gate-node",
+      "nodeId": "Node25",
+      "gateId": "Wall9"
+    }
+  ],
+  "node-nodes": [
+    {
+      "type": "node-nodes",
+      "nodeFromId": "Node13",
+      "nodeToId": "Node14",
+      "cost": 1.6036424875419941,
+      "blocked": 0.0
+    },
+    {
+      "type": "node-nodes",
+      "nodeFromId": "Node13",
+      "nodeToId": "Node15",
+      "cost": 1.4484637189683887,
+      "blocked": 0.0
+    },
+    {
+      "type": "node-nodes",
+      "nodeFromId": "Node14",
+      "nodeToId": "Node13",
+      "cost": 1.6036424875419941,
+      "blocked": 0.0
+    },
+    {
+      "type": "node-nodes",
+      "nodeFromId": "Node14",
+      "nodeToId": "Node25",
+      "cost": 0.20058305984574656,
+      "blocked": 0.0
+    },
+    {
+      "type": "node-nodes",
+      "nodeFromId": "Node15",
+      "nodeToId": "Node13",
+      "cost": 1.4484637189683887,
+      "blocked": 0.0
+    },
+    {
+      "type": "node-nodes",
+      "nodeFromId": "Node15",
+      "nodeToId": "Node24",
+      "cost": 0.20060158697041949,
+      "blocked": 0.0
+    },
+    {
+      "type": "node-nodes",
+      "nodeFromId": "Node23",
+      "nodeToId": "Node24",
+      "cost": 1.6127062099572771,
+      "blocked": 0.0
+    },
+    {
+      "type": "node-nodes",
+      "nodeFromId": "Node23",
+      "nodeToId": "Node25",
+      "cost": 1.5657376202053319,
+      "blocked": 0.0
+    },
+    {
+      "type": "node-nodes",
+      "nodeFromId": "Node24",
+      "nodeToId": "Node23",
+      "cost": 1.6127062099572771,
+      "blocked": 0.0
+    },
+    {
+      "type": "node-nodes",
+      "nodeFromId": "Node24",
+      "nodeToId": "Node15",
+      "cost": 0.20060158697041949,
+      "blocked": 0.0
+    },
+    {
+      "type": "node-nodes",
+      "nodeFromId": "Node25",
+      "nodeToId": "Node23",
+      "cost": 1.5657376202053319,
+      "blocked": 0.0
+    },
+    {
+      "type": "node-nodes",
+      "nodeFromId": "Node25",
+      "nodeToId": "Node14",
+      "cost": 0.20058305984574656,
+      "blocked": 0.0
+    }
+  ]
+}
