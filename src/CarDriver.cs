@@ -57,6 +57,8 @@ namespace CityDriver
             allWalls = new List<Wall>();
             allWalls.AddRange(rl.GetWalls().Values);
 
+            Console.WriteLine("Number of walls: " + allWalls.Count);
+
             this.myRobot = myRobot;
             graphBuilder = new GraphBuilder(nodesList);
             FindCurrentNode();
@@ -118,6 +120,7 @@ namespace CityDriver
 
                 if(Helpers.doesIntersect(start, end, wallStart, wallEnd))
                 {
+                    Console.WriteLine("Found intersecting walls!");
                     intersectingWalls.Add(wall);
                 }
             }
@@ -137,10 +140,11 @@ namespace CityDriver
 
             if (pointsList.Count > 0)
             {
+                Console.WriteLine("Obstacle wall found. Found " + pointsList.Count + " alternative points");
                 pointsList.Sort();
+                Node currNode = new Node(NodeKind.GateNode, "", pointsList[0].First.X, pointsList[0].First.Y);
+                currentNode = currNode;
             }
-
-            //TODO: get pointsList[0] i ustaw jako nowy node
         }
 
         private void FindCurrentNode()

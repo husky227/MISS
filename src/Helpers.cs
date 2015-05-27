@@ -107,7 +107,7 @@ namespace CityDriver
         }
 
         public static double CountDistance(Point p, Point q) {
-            return 0;
+            return Math.Sqrt(Math.Pow(p.X-q.X, 2) + Math.Pow(p.Y-q.Y, 2));
         }
     }
 }
