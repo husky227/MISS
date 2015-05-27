@@ -1,0 +1,15 @@
+<World name="MyMaze" gravity="9.81">
+  <Robots>
+    <Robot type="Capo" name="My0" position_x="0.71" position_y="0.57" position_z="0.2" />
+  </Robots>
+  <Environment>
+    <Geoms>
+      <Geom type="box" position_z="-0.5" size_x="8" size_y="8" size_z="1.0" color="00000000" />
+      <Geom type="box" position_x="0.05" position_y="1.975" position_z="0.15" size_x="3.85" size_y="0.1" size_z="0.3" rotation_z="4.71238898038469" color="ff8080ff" />
+      <Geom type="box" position_x="1.975" position_y="3.9" position_z="0.15" size_x="3.85" size_y="0.1" size_z="0.3" rotation_z="3.14159265358979" color="ff8080ff" />
+      <Geom type="box" position_x="3.9" position_y="1.975" position_z="0.15" size_x="3.85" size_y="0.1" size_z="0.3" rotation_z="1.5707963267949" color="ff8080ff" />
+      <Geom type="box" position_x="1.975" position_y="0.05" position_z="0.15" size_x="3.85" size_y="0.1" size_z="0.3" rotation_z="3.14159265358979" color="ff8080ff" />
+      <Geom type="box" position_x="1.875" position_y="1.875" position_z="0.15" size_x="1.274755" size_y="0.1" size_z="0.3" rotation_z="2.94419709373991" color="ff8080ff" />
+    </Geoms>
+  </Environment>
+</World>
