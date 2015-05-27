@@ -113,7 +113,7 @@ namespace CityDriver
                 } else if (kind.Equals("spaceNode"))
                 {
                     enumType = CityDriver.NodeKind.SpaceNode;
-                }
+                } 
                 Node node = new Node(enumType, id, x1, y1);
                 nodes.Add(id, node);
             }
@@ -156,6 +156,11 @@ namespace CityDriver
         public Dictionary<String, Space> GetSpaces()
         {
             return spaces;
+        }
+
+        public Dictionary<String, Wall> GetWalls()
+        {
+            return walls;
         }
     }
 }

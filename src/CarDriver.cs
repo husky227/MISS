@@ -32,9 +32,11 @@ namespace CityDriver
         private const double Radius = 0.0603;
         private const double ConstAlfa = 0.5;
         private const double ConstDistance = 0.9;
+        private const double MinGap = 0.3;
         public static double maxSpeed = 0.3;
         private readonly Dictionary<string, Node> allNodes;
         private readonly Dictionary<string, Space> allSpaceNodes;
+        private List<Wall> allWalls;
         private readonly GraphBuilder graphBuilder;
         private readonly Dictionary<int, CarParameters> lastParameters;
         private Node currentNode;
@@ -52,10 +54,13 @@ namespace CityDriver
             rl.LoadRoson(@rosonPath);
             allNodes = rl.GetNodes();
             allSpaceNodes = rl.GetSpaces();
+            allWalls = new List<Wall>();
+            allWalls.AddRange(rl.GetWalls().Values);
 
             this.myRobot = myRobot;
             graphBuilder = new GraphBuilder(nodesList);
             FindCurrentNode();
+
 
             lastParameters = new Dictionary<int, CarParameters>();
             //            Console.WriteLine("New robot attached: " + myRobot.name);
@@ -95,6 +100,47 @@ namespace CityDriver
             Move();
 
             FindCurrentNode();
+
+            CheckForCollision();
+        }
+
+        private unsafe void CheckForCollision()
+        {
+            Point end = currentNode.Position;
+            Point start = new Point(myRobot.position[0], myRobot.position[1]);
+
+            List<Wall> intersectingWalls = new List<Wall>();
+
+            foreach (Wall wall in allWalls)
+            {
+                Point wallStart = wall.From;
+                Point wallEnd = wall.To;
+
+                if(Helpers.doesIntersect(start, end, wallStart, wallEnd))
+                {
+                    intersectingWalls.Add(wall);
+                }
+            }
+
+            //list of points above intersecting walls
+            List<Pair> pointsList = new List<Pair>();
+            foreach (Wall wall in intersectingWalls)
+            {
+                Point[] points = Helpers.boundingPoints(wall.From, wall.To);
+                foreach (Point point in points)
+                {
+                    double dist = Helpers.CountDistance(point, start);
+                    Pair pointPair = new Pair(point, dist);
+                    pointsList.Add(pointPair);
+                }
+            }
+
+            if (pointsList.Count > 0)
+            {
+                pointsList.Sort();
+            }
+
+            //TODO: get pointsList[0] i ustaw jako nowy node
         }
 
         private void FindCurrentNode()

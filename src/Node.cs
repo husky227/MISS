@@ -8,7 +8,8 @@ namespace CityDriver
     public enum NodeKind
     {
         GateNode,
-        SpaceNode
+        SpaceNode,
+        WallNode
     }
 
     public class Node
