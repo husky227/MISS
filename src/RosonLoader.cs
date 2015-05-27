@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -11,6 +10,7 @@ namespace CityDriver
         private Dictionary<string, Wall> walls;
         private Dictionary<string, Space> spaces;
         private Dictionary<string, Node> nodes;
+        private List<double> boundaries;
 
         public void LoadRoson(string path)
         {
@@ -57,7 +57,8 @@ namespace CityDriver
                                 if (spaceType.Equals("corridor"))
                                 {
                                     enumType = CityDriver.SpaceKind.Corridor;
-                                } else if (spaceType.Equals("room"))
+                                }
+                                else if (spaceType.Equals("room"))
                                 {
                                     enumType = CityDriver.SpaceKind.Room;
                                 }
@@ -110,10 +111,11 @@ namespace CityDriver
                 if (kind.Equals("gateNode"))
                 {
                     enumType = CityDriver.NodeKind.GateNode;
-                } else if (kind.Equals("spaceNode"))
+                }
+                else if (kind.Equals("spaceNode"))
                 {
                     enumType = CityDriver.NodeKind.SpaceNode;
-                } 
+                }
                 Node node = new Node(enumType, id, x1, y1);
                 nodes.Add(id, node);
             }
@@ -146,6 +148,67 @@ namespace CityDriver
             {
                 space.generateArray();
             }
+            createBoundaries();
+        }
+
+        private void createBoundaries()
+        {
+            double max_y = 0, max_x = 0, min_y = 0, min_x = 0;
+            bool first = true;
+            foreach (Wall wall in walls.Values)
+            {
+                if (first)
+                {
+                    max_x = Math.Max(wall.From.X, wall.To.X);
+                    min_x = Math.Min(wall.From.X, wall.To.X);
+                    max_y = Math.Max(wall.From.Y, wall.To.Y);
+                    min_y = Math.Min(wall.From.Y, wall.To.Y);
+                    first = false;
+                }
+                else
+                {
+                    if (max_x < wall.From.X)
+                    {
+                        max_x = wall.From.X;
+                    }
+                    else if (max_x < wall.To.X)
+                    {
+                        max_x = wall.To.X;
+                    }
+                    else if (min_x > wall.From.X)
+                    {
+                        min_x = wall.From.X;
+                    }
+                    else if (min_x > wall.To.X)
+                    {
+                        min_x = wall.To.X;
+                    }
+
+                    if (max_y < wall.From.Y)
+                    {
+                        max_y = wall.From.Y;
+                    }
+                    else if (max_y < wall.To.Y)
+                    {
+                        max_y = wall.To.Y;
+                    }
+                    else if (min_y > wall.From.Y)
+                    {
+                        min_y = wall.From.Y;
+                    }
+                    else if (min_y > wall.To.Y)
+                    {
+                        min_y = wall.To.Y;
+                    }
+                }
+            }
+
+            List<double> result = new List<double>();
+            result.Add(min_x + 0.3);
+            result.Add(min_y + 0.3);
+            result.Add(max_x - 0.3);
+            result.Add(max_y - 0.3);
+            boundaries = result;
         }
 
         public Dictionary<String, Node> GetNodes()
@@ -156,6 +219,14 @@ namespace CityDriver
         public Dictionary<String, Space> GetSpaces()
         {
             return spaces;
+        }
+
+        public Point GetRandomPoint()
+        {
+            Random random = new Random();
+            double x = random.NextDouble() * (boundaries[2] - boundaries[0]) + boundaries[0];
+            double y = random.NextDouble() * (boundaries[3] - boundaries[1]) + boundaries[1];
+            return new Point(x, y);
         }
 
         public Dictionary<String, Wall> GetWalls()
