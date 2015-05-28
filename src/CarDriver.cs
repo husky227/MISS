@@ -99,7 +99,7 @@ namespace CityDriver
 
             Move();
 
-            FindCurrentNode();
+//            FindCurrentNode();
 
             CheckForCollision();
         }
@@ -119,6 +119,7 @@ namespace CityDriver
                 if(Helpers.doesIntersect(start, end, wallStart, wallEnd))
                 {
                     intersectingWalls.Add(wall);
+                    Console.WriteLine("przecina");
                 }
             }
 
@@ -173,7 +174,7 @@ namespace CityDriver
                     var node = allSpaceNodes[key];
                     if (node.isInside(x, y))
                     {
-                        //                                                Console.WriteLine("spacenode found! " + myRobot.name + " , " + node.Id);
+//                                                                        Console.WriteLine("spacenode found! " + myRobot.name + " , " + node.Id);
                         currentNode = allNodes[node.NodeName];
                         //break;
                     }
@@ -209,8 +210,8 @@ namespace CityDriver
             //            Console.WriteLine(currentNode.Id + "   " + GetNextNode().Id + "    " + targetNode.Id);
             if (currentNode == targetNode)
             {
-                Velocity = 0;
-                DeltaVelocity = 0;
+                Console.WriteLine("Docelowy punkt osiagniety, wyznaczam nowa trase");
+                RandTargetNode();
                 return;
             }
             var distance = CountDistance(myRobot.position[0], myRobot.position[1]);

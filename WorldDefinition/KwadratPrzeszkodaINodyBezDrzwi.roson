@@ -1,0 +1,246 @@
+{
+  "walls": [
+    {
+      "type": "wall",
+      "id": "Wall6",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 3.9,
+        "y": 0.05
+      },
+      "to": {
+        "x": 3.9,
+        "y": 1.47
+      }
+    },
+    {
+      "type": "wall",
+      "id": "Wall7",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 0.05,
+        "y": 0.05
+      },
+      "to": {
+        "x": 3.9,
+        "y": 0.05
+      }
+    },
+    {
+      "type": "wall",
+      "id": "Wall8",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 0.05,
+        "y": 0.05
+      },
+      "to": {
+        "x": 0.05,
+        "y": 2.24
+      }
+    },
+    {
+      "type": "wall",
+      "id": "Wall10",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 1.25,
+        "y": 2.0
+      },
+      "to": {
+        "x": 2.5,
+        "y": 1.75
+      }
+    },
+    {
+      "type": "wall",
+      "id": "Wall16",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 3.9,
+        "y": 1.47
+      },
+      "to": {
+        "x": 3.9,
+        "y": 3.9
+      }
+    },
+    {
+      "type": "wall",
+      "id": "Wall20",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 0.05,
+        "y": 2.24
+      },
+      "to": {
+        "x": 0.05,
+        "y": 3.9
+      }
+    },
+    {
+      "type": "wall",
+      "id": "Wall21",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 0.05,
+        "y": 3.9
+      },
+      "to": {
+        "x": 3.9,
+        "y": 3.9
+      }
+    }
+  ],
+  "gates": [],
+  "spaces": [
+    {
+      "type": "space",
+      "id": "Space12",
+      "kind": "room",
+      "name": null,
+      "function": null,
+      "expectedPersonCount": 2,
+      "area": 6.94925,
+      "diameter": 4.4292888819764284
+    },
+    {
+      "type": "space",
+      "id": "Space22",
+      "kind": "room",
+      "name": null,
+      "function": null,
+      "expectedPersonCount": 7,
+      "area": 7.87325,
+      "diameter": 4.5527354414681289
+    }
+  ],
+  "nodes": [
+    {
+      "type": "node",
+      "id": "Node13",
+      "kind": "spaceNode",
+      "position": {
+        "x": 1.8381348107109878,
+        "y": 0.96618651892890117
+      }
+    },
+    {
+      "type": "node",
+      "id": "Node23",
+      "kind": "spaceNode",
+      "position": {
+        "x": 2.0958027709861451,
+        "y": 2.8654197229013851
+      }
+    }
+  ],
+  "robots": [
+    {
+      "type": "robot",
+      "id": "Robot5",
+      "kind": "robot",
+      "location": {
+        "x": 0.71,
+        "y": 0.57,
+        "z": 0.2,
+        "alpha": 0.0001
+      }
+    }
+  ],
+  "victims": [],
+  "space-walls": [
+    {
+      "type": "space-wall",
+      "spaceId": "Space12",
+      "wallId": "Wall6"
+    },
+    {
+      "type": "space-wall",
+      "spaceId": "Space12",
+      "wallId": "Wall7"
+    },
+    {
+      "type": "space-wall",
+      "spaceId": "Space12",
+      "wallId": "Wall8"
+    },
+    {
+      "type": "space-wall",
+      "spaceId": "Space12",
+      "wallId": "Wall10"
+    },
+    {
+      "type": "space-wall",
+      "spaceId": "Space22",
+      "wallId": "Wall16"
+    },
+    {
+      "type": "space-wall",
+      "spaceId": "Space22",
+      "wallId": "Wall10"
+    },
+    {
+      "type": "space-wall",
+      "spaceId": "Space22",
+      "wallId": "Wall20"
+    },
+    {
+      "type": "space-wall",
+      "spaceId": "Space22",
+      "wallId": "Wall21"
+    }
+  ],
+  "space-gates": [],
+  "space-nodes": [
+    {
+      "type": "space-node",
+      "spaceId": "Space12",
+      "nodeId": "Node13"
+    },
+    {
+      "type": "space-node",
+      "spaceId": "Space22",
+      "nodeId": "Node23"
+    }
+  ],
+  "space-robots": [
+    {
+      "type": "space-robot",
+      "spaceId": "Space12",
+      "robotId": "Robot5"
+    }
+  ],
+  "space-victims": [],
+  "gate-nodes": [],
+  "node-nodes": [
+    {
+      "type": "node-nodes",
+      "nodeFromId": "Node13",
+      "nodeToId": "Node23",
+      "cost": 1.6036424875419941,
+      "blocked": 0.0
+    },
+    {
+      "type": "node-nodes",
+      "nodeFromId": "Node23",
+      "nodeToId": "Node13",
+      "cost": 1.6036424875419941,
+      "blocked": 0.0
+    }
+  ]
+}
