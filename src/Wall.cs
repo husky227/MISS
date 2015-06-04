@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CityDriver
 {
-    class Wall
+    public class Wall
     {
         public string Id { get; set; }
         public Double Width { get; set; }

@@ -307,5 +307,10 @@ namespace CityDriver
             double sqz = rotationQuaternion[2] * rotationQuaternion[2];
             return Math.Atan2(2 * rotationQuaternion[3] * rotationQuaternion[0] - 2 * rotationQuaternion[1] * rotationQuaternion[2], 1 - 2 * sqy - 2 * sqz);
         }
+
+        public List<Node> GetPath()
+        {
+            return currentPath;
+        }
     }
 }

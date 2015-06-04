@@ -10,7 +10,7 @@ namespace CityDriver
         Corridor
     }
 
-    class Space
+    public class Space
     {
 
         public SpaceKind Type { get; set; }

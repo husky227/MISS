@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 namespace CityDriver
 {
-    class RosonLoader
+    public class RosonLoader
     {
         private Dictionary<string, Wall> walls;
         private Dictionary<string, Space> spaces;
@@ -151,7 +151,7 @@ namespace CityDriver
             createBoundaries();
         }
 
-        private void createBoundaries()
+        public void createBoundaries()
         {
             double max_y = 0, max_x = 0, min_y = 0, min_x = 0;
             bool first = true;
@@ -232,6 +232,11 @@ namespace CityDriver
         public Dictionary<String, Wall> GetWalls()
         {
             return walls;
+        }
+
+        public List<double> GetBoundaries()
+        {
+            return boundaries;
         }
     }
 }

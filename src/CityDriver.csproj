@@ -141,6 +141,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CarParameters.cs" />
+    <Compile Include="drawing\RobotType.cs" />
+    <Compile Include="drawing\DrawingManager.cs" />
     <Compile Include="GraphBuilder.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="MainForm.cs">
