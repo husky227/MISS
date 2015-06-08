@@ -10,6 +10,7 @@ namespace CityDriver
         private Dictionary<string, Wall> walls;
         private Dictionary<string, Space> spaces;
         private Dictionary<string, Node> nodes;
+        public Dictionary<string, Capo> robots { get; set; }
         private List<double> boundaries;
 
         public void LoadRoson(string path)
@@ -17,6 +18,7 @@ namespace CityDriver
             walls = new Dictionary<string, Wall>();
             spaces = new Dictionary<string, Space>();
             nodes = new Dictionary<string, Node>();
+            robots = new Dictionary<string, Capo>();
 
             var json = System.IO.File.ReadAllText(path);
 
@@ -143,6 +145,26 @@ namespace CityDriver
                 var nodeId = obj.GetValue("nodeId").Value<string>();
                 Space space = spaces[spaceId];
                 space.NodeName = nodeId;
+            }
+
+            foreach (JObject obj in objects["robots"])
+            {
+                var id = obj.GetValue("id").Value<string>();
+                JObject location = (JObject)obj.GetValue("location");
+                var x = location.GetValue("x").Value<double>();
+                var y = location.GetValue("y").Value<double>();
+
+                Capo robot = new Capo(id, x, y);
+                robots.Add(id, robot);
+            }
+
+            foreach (JObject obj in objects["space-robots"])
+            {
+                var spaceId = obj.GetValue("spaceId").Value<string>();
+                var robotId = obj.GetValue("robotId").Value<string>();
+                Node node = nodes[spaces[spaceId].NodeName];
+                robots[robotId].Node = node;
+                ;
             }
             foreach (Space space in spaces.Values)
             {

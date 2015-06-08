@@ -34,6 +34,7 @@ namespace CityDriver
         private const double ConstDistance = 0.9;
         private const double MinGap = 0.3;
         public static double maxSpeed = 0.3;
+        private const double Tolerance = 0.05;
         private readonly Dictionary<string, Node> allNodes;
         private readonly Dictionary<string, Space> allSpaceNodes;
         private List<Wall> allWalls;
@@ -61,7 +62,7 @@ namespace CityDriver
 
             this.myRobot = myRobot;
             graphBuilder = new GraphBuilder(nodesList);
-            FindCurrentNode();
+            FindCurrentNode(rl.robots);
 
 
             lastParameters = new Dictionary<int, CarParameters>();
@@ -148,42 +149,52 @@ namespace CityDriver
             }
         }
 
-        private void FindCurrentNode()
+        private void FindCurrentNode(Dictionary<string, Capo> robots)
         {
-            if (graphBuilder == null)
-            {
-                Console.WriteLine("Current node not found :<");
-                return;
-            }
-
-            unsafe
-            {
-                if (myRobot == null || myRobot.position == null)
+            foreach (var robot in robots)
+                unsafe
                 {
-                    return;
-                }
-
-                var position = myRobot.position;
-                var x = position[0];
-                var y = position[1];
-
-                //                Console.WriteLine("X: " + x + " Y: " + y);
-                if (allNodes == null)
-                {
-                    return;
-                }
-
-                foreach (var key in allSpaceNodes.Keys)
-                {
-                    var node = allSpaceNodes[key];
-                    if (node.isInside(x, y))
+                    if (Math.Abs(robot.Value.X - myRobot.position[0]) < Tolerance &&
+                        Math.Abs(robot.Value.Y - myRobot.position[1]) < Tolerance)
                     {
-//                                                                        Console.WriteLine("spacenode found! " + myRobot.name + " , " + node.Id);
-                        currentNode = allNodes[node.NodeName];
-                        //break;
+                        currentNode = robot.Value.Node;
+                        return;
                     }
                 }
-            }
+//            if (graphBuilder == null)
+//            {
+//                Console.WriteLine("Current node not found :<");
+//                return;
+//            }
+//
+//            unsafe
+//            {
+//                if (myRobot == null || myRobot.position == null)
+//                {
+//                    return;
+//                }
+//
+//                var position = myRobot.position;
+//                var x = position[0];
+//                var y = position[1];
+//
+//                //                Console.WriteLine("X: " + x + " Y: " + y);
+//                if (allNodes == null)
+//                {
+//                    return;
+//                }
+//
+//                foreach (var key in allSpaceNodes.Keys)
+//                {
+//                    var node = allSpaceNodes[key];
+//                    if (node.isInside(x, y))
+//                    {
+////                                                                        Console.WriteLine("spacenode found! " + myRobot.name + " , " + node.Id);
+//                        currentNode = allNodes[node.NodeName];
+//                        //break;
+//                    }
+//                }
+//            }
         }
 
         private void CreatePath(Node start, Node end)
