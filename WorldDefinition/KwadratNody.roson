@@ -1,0 +1,174 @@
+{
+  "walls": [
+    {
+      "type": "wall",
+      "id": "Wall23",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 0.1,
+        "y": 0.1
+      },
+      "to": {
+        "x": 0.1,
+        "y": 3.9
+      }
+    },
+    {
+      "type": "wall",
+      "id": "Wall24",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 0.1,
+        "y": 3.9
+      },
+      "to": {
+        "x": 3.9,
+        "y": 3.9
+      }
+    },
+    {
+      "type": "wall",
+      "id": "Wall25",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 3.9,
+        "y": 0.1
+      },
+      "to": {
+        "x": 3.9,
+        "y": 3.9
+      }
+    },
+    {
+      "type": "wall",
+      "id": "Wall26",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 0.1,
+        "y": 0.1
+      },
+      "to": {
+        "x": 3.9,
+        "y": 0.1
+      }
+    }
+  ],
+  "gates": [],
+  "spaces": [
+    {
+      "type": "space",
+      "id": "Space27",
+      "kind": "room",
+      "name": null,
+      "function": null,
+      "expectedPersonCount": 3,
+      "area": 14.44,
+      "diameter": 5.3740115370177612
+    }
+  ],
+  "nodes": [
+    {
+      "type": "node",
+      "id": "Node28",
+      "kind": "spaceNode",
+      "position": {
+        "x": 2.0000000000000004,
+        "y": 2.0000000000000004
+      }
+    }
+  ],
+  "robots": [
+    {
+      "type": "robot",
+      "id": "Robot20",
+      "kind": "Capo",
+      "location": {
+        "x": 0.91,
+        "y": 0.8,
+        "z": 0.2,
+        "alpha": 0.0001
+      }
+    },
+    {
+      "type": "robot",
+      "id": "Robot21",
+      "kind": "Capo",
+      "location": {
+        "x": 2.72,
+        "y": 1.25,
+        "z": 0.2,
+        "alpha": 0.0001
+      }
+    },
+    {
+      "type": "robot",
+      "id": "Robot22",
+      "kind": "Capo",
+      "location": {
+        "x": 1.76,
+        "y": 2.52,
+        "z": 0.2,
+        "alpha": 0.0001
+      }
+    }
+  ],
+  "victims": [],
+  "space-walls": [
+    {
+      "type": "space-wall",
+      "spaceId": "Space27",
+      "wallId": "Wall23"
+    },
+    {
+      "type": "space-wall",
+      "spaceId": "Space27",
+      "wallId": "Wall24"
+    },
+    {
+      "type": "space-wall",
+      "spaceId": "Space27",
+      "wallId": "Wall25"
+    },
+    {
+      "type": "space-wall",
+      "spaceId": "Space27",
+      "wallId": "Wall26"
+    }
+  ],
+  "space-gates": [],
+  "space-nodes": [
+    {
+      "type": "space-node",
+      "spaceId": "Space27",
+      "nodeId": "Node28"
+    }
+  ],
+  "space-robots": [
+    {
+      "type": "space-robot",
+      "spaceId": "Space27",
+      "robotId": "Robot20"
+    },
+    {
+      "type": "space-robot",
+      "spaceId": "Space27",
+      "robotId": "Robot21"
+    },
+    {
+      "type": "space-robot",
+      "spaceId": "Space27",
+      "robotId": "Robot22"
+    }
+  ],
+  "space-victims": [],
+  "gate-nodes": [],
+  "node-nodes": []
+}

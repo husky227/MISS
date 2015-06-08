@@ -1,0 +1,110 @@
+{
+  "walls": [
+    {
+      "type": "wall",
+      "id": "Wall0",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 0.1,
+        "y": 0.1
+      },
+      "to": {
+        "x": 0.1,
+        "y": 3.9
+      }
+    },
+    {
+      "type": "wall",
+      "id": "Wall1",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 0.1,
+        "y": 3.9
+      },
+      "to": {
+        "x": 3.9,
+        "y": 3.9
+      }
+    },
+    {
+      "type": "wall",
+      "id": "Wall2",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 3.9,
+        "y": 3.9
+      },
+      "to": {
+        "x": 3.9,
+        "y": 0.1
+      }
+    },
+    {
+      "type": "wall",
+      "id": "Wall3",
+      "width": 0.1,
+      "height": 0.3,
+      "color": "ff8080ff",
+      "from": {
+        "x": 3.9,
+        "y": 0.1
+      },
+      "to": {
+        "x": 0.1,
+        "y": 0.1
+      }
+    }
+  ],
+  "gates": [],
+  "spaces": [],
+  "nodes": [],
+  "robots": [
+    {
+      "type": "robot",
+      "id": "Robot20",
+      "kind": "Capo",
+      "location": {
+        "x": 0.91,
+        "y": 0.8,
+        "z": 0.2,
+        "alpha": 0.0001
+      }
+    },
+    {
+      "type": "robot",
+      "id": "Robot21",
+      "kind": "Capo",
+      "location": {
+        "x": 2.72,
+        "y": 1.25,
+        "z": 0.2,
+        "alpha": 0.0001
+      }
+    },
+    {
+      "type": "robot",
+      "id": "Robot22",
+      "kind": "Capo",
+      "location": {
+        "x": 1.76,
+        "y": 2.52,
+        "z": 0.2,
+        "alpha": 0.0001
+      }
+    }
+  ],
+  "victims": [],
+  "space-walls": [],
+  "space-gates": [],
+  "space-nodes": [],
+  "space-robots": [],
+  "space-victims": [],
+  "gate-nodes": [],
+  "node-nodes": []
+}
