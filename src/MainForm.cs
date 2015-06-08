@@ -58,7 +58,7 @@ namespace CityDriver
 		private ThreadStart refreshThreadStarter;
         static private List<Node> nodesList = new List<Node>();
         private static String _rosonPath;
-
+        private Dictionary<int, List<Point>> futurePoints = new Dictionary<int,List<Point>>(); 
         private static DrawingManager drawingManager;
 
         private Robot selectedRobot = null;
@@ -492,18 +492,30 @@ namespace CityDriver
                     drivers.RemoveAt(0);
                 }
                 //ownedLabel.Text = "cars owned: "+drivers.Count.ToString();
-                foreach (CarDriver driver in drivers)
+                if (drivers.Count == communicator.robots.Length)
                 {
-                    Dictionary<int, CarParameters> visibleCars = new Dictionary<int, CarParameters>();
-                    foreach (CarDriver driv in drivers)
+                    futurePoints = new Dictionary<int, List<Point>>();
+                    foreach (CarDriver driver in drivers)
                     {
-                        if (driv != driver && IsClose(driver, driv))
-                            unsafe
-                            {
-                                visibleCars.Add(driv.myRobot.id, new CarParameters(driv.myRobot.id, driv.myRobot.position, driv.myRobot.rotation));
-                            }
+                        Dictionary<int, CarParameters> visibleCars = new Dictionary<int, CarParameters>();
+                        futurePoints.Add(driver.myRobot.id, saveFuturePositions(driver));
+                        foreach (CarDriver driv in drivers)
+                        {
+                            if (driv != driver && IsClose(driver, driv))
+                                unsafe
+                                {
+                                    visibleCars.Add(driv.myRobot.id, new CarParameters(driv.myRobot.id, driv.myRobot.position, driv.myRobot.rotation));
+                                }
+                        }
+                        driver.Refresh(visibleCars);
                     }
-                    driver.Refresh(visibleCars);
+
+                    List<Collision> collisions = findCollisions();
+                    Console.WriteLine("I found collisions for robots: ");
+                    foreach (Collision col in collisions)
+                    {
+                        Console.WriteLine(col.Id1 + " with " + col.Id2);
+                    }
                 }
 
                 if (communicator.Send() < 0)
@@ -521,6 +533,76 @@ namespace CityDriver
 				connectButton_Click(this, null);
 				return;
 			}*/
+        }
+
+        private unsafe List<Point> saveFuturePositions(CarDriver driver) {
+            double velocity = *driver.myRobot.lineralVelocity;
+            double angle = driver.CountRotation(driver.myRobot.rotation);
+            var position = driver.myRobot.position;
+            var x = position[0];
+            var y = position[1];
+            int time;
+            List<Point> result = new List<Point>();
+            for (time = 1; time < 10; time++)
+            {
+                double path = velocity * time;
+                result.Add(new Point(x + path*Math.Cos(angle), y + path*Math.Sin(angle)));
+            }
+            return result;
+        }
+
+        private unsafe List<Collision> findCollisions()
+        {
+            List<Collision> result = new List<Collision>();
+            List<int> collisionIds = new List<int>();
+
+            for (int i = 0; i < 9; i++)
+            {
+                List<Point> tmpPoints = new List<Point>();
+                List<int> tmpRobotsIds = new List<int>();
+
+                foreach (int id in futurePoints.Keys)
+                {
+                    if (!collisionIds.Contains(id)) {
+                        tmpRobotsIds.Add(id);
+                        tmpPoints.Add(futurePoints[id][i]);
+                    }
+                    List<int> collisions = checkPoints(tmpPoints);
+                    int counter = 1;
+                    int tmpId = 0;
+                    foreach (int listId in collisions) {
+                        collisionIds.Add(tmpRobotsIds[listId]);
+                        if (counter == 1)
+                        {
+                            counter++;
+                            tmpId = tmpRobotsIds[listId];
+                        }
+                        else
+                        {
+                            counter = 1;
+                            result.Add(new Collision(tmpId, tmpRobotsIds[listId], i));
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        private List<int> checkPoints(List<Point> points)
+        {
+            List<int> result = new List<int>();
+            for (int i = 0; i < points.Count - 1; i++)
+            {
+                for (int j = i + 1; j < points.Count; j++)
+                {
+                    if ((points[i].X - points[j].X) * (points[i].X - points[j].X) + (points[i].Y - points[j].Y) * (points[i].Y - points[j].Y) < 0.0603 * 0.0603)
+                    {
+                        result.Add(i);
+                        result.Add(j);
+                    }
+                }
+            }
+            return result;
         }
 
         private static unsafe bool IsClose(CarDriver driver, CarDriver driv)

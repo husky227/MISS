@@ -291,7 +291,7 @@ namespace CityDriver
                           (GetNextNode().Position.Y - y) * (GetNextNode().Position.Y - y));
         }
 
-        private unsafe double CountRotation(double* rotationQuaternion)
+        public unsafe double CountRotation(double* rotationQuaternion)
         {
 //            return w * z > 0 ? Math.Asin(z) : (Math.Asin(z) < 0 ? Math.Asin(z) : Math.Asin(z) + Math.PI);
             double test = rotationQuaternion[1] * rotationQuaternion[3] + rotationQuaternion[2] * rotationQuaternion[0];
