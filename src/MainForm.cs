@@ -595,7 +595,7 @@ namespace CityDriver
             {
                 for (int j = i + 1; j < points.Count; j++)
                 {
-                    if ((points[i].X - points[j].X) * (points[i].X - points[j].X) + (points[i].Y - points[j].Y) * (points[i].Y - points[j].Y) < 0.0603 * 0.0603)
+                    if ((points[i].X - points[j].X) * (points[i].X - points[j].X) + (points[i].Y - points[j].Y) * (points[i].Y - points[j].Y) < (2 * 0.0603) * (2 * 0.0603))
                     {
                         result.Add(i);
                         result.Add(j);
