@@ -30,6 +30,7 @@ using System.Windows.Forms.VisualStyles;
 using Newtonsoft.Json;
 using RoBOSSCommunicator;
 using Newtonsoft.Json.Linq;
+using CityDriver.drawing;
 
 namespace CityDriver
 {
@@ -58,19 +59,24 @@ namespace CityDriver
         static private List<Node> nodesList = new List<Node>();
         private static String _rosonPath;
 
-        public MainForm()
-        {
-            //
-            // Required for Windows Form Designer support
-            //
+        private static DrawingManager drawingManager;
 
+        private Robot selectedRobot = null;
+
+        public MainForm(RosonLoader rl)
+        {
             InitializeComponent();
             addressTextBox.Text = Dns.Resolve(Dns.GetHostName()).AddressList[0].ToString();
             drivers = new ArrayList();
 
-            //
-            // TODO: Add any constructor code after InitializeComponent call
-            //
+            drawingManager = new DrawingManager(panel1, rl.GetBoundaries());
+            drawingManager.draw();
+
+            List<Wall> items = new List<Wall>();
+            foreach(var value in rl.GetWalls().Values)
+                items.Add(value);
+            drawingManager.cleanBackground();
+            drawingManager.drawWalls(items);
         }
 
         /// <summary>
@@ -252,7 +258,7 @@ namespace CityDriver
                 Console.WriteLine("Reading roson file from: " + _rosonPath);
                 nodesList.AddRange(rl.GetNodes().Values);
                 //Console.ReadKey();
-                Application.Run(new MainForm());
+                Application.Run(new MainForm(rl));
             }
 
         }
@@ -328,6 +334,8 @@ namespace CityDriver
                     label2.Text = (*robot.lineralVelocity).ToString();
                     label3.Text = (*robot.rotation).ToString();
                 }
+
+                selectedRobot = robot;
             }
         }
 
@@ -372,9 +380,8 @@ namespace CityDriver
 	        drawBackground(g);
 	        drawRobot(g, currenRobot, 20, 20, 10, 20, 0);
 	    }
-
         
-	    private void drawDebugRectangle()
+	    private void selectRobot()
 	    {
 	        Object text = (string)GetSelectedRobot();
             if(text != null) {
@@ -398,19 +405,61 @@ namespace CityDriver
                             break;
                         }
                     }
-                    drawOnPanel(current);
                 }
             }
 	    }
         //TODO: end of bangladesh style
 
+        private void updateDraw()
+        {
+            selectRobot();
+            Dictionary<Robot, RobotType> robots = new Dictionary<Robot,RobotType>();
+            List<Node> nodes = null; 
+            foreach (CarDriver driver in drivers)
+            {
+                if (driver.myRobot == selectedRobot)
+                {
+                    robots.Add(driver.myRobot, RobotType.Selected);
+                    nodes = driver.GetPath();
+                    //TODO: add visible robots
+                }
+                else
+                {
+                    if (!robots.ContainsKey(driver.myRobot))
+                    {
+                        robots.Add(driver.myRobot, RobotType.Normal);
+                    }
+                }
+            }
+
+            drawingManager.clean();
+            drawingManager.draw();
+            //draw robots
+            foreach (KeyValuePair<Robot, RobotType> entry in robots)
+            {
+                drawingManager.drawRobot(entry.Key, entry.Value);
+            }
+            if(nodes != null) 
+            {
+                drawingManager.drawNodes(nodes);
+            }
+        }
+
 		private void RefreshThread()
 		{
             /*	try
                 {*/
+            int counter = 0;
             while (true)
             {
-//                drawDebugRectangle();
+                counter++;
+                //update only 1/30 times to avoid flickering
+                if (counter >= 30)
+                {
+                    counter = 0;
+                    updateDraw();
+                }
+
                 if (communicator.Receive(Communicator.RECEIVEBLOCKLEVEL_WaitForNewTimestamp) < 0)
                 {
                     Console.WriteLine("koniec 1");
