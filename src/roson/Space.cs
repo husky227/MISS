@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,13 +14,55 @@ namespace CityDriver
     public class Space
     {
 
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        private string _strKind;
+
+        [JsonProperty("type")]
+        public string StrKind
+        {
+            get
+            {
+                return this._strKind;
+            }
+
+            set
+            {
+                _strKind = value;
+
+                if (_strKind.Equals("room"))
+                {
+                    this.Type = SpaceKind.Room;
+                }
+                if (_strKind.Equals("corridor"))
+                {
+                    this.Type = SpaceKind.Corridor;
+                }
+            }
+        }
+
+        [JsonProperty("kind")]
+        public String Kind { get; set; }
+
+        [JsonProperty("function")]
+        public Object Function { get; set; }
+
+        [JsonProperty("expectedPersonCount")]
+        public Int32 ExpectedPersonCount { get; set; }
+
+        [JsonProperty("area")]
+        public Double Area { get; set; }
+
+        [JsonProperty("diameter")]
+        public Double Diameter { get; set; }
+
         public SpaceKind Type { get; set; }
         public string Name { get; set; }
         public string NodeName { get; set; }
-        public string Id { get; set; }
-        public Double Area { get; set; }
-        public Double Diameter { get; set; }
         public List<Wall> walls { get; set; }
+        public List<Gate> gates { get; set; }
+        public List<Node> nodes { get; set; }
         public Wall[] wallsArray;
 
         public Space(SpaceKind type, string name, string id, double area, double diameter)
@@ -30,6 +73,15 @@ namespace CityDriver
             this.Area = area;
             this.Diameter = diameter;
             walls = new List<Wall>();
+            gates = new List<Gate>();
+            nodes = new List<Node>();
+        }
+
+        public Space()
+        {
+            walls = new List<Wall>();
+            gates = new List<Gate>();
+            nodes = new List<Node>();
         }
 
         public void generateArray()

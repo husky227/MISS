@@ -58,6 +58,7 @@ namespace CityDriver
 		private ThreadStart refreshThreadStarter;
         static private List<Node> nodesList = new List<Node>();
         private static String _rosonPath;
+        private static RosonLoader rosonLoader;
         private Dictionary<int, List<Point>> futurePoints = new Dictionary<int,List<Point>>(); 
         private static DrawingManager drawingManager;
 
@@ -65,6 +66,7 @@ namespace CityDriver
 
         public MainForm(RosonLoader rl)
         {
+            rosonLoader = rl;
             InitializeComponent();
             addressTextBox.Text = Dns.Resolve(Dns.GetHostName()).AddressList[0].ToString();
             drivers = new ArrayList();
@@ -477,7 +479,7 @@ namespace CityDriver
                             {
 //                                Console.WriteLine(newRobotId + ": " + communicator.robots[newRobotId].position[0] + " " +
 //                                                  communicator.robots[newRobotId].position[1]);
-                                drivers.Add(new CarDriver(communicator.robots[newRobotId], nodesList, _rosonPath));
+                                drivers.Add(new CarDriver(communicator.robots[newRobotId], nodesList, rosonLoader));
                                 ((CarDriver) drivers[drivers.Count - 1]).RandTargetNode();
                             } /*
                     }

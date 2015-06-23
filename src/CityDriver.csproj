@@ -144,18 +144,25 @@
     <Compile Include="Collision.cs" />
     <Compile Include="drawing\RobotType.cs" />
     <Compile Include="drawing\DrawingManager.cs" />
-    <Compile Include="GraphBuilder.cs" />
-    <Compile Include="Helpers.cs" />
+    <Compile Include="graph\Graph.cs" />
+    <Compile Include="graph\GraphBuilder.cs" />
+    <Compile Include="helpers\Helpers.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Map.cs" />
-    <Compile Include="Node.cs" />
-    <Compile Include="Pair.cs" />
-    <Compile Include="Point.cs" />
-    <Compile Include="RosonLoader.cs" />
-    <Compile Include="Space.cs" />
-    <Compile Include="Wall.cs" />
+    <Compile Include="roson\Gate.cs" />
+    <Compile Include="roson\GateNodes.cs" />
+    <Compile Include="roson\Map.cs" />
+    <Compile Include="roson\Node.cs" />
+    <Compile Include="helpers\Pair.cs" />
+    <Compile Include="roson\NodeNodes.cs" />
+    <Compile Include="roson\Point.cs" />
+    <Compile Include="roson\RosonLoader.cs" />
+    <Compile Include="roson\Space.cs" />
+    <Compile Include="roson\SpaceGates.cs" />
+    <Compile Include="roson\SpaceNodes.cs" />
+    <Compile Include="roson\SpaceWalls.cs" />
+    <Compile Include="roson\Wall.cs" />
     <Content Include="App.ico" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
