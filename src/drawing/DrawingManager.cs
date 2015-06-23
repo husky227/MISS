@@ -151,7 +151,7 @@ namespace CityDriver.drawing
             {
                 double* pos = robot.position;
                 int x = Convert.ToInt32(pos[0] * scale);
-                int y = Convert.ToInt32(pos[0] * scale);
+                int y = Convert.ToInt32(pos[1] * scale);
                 int radius = Convert.ToInt32(ROBOT_SIZE*scale);
                 
                 g.DrawEllipse(pen, x, y, radius, radius);

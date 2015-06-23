@@ -513,10 +513,13 @@ namespace CityDriver
                     }
 
                     List<Collision> collisions = findCollisions();
-                    Console.WriteLine("I found collisions for robots: ");
-                    foreach (Collision col in collisions)
+                    if (collisions.Count > 0)
                     {
-                        Console.WriteLine(col.Id1 + " with " + col.Id2);
+                        Console.WriteLine("I found collisions for robots: ");
+                        foreach (Collision col in collisions)
+                        {
+                            Console.WriteLine(col.Id1 + " with " + col.Id2);
+                        }
                     }
                 }
 
