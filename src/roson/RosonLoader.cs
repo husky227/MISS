@@ -49,6 +49,8 @@ namespace CityDriver
             foreach (JObject obj in objects["robots"])
             {
                 Capo robot = obj.ToObject<Capo>();
+                robot.X = obj["location"]["x"].ToObject<Double>();
+                robot.Y = obj["location"]["y"].ToObject<Double>();
                 robots.Add(robot.Id, robot);
             }
             foreach (JObject obj in objects["space-walls"])
