@@ -76,6 +76,8 @@ namespace CityDriver
             CreatePath(currentNode, targetNode);
         }
 
+        // TODO - trzeba zrobic losowanie punktu na mapie i dodawanie tego punktu do sciezki jako ostatni punkt,
+        // zeby jezdzic nie tylko do node'a ale do konkretnego punktu na mapie
         public void RandTargetNode()
         {
             var rand = new Random();
@@ -217,12 +219,6 @@ namespace CityDriver
 
         private unsafe void MakeNextStep(Dictionary<int, CarParameters> visibleDrivers)
         {
-            //            foreach (var node in currentPath)
-            //            {
-            //                Console.WriteLine(node.Id);
-            //            }
-            //            
-            //            Console.WriteLine(currentNode.Id + "   " + GetNextNode().Id + "    " + targetNode.Id);
             if (currentNode == targetNode)
             {
                 Console.WriteLine("Docelowy punkt osiagniety, wyznaczam nowa trase");
@@ -232,7 +228,6 @@ namespace CityDriver
             var distance = CountDistance(myRobot.position[0], myRobot.position[1]);
             if (distance < 0.2)
             {
-//                Console.WriteLine("jest punkt " + currentNode.Id);
                 currentNode = GetNextNode();
                 return;
             }
@@ -243,14 +238,10 @@ namespace CityDriver
             UpdateVisibleDriversParameters(visibleDrivers, deltaTime);
 
             rotation = CountRotation(myRobot.rotation);
-            //            Console.WriteLine(rotation);
             var alfa = CountAlfa(myRobot.position[0], myRobot.position[1], rotation);
 
             DeltaVelocity = (alfa * ConstAlfa);
-//            Velocity = maxSpeed * (distance * ConstDistance) > maxSpeed ? maxSpeed : maxSpeed * (distance * ConstDistance);
             Velocity = maxSpeed;
-//            Console.WriteLine(myRobot.position[0] + " \t" + myRobot.position[1] + " \t" + GetNextNode().Position.X + " \t" + GetNextNode().Position.Y + "\t" + alfa + "\t" + rotation);
-            //TODO dodac wyliczanie Velocity
         }
 
         private void UpdateVisibleDriversParameters(Dictionary<int, CarParameters> visibleDrivers, TimeSpan delta)
