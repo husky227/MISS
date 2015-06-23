@@ -137,6 +137,7 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="roson\Capo.cs" />
     <Compile Include="CarDriver.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -161,6 +162,7 @@
     <Compile Include="roson\Space.cs" />
     <Compile Include="roson\SpaceGates.cs" />
     <Compile Include="roson\SpaceNodes.cs" />
+    <Compile Include="roson\SpaceRobot.cs" />
     <Compile Include="roson\SpaceWalls.cs" />
     <Compile Include="roson\Wall.cs" />
     <Content Include="App.ico" />

@@ -12,6 +12,7 @@ namespace CityDriver
         private Dictionary<string, Space> spaces;
         private Dictionary<string, Node> nodes;
         private Dictionary<string, Gate> gates;
+        public Dictionary<string, Capo> robots { get; set; }
         private List<double> boundaries;
 
         public void LoadRoson(string path)
@@ -20,6 +21,7 @@ namespace CityDriver
             spaces = new Dictionary<string, Space>();
             nodes = new Dictionary<string, Node>();
             gates = new Dictionary<string, Gate>();
+            robots = new Dictionary<string, Capo>();
 
             var json = System.IO.File.ReadAllText(path);
 
@@ -43,6 +45,11 @@ namespace CityDriver
             {
                 Node node = obj.ToObject<Node>();
                 nodes.Add(node.Id, node);
+            }
+            foreach (JObject obj in objects["robots"])
+            {
+                Capo robot = obj.ToObject<Capo>();
+                robots.Add(robot.Id, robot);
             }
             foreach (JObject obj in objects["space-walls"])
             {
@@ -80,7 +87,7 @@ namespace CityDriver
                     Node node;
                     if (nodes.TryGetValue(spaceNodes.NodeId, out node))
                     {
-                        space.nodes.Add(node);
+                        space.NodeName = node.Id;
                     }
                 }
             }
@@ -109,6 +116,19 @@ namespace CityDriver
                     if (nodes.TryGetValue(nodeNodes.NodeToId, out nodeOut))
                     {
                         node.Nodes.Add(nodeOut);
+                    }
+                }
+            }
+            foreach (JObject obj in objects["space-robots"])
+            {
+                SpaceRobot spaceRobot = obj.ToObject<SpaceRobot>();
+                Space space;
+                if (spaces.TryGetValue(spaceRobot.SpaceId, out space))
+                {
+                    Capo robot;
+                    if (robots.TryGetValue(spaceRobot.RobotId, out robot))
+                    {
+                        robot.Node = nodes[space.NodeName];
                     }
                 }
             }
