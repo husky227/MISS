@@ -49,6 +49,7 @@ namespace CityDriver
         private double rotation;
         private Node targetNode;
         public double Velocity;
+        public bool stop = false;
 
         public CarDriver(Robot myRobot, List<Node> nodesList, RosonLoader rl)
         {
@@ -93,10 +94,21 @@ namespace CityDriver
 
         public void Move()
         {
-            myRobot.joints[0].motorDesiredVelocity = (Velocity + DeltaVelocity) / Radius;
-            myRobot.joints[1].motorDesiredVelocity = (Velocity - DeltaVelocity) / Radius;
-            myRobot.joints[2].motorDesiredVelocity = (Velocity + DeltaVelocity) / Radius;
-            myRobot.joints[3].motorDesiredVelocity = (Velocity - DeltaVelocity) / Radius;
+            if (stop)
+            {
+                myRobot.joints[0].motorDesiredVelocity = 0;
+                myRobot.joints[1].motorDesiredVelocity = 0;
+                myRobot.joints[2].motorDesiredVelocity = 0;
+                myRobot.joints[3].motorDesiredVelocity = 0;
+            }
+            else
+            {
+                myRobot.joints[0].motorDesiredVelocity = (Velocity + DeltaVelocity) / Radius;
+                myRobot.joints[1].motorDesiredVelocity = (Velocity - DeltaVelocity) / Radius;
+                myRobot.joints[2].motorDesiredVelocity = (Velocity + DeltaVelocity) / Radius;
+                myRobot.joints[3].motorDesiredVelocity = (Velocity - DeltaVelocity) / Radius;
+            }
+            
             //            Console.WriteLine((Velocity + DeltaVelocity) / Radius + "   " + (Velocity - DeltaVelocity) / Radius);
         }
 
@@ -327,6 +339,16 @@ namespace CityDriver
             double sqy = rotationQuaternion[3] * rotationQuaternion[3];
             double sqz = rotationQuaternion[2] * rotationQuaternion[2];
             return Math.Atan2(2 * rotationQuaternion[3] * rotationQuaternion[0] - 2 * rotationQuaternion[1] * rotationQuaternion[2], 1 - 2 * sqy - 2 * sqz);
+        }
+
+        public void stopRobot()
+        {
+            stop = true;
+        }
+
+        public void startRobot()
+        {
+            stop = false;
         }
 
         public List<Node> GetPath()

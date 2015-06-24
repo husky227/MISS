@@ -530,6 +530,7 @@ namespace CityDriver
                         Console.WriteLine("I found collisions for robots: ");
                         foreach (Collision col in collisions)
                         {
+                            List<CarDriver> driversToStop = getDriverById(drivers, col.Id1, col.Id2);
                             Console.WriteLine(col.Id1 + " with " + col.Id2);
                         }
                     }
@@ -552,6 +553,19 @@ namespace CityDriver
 			}*/
         }
 
+        private List<CarDriver> getDriverById(ArrayList drivers, int id1, int id2)
+        {
+            List<CarDriver> result = new List<CarDriver>();
+            foreach (CarDriver driver in drivers)
+            {
+                if (driver.myRobot.id == id1 || driver.myRobot.id == id2)
+                {
+                    driver.stopRobot();
+                }
+            }
+            return result;
+        }
+
         private unsafe List<Point> saveFuturePositions(CarDriver driver) {
             double velocity = *driver.myRobot.lineralVelocity;
             double angle = driver.CountRotation(driver.myRobot.rotation);
@@ -560,7 +574,7 @@ namespace CityDriver
             var y = position[1];
             int time;
             List<Point> result = new List<Point>();
-            for (time = 1; time < 10; time++)
+            for (time = 1; time < 1000; time++)
             {
                 double path = velocity * time;
                 result.Add(new Point(x + path*Math.Cos(angle), y + path*Math.Sin(angle)));
@@ -612,7 +626,7 @@ namespace CityDriver
             {
                 for (int j = i + 1; j < points.Count; j++)
                 {
-                    if ((points[i].X - points[j].X) * (points[i].X - points[j].X) + (points[i].Y - points[j].Y) * (points[i].Y - points[j].Y) < (2 * 0.0603) * (2 * 0.0603))
+                    if ((points[i].X - points[j].X) * (points[i].X - points[j].X) + (points[i].Y - points[j].Y) * (points[i].Y - points[j].Y) < (2 * 0.3) * (2 * 0.3))
                     {
                         result.Add(i);
                         result.Add(j);
