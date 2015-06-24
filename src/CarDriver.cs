@@ -355,5 +355,22 @@ namespace CityDriver
         {
             return currentPath;
         }
+
+        //return true if Capo a is on right of Capo b
+        //http://stackoverflow.com/questions/1560492/how-to-tell-whether-a-point-is-to-the-right-or-left-side-of-a-line
+        public bool isFirstRight(Robot a, Robot b)
+        {
+            unsafe
+            {
+                Point start = new Point(a.position[0], a.position[1]);
+                double rotation = CountRotation(a.rotation);
+
+                Point end = new Point(start.X + a.lineralVelocity[0], start.Y + a.lineralVelocity[1]);
+
+                Point posB = new Point(b.position[0], b.position[1]);
+                return ((end.X - start.X) * (posB.Y - start.Y) - (end.Y - start.Y) * (posB.X - start.X)) <= 0;
+            }
+        }
+
     }
 }
