@@ -480,7 +480,19 @@ namespace CityDriver
 //                                Console.WriteLine(newRobotId + ": " + communicator.robots[newRobotId].position[0] + " " +
 //                                                  communicator.robots[newRobotId].position[1]);
                                 drivers.Add(new CarDriver(communicator.robots[newRobotId], nodesList, rosonLoader));
-                                ((CarDriver) drivers[drivers.Count - 1]).RandTargetNode();
+                                if (counter == 1)
+                                {
+                                    ((CarDriver)drivers[drivers.Count - 1]).RandTargetNode();
+                                }
+                                if (counter == 2)
+                                {
+                                    ((CarDriver)drivers[drivers.Count - 1]).SetTargetPoint(0.5, 1.6);
+                                }
+                                if (counter == 3)
+                                {
+                                    ((CarDriver)drivers[drivers.Count - 1]).SetTargetPoint(1.5, 0.5);
+                                }
+                                
                             } /*
                     }
                     catch (Exception e) {

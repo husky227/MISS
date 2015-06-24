@@ -36,10 +36,10 @@ namespace CityDriver
         public static double maxSpeed = 0.3;
         private const double Tolerance = 0.05;
 
-        private readonly Dictionary<string, Node> allNodes;
+        private Dictionary<string, Node> allNodes;
         private readonly Dictionary<string, Space> allSpaceNodes;
         private List<Wall> allWalls;
-        private readonly GraphBuilder graphBuilder;
+        private GraphBuilder graphBuilder;
         private readonly Dictionary<int, CarParameters> lastParameters;
         private Node currentNode;
         private List<Node> currentPath;
@@ -52,7 +52,7 @@ namespace CityDriver
 
         public CarDriver(Robot myRobot, List<Node> nodesList, RosonLoader rl)
         {
-            allNodes = rl.GetNodes();
+            allNodes = new Dictionary<string, Node>(rl.GetNodes());
             allSpaceNodes = rl.GetSpaces();
             allWalls = new List<Wall>();
             allWalls.AddRange(rl.GetWalls().Values);
@@ -79,6 +79,16 @@ namespace CityDriver
         {
             var rand = new Random();
             SetTargetNode(allNodes.ElementAt(rand.Next(allNodes.Count)).Value);
+        }
+
+        public void SetTargetPoint(double x, double y)
+        {
+            Node target = new Node(NodeKind.SpaceNode, "target", x, y);
+            target.Nodes.Add(currentNode);
+            currentNode.Nodes.Add(target);
+            allNodes.Add("target", target);
+            graphBuilder = new GraphBuilder(allNodes.Values.ToList());
+            SetTargetNode(target);
         }
 
         public void Move()
@@ -224,8 +234,8 @@ namespace CityDriver
             //            Console.WriteLine(currentNode.Id + "   " + GetNextNode().Id + "    " + targetNode.Id);
             if (currentNode == targetNode)
             {
-                Console.WriteLine("Docelowy punkt osiagniety, wyznaczam nowa trase");
-                RandTargetNode();
+//                Console.WriteLine("Docelowy punkt osiagniety, wyznaczam nowa trase");
+//                RandTargetNode();
                 return;
             }
             var distance = CountDistance(myRobot.position[0], myRobot.position[1]);
