@@ -87,6 +87,7 @@ namespace CityDriver
             Node target = new Node(NodeKind.SpaceNode, "target", x, y);
             target.Nodes.Add(currentNode);
             currentNode.Nodes.Add(target);
+            allNodes.Remove("target");
             allNodes.Add("target", target);
             graphBuilder = new GraphBuilder(allNodes.Values.ToList());
             SetTargetNode(target);

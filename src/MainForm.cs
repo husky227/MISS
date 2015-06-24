@@ -510,19 +510,24 @@ namespace CityDriver
                 {
                     futurePoints = new Dictionary<int, List<Point>>();
                     foreach (CarDriver driver in drivers)
-                    {
-                        Dictionary<int, CarParameters> visibleCars = new Dictionary<int, CarParameters>();
-                        futurePoints.Add(driver.myRobot.id, saveFuturePositions(driver));
-                        foreach (CarDriver driv in drivers)
+                        unsafe
                         {
-                            if (driv != driver && IsClose(driver, driv))
-                                unsafe
-                                {
-                                    visibleCars.Add(driv.myRobot.id, new CarParameters(driv.myRobot.id, driv.myRobot.position, driv.myRobot.rotation));
-                                }
+                            Dictionary<int, CarParameters> visibleCars = new Dictionary<int, CarParameters>();
+                            futurePoints.Add(driver.myRobot.id,
+                                saveFuturePositions(*driver.myRobot.lineralVelocity,
+                                    driver.CountRotation(driver.myRobot.rotation), driver.myRobot.position));
+                            foreach (CarDriver driv in drivers)
+                            {
+                                if (driv != driver && IsClose(driver, driv))
+                                    unsafe
+                                    {
+                                        visibleCars.Add(driv.myRobot.id,
+                                            new CarParameters(driv.myRobot.id, driv.myRobot.position,
+                                                driv.myRobot.rotation));
+                                    }
+                            }
+                            driver.Refresh(visibleCars);
                         }
-                        driver.Refresh(visibleCars);
-                    }
 
                     List<Collision> collisions = findCollisions();
                     if (collisions.Count > 0)
@@ -530,12 +535,20 @@ namespace CityDriver
                         Console.WriteLine("I found collisions for robots: ");
                         foreach (Collision col in collisions)
                         {
-                            List<CarDriver> driversToStop = getDriversById(drivers, col.Id1, col.Id2);
-                            foreach (CarDriver driver in driversToStop)
+                            List<CarDriver> collidedDrivers = getDriversById(drivers, col.Id1, col.Id2);
+                            if (collidedDrivers[0].isFirstRight(collidedDrivers[0].myRobot, collidedDrivers[1].myRobot))
                             {
-                                driver.stopRobot();
-                                // do stuff
+                                collidedDrivers[1].stopRobot();
                             }
+                            else
+                            {
+                                collidedDrivers[0].stopRobot();
+                            }
+//                            foreach (CarDriver driver in driversToStop)
+//                            {
+//                                driver.stopRobot();
+//                                // do stuff
+//                            }
                             Console.WriteLine(col.Id1 + " with " + col.Id2);
                         }
                     }
@@ -571,10 +584,7 @@ namespace CityDriver
             return result;
         }
 
-        private unsafe List<Point> saveFuturePositions(CarDriver driver) {
-            double velocity = *driver.myRobot.lineralVelocity;
-            double angle = driver.CountRotation(driver.myRobot.rotation);
-            var position = driver.myRobot.position;
+        private unsafe List<Point> saveFuturePositions(double velocity, double angle, double* position) {
             var x = position[0];
             var y = position[1];
             int time;
@@ -640,6 +650,8 @@ namespace CityDriver
             }
             return result;
         }
+
+
 
         private static unsafe bool IsClose(CarDriver driver, CarDriver driv)
         {
