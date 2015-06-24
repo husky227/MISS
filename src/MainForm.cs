@@ -515,7 +515,7 @@ namespace CityDriver
                         {
                             Dictionary<int, CarParameters> visibleCars = new Dictionary<int, CarParameters>();
                             futurePoints.Add(driver.myRobot.id,
-                                saveFuturePositions(*driver.myRobot.lineralVelocity,
+                                saveFuturePositions(driver.Velocity,
                                     driver.CountRotation(driver.myRobot.rotation), driver.myRobot.position));
                             foreach (CarDriver driv in drivers)
                             {
@@ -593,7 +593,7 @@ namespace CityDriver
             for (time = 1; time < 5; time++)
             {
                 double path = velocity * time;
-                result.Add(new Point(x + path*Math.Sin(angle), y - path*Math.Cos(angle)));
+                result.Add(new Point(x - path*Math.Sin(angle), y + path*Math.Cos(angle)));
             }
             return result;
         }
