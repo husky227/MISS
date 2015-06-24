@@ -530,7 +530,12 @@ namespace CityDriver
                         Console.WriteLine("I found collisions for robots: ");
                         foreach (Collision col in collisions)
                         {
-                            List<CarDriver> driversToStop = getDriverById(drivers, col.Id1, col.Id2);
+                            List<CarDriver> driversToStop = getDriversById(drivers, col.Id1, col.Id2);
+                            foreach (CarDriver driver in driversToStop)
+                            {
+                                driver.stopRobot();
+                                // do stuff
+                            }
                             Console.WriteLine(col.Id1 + " with " + col.Id2);
                         }
                     }
@@ -553,14 +558,14 @@ namespace CityDriver
 			}*/
         }
 
-        private List<CarDriver> getDriverById(ArrayList drivers, int id1, int id2)
+        private List<CarDriver> getDriversById(ArrayList drivers, int id1, int id2)
         {
             List<CarDriver> result = new List<CarDriver>();
             foreach (CarDriver driver in drivers)
             {
                 if (driver.myRobot.id == id1 || driver.myRobot.id == id2)
                 {
-                    driver.stopRobot();
+                    result.Add(driver);
                 }
             }
             return result;
