@@ -14,6 +14,7 @@ namespace CityDriver.drawing
         private int MARGIN = 10;
         private double ROBOT_SIZE = 0.3;
         private double NODE_SIZE = 0.1;
+        private double POINT_SIZE = 0.05;
         private System.Drawing.Graphics g;
         private System.Windows.Forms.Panel panel1;
         private Bitmap background;
@@ -113,6 +114,21 @@ namespace CityDriver.drawing
 
             // Draw line to screen.
             g.DrawLine(greenPen, point1, point2);
+        }
+
+
+        public void drawFuturePoints(List<Point> points)
+        {
+            Pen pen = new Pen(Color.Beige, 3);
+
+            foreach (Point point in points)
+            {
+                int x = Convert.ToInt32(point.X * scale);
+                int y = Convert.ToInt32(point.Y * scale);
+                int radius = Convert.ToInt32(POINT_SIZE * scale);
+
+                g.DrawEllipse(pen, x, y, radius, radius);
+            }
         }
 
         public void drawNodes(List<Node> nodes)
