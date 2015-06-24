@@ -211,7 +211,7 @@ namespace CityDriver
             // 
             this.panel1.Location = new System.Drawing.Point(247, 13);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(759, 547);
+            this.panel1.Size = new System.Drawing.Size(534, 381);
             this.panel1.TabIndex = 19;
             // 
             // MainForm
@@ -590,10 +590,10 @@ namespace CityDriver
             var y = position[1];
             int time;
             List<Point> result = new List<Point>();
-            for (time = 1; time < 23; time++)
+            for (time = 1; time < 5; time++)
             {
                 double path = velocity * time;
-                result.Add(new Point(x + path*Math.Cosh(angle), y + path*Math.Sinh(angle)));
+                result.Add(new Point(x + path*Math.Sin(angle), y - path*Math.Cos(angle)));
             }
             return result;
         }
@@ -603,7 +603,7 @@ namespace CityDriver
             List<Collision> result = new List<Collision>();
             List<int> collisionIds = new List<int>();
 
-            for (int i = 0; i < 22; i++)
+            for (int i = 0; i < 4; i++)
             {
                 List<Point> tmpPoints = new List<Point>();
                 List<int> tmpRobotsIds = new List<int>();

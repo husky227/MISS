@@ -31,7 +31,7 @@ namespace CityDriver.drawing
             this.boundaries = boundaries;
 
             this.translation = new Point(boundaries[0], boundaries[1]);
-            this.to = new Point(boundaries[2] - boundaries[0], boundaries[3] - boundaries[1]);
+            this.to = new Point(Math.Abs(boundaries[2] - boundaries[0]), Math.Abs(boundaries[3] - boundaries[1]));
 
             //scale to fit width
             this.scale = Math.Min((this.panel1.Width / this.to.X) - 2 * MARGIN, (this.panel1.Height / this.to.Y) - 2 * MARGIN);
