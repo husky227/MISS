@@ -269,10 +269,7 @@ namespace CityDriver
             var alfa = CountAlfa(myRobot.position[0], myRobot.position[1], rotation);
 
             DeltaVelocity = (alfa * ConstAlfa);
-//            Velocity = maxSpeed * (distance * ConstDistance) > maxSpeed ? maxSpeed : maxSpeed * (distance * ConstDistance);
             Velocity = maxSpeed;
-//            Console.WriteLine(myRobot.position[0] + " \t" + myRobot.position[1] + " \t" + GetNextNode().Position.X + " \t" + GetNextNode().Position.Y + "\t" + alfa + "\t" + rotation);
-            //TODO dodac wyliczanie Velocity
         }
 
         private void UpdateVisibleDriversParameters(Dictionary<int, CarParameters> visibleDrivers, TimeSpan delta)
