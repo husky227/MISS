@@ -574,10 +574,10 @@ namespace CityDriver
             var y = position[1];
             int time;
             List<Point> result = new List<Point>();
-            for (time = 1; time < 1000; time++)
+            for (time = 1; time < 23; time++)
             {
                 double path = velocity * time;
-                result.Add(new Point(x + path*Math.Cos(angle), y + path*Math.Sin(angle)));
+                result.Add(new Point(x + path*Math.Cosh(angle), y + path*Math.Sinh(angle)));
             }
             return result;
         }
@@ -587,7 +587,7 @@ namespace CityDriver
             List<Collision> result = new List<Collision>();
             List<int> collisionIds = new List<int>();
 
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < 22; i++)
             {
                 List<Point> tmpPoints = new List<Point>();
                 List<int> tmpRobotsIds = new List<int>();
@@ -626,7 +626,7 @@ namespace CityDriver
             {
                 for (int j = i + 1; j < points.Count; j++)
                 {
-                    if ((points[i].X - points[j].X) * (points[i].X - points[j].X) + (points[i].Y - points[j].Y) * (points[i].Y - points[j].Y) < (2 * 0.3) * (2 * 0.3))
+                    if ((points[i].X - points[j].X) * (points[i].X - points[j].X) + (points[i].Y - points[j].Y) * (points[i].Y - points[j].Y) < 0.3 * 0.3)
                     {
                         result.Add(i);
                         result.Add(j);
