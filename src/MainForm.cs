@@ -440,6 +440,7 @@ namespace CityDriver
             foreach (KeyValuePair<Robot, RobotType> entry in robots)
             {
                 drawingManager.drawRobot(entry.Key, entry.Value);
+                drawingManager.drawFuturePoints(futurePoints[entry.Key.id]);
             }
             if(nodes != null) 
             {
