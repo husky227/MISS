@@ -137,6 +137,7 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CollisionReaction.cs" />
     <Compile Include="roson\Capo.cs" />
     <Compile Include="CarDriver.cs">
       <SubType>Code</SubType>

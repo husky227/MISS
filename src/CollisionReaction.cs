@@ -2,11 +2,11 @@
 {
     public enum CollisionReaction
     {
-        Slow,
         Fast,
+        Slow,
         Rear,
-        Left,
-        Right,
+//        Right,
+//        Left,
         Stop
     }
 }

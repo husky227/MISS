@@ -30,7 +30,7 @@ namespace CityDriver
     public class CarDriver
     {
         private const double Radius = 0.0603;
-        private const double ConstAlfa = 0.5;
+        private const double ConstAlfa = 0.4;
         private const double ConstDistance = 0.9;
         private const double MinGap = 0.3;
         public static double maxSpeed = 0.3;
@@ -40,8 +40,9 @@ namespace CityDriver
         private readonly Dictionary<string, Space> allSpaceNodes;
         private List<Wall> allWalls;
         private GraphBuilder graphBuilder;
-        private readonly Dictionary<int, CarParameters> lastParameters;
+//        private readonly Dictionary<int, CarParameters> lastParameters;
         private Node currentNode;
+        private Node firstNode;
         private List<Node> currentPath;
         public double DeltaVelocity;
         private DateTime lastTime;
@@ -49,7 +50,10 @@ namespace CityDriver
         private double rotation;
         private Node targetNode;
         public double Velocity;
-        public bool stop = false;
+
+        private bool avoidingCollision;
+        private double avoidingVelocity;
+        private double avoidingDeltaVelocity;
 
         public CarDriver(Robot myRobot, List<Node> nodesList, RosonLoader rl)
         {
@@ -63,9 +67,10 @@ namespace CityDriver
             this.myRobot = myRobot;
             graphBuilder = new GraphBuilder(nodesList);
             FindCurrentNode(rl.robots);
+            firstNode = currentNode;
 
 
-            lastParameters = new Dictionary<int, CarParameters>();
+//            lastParameters = new Dictionary<int, CarParameters>();
             //            Console.WriteLine("New robot attached: " + myRobot.name);
             lastTime = DateTime.Now;
         }
@@ -85,22 +90,32 @@ namespace CityDriver
         public void SetTargetPoint(double x, double y)
         {
             Node target = new Node(NodeKind.SpaceNode, "target", x, y);
-            target.Nodes.Add(currentNode);
-            currentNode.Nodes.Add(target);
+            target.Nodes.Add(firstNode);
+            firstNode.Nodes.Remove(currentNode);
+            firstNode.Nodes.Add(target);
             allNodes.Remove("target");
             allNodes.Add("target", target);
             graphBuilder = new GraphBuilder(allNodes.Values.ToList());
+            currentNode = firstNode;
             SetTargetNode(target);
+        }
+
+        public void RandTargetPoint()
+        {
+            var rand = new Random();
+            double x = rand.NextDouble() * 3.2 + 0.4;
+            double y = rand.NextDouble() * 3.2 + 0.4;
+            SetTargetPoint(x, y);
         }
 
         public void Move()
         {
-            if (stop)
+            if (avoidingCollision)
             {
-                myRobot.joints[0].motorDesiredVelocity = 0;
-                myRobot.joints[1].motorDesiredVelocity = 0;
-                myRobot.joints[2].motorDesiredVelocity = 0;
-                myRobot.joints[3].motorDesiredVelocity = 0;
+                myRobot.joints[0].motorDesiredVelocity = (avoidingVelocity + Velocity + avoidingDeltaVelocity + DeltaVelocity) / Radius;
+                myRobot.joints[1].motorDesiredVelocity = (avoidingVelocity + Velocity - avoidingDeltaVelocity - DeltaVelocity) / Radius;
+                myRobot.joints[2].motorDesiredVelocity = (avoidingVelocity + Velocity + avoidingDeltaVelocity + DeltaVelocity) / Radius;
+                myRobot.joints[3].motorDesiredVelocity = (avoidingVelocity + Velocity - avoidingDeltaVelocity - DeltaVelocity) / Radius;
             }
             else
             {
@@ -183,40 +198,6 @@ namespace CityDriver
                         return;
                     }
                 }
-            //            if (graphBuilder == null)
-            //            {
-            //                Console.WriteLine("Current node not found :<");
-            //                return;
-            //            }
-            //
-            //            unsafe
-            //            {
-            //                if (myRobot == null || myRobot.position == null)
-            //                {
-            //                    return;
-            //                }
-            //
-            //                var position = myRobot.position;
-            //                var x = position[0];
-            //                var y = position[1];
-            //
-            //                //                Console.WriteLine("X: " + x + " Y: " + y);
-            //                if (allNodes == null)
-            //                {
-            //                    return;
-            //                }
-            //
-            //                foreach (var key in allSpaceNodes.Keys)
-            //                {
-            //                    var node = allSpaceNodes[key];
-            //                    if (node.isInside(x, y))
-            //                    {
-            ////                                                                        Console.WriteLine("spacenode found! " + myRobot.name + " , " + node.Id);
-            //                        currentNode = allNodes[node.NodeName];
-            //                        //break;
-            //                    }
-            //                }
-            //            }
         }
 
         private void CreatePath(Node start, Node end)
@@ -239,16 +220,9 @@ namespace CityDriver
 
         private unsafe void MakeNextStep(Dictionary<int, CarParameters> visibleDrivers)
         {
-            //            foreach (var node in currentPath)
-            //            {
-            //                Console.WriteLine(node.Id);
-            //            }
-            //            
-            //            Console.WriteLine(currentNode.Id + "   " + GetNextNode().Id + "    " + targetNode.Id);
             if (currentNode == targetNode)
             {
-//                Console.WriteLine("Docelowy punkt osiagniety, wyznaczam nowa trase");
-//                RandTargetNode();
+                RandTargetPoint();
                 return;
             }
             var distance = CountDistance(myRobot.position[0], myRobot.position[1]);
@@ -262,7 +236,7 @@ namespace CityDriver
             var currentTime = DateTime.Now;
             var deltaTime = currentTime - lastTime;
             lastTime = currentTime;
-            UpdateVisibleDriversParameters(visibleDrivers, deltaTime);
+//            UpdateVisibleDriversParameters(visibleDrivers, deltaTime);
 
             rotation = CountRotation(myRobot.rotation);
             //            Console.WriteLine(rotation);
@@ -270,31 +244,6 @@ namespace CityDriver
 
             DeltaVelocity = (alfa * ConstAlfa);
             Velocity = maxSpeed;
-        }
-
-        private void UpdateVisibleDriversParameters(Dictionary<int, CarParameters> visibleDrivers, TimeSpan delta)
-        {
-            foreach (var driver in lastParameters)
-            {
-                if (!visibleDrivers.ContainsKey(driver.Key))
-                {
-                    lastParameters.Remove(driver.Key);
-                }
-            }
-
-            foreach (var driver in visibleDrivers)
-            {
-                CarParameters value;
-                if (lastParameters.TryGetValue(driver.Key, out value))
-                {
-                    value.SetNewPosition(driver.Value.Position, delta);
-                    value.SetNewRotation(driver.Value.Rotation, delta);
-                }
-                else
-                {
-                    lastParameters.Add(driver.Key, driver.Value);
-                }
-            }
         }
 
         private double CountAlfa(double x, double y, double rotation)
@@ -339,16 +288,6 @@ namespace CityDriver
             return Math.Atan2(2 * rotationQuaternion[3] * rotationQuaternion[0] - 2 * rotationQuaternion[1] * rotationQuaternion[2], 1 - 2 * sqy - 2 * sqz);
         }
 
-        public void stopRobot()
-        {
-            stop = true;
-        }
-
-        public void startRobot()
-        {
-            stop = false;
-        }
-
         public List<Node> GetPath()
         {
             return currentPath;
@@ -370,5 +309,18 @@ namespace CityDriver
             }
         }
 
+        public void StartAvoidingCollision(double aV, double aDV)
+        {
+            avoidingCollision = true;
+            avoidingVelocity = aV;
+            avoidingDeltaVelocity = aDV;
+        }
+
+        public void StopAvoidingCollision()
+        {
+            avoidingCollision = false;
+            avoidingVelocity = 0.0;
+            avoidingDeltaVelocity = 0.0;
+        }
     }
 }

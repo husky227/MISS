@@ -62,6 +62,8 @@ namespace CityDriver
         private Dictionary<int, List<Point>> futurePoints = new Dictionary<int,List<Point>>(); 
         private static DrawingManager drawingManager;
 
+        private List<CarDriver> robotsAvoidingCollisions = new List<CarDriver>();
+
         private Robot selectedRobot = null;
 
         public MainForm(RosonLoader rl)
@@ -453,6 +455,7 @@ namespace CityDriver
             /*	try
                 {*/
             int counter = 0;
+		    int count = 0;
             while (true)
             {
                 counter++;
@@ -483,15 +486,15 @@ namespace CityDriver
                                 drivers.Add(new CarDriver(communicator.robots[newRobotId], nodesList, rosonLoader));
                                 if (counter == 1)
                                 {
-                                    ((CarDriver)drivers[drivers.Count - 1]).RandTargetNode();
+                                    ((CarDriver)drivers[drivers.Count - 1]).SetTargetPoint(0.7, 3.2);
                                 }
                                 if (counter == 2)
                                 {
-                                    ((CarDriver)drivers[drivers.Count - 1]).SetTargetPoint(0.5, 1.6);
+                                    ((CarDriver)drivers[drivers.Count - 1]).SetTargetPoint(2.4, 3.0);
                                 }
                                 if (counter == 3)
                                 {
-                                    ((CarDriver)drivers[drivers.Count - 1]).SetTargetPoint(1.5, 0.5);
+                                    ((CarDriver)drivers[drivers.Count - 1]).SetTargetPoint(3.4, 2.6);
                                 }
                                 
                             } /*
@@ -514,8 +517,9 @@ namespace CityDriver
                         unsafe
                         {
                             Dictionary<int, CarParameters> visibleCars = new Dictionary<int, CarParameters>();
+                            var velocity = driver.myRobot.lineralVelocity;
                             futurePoints.Add(driver.myRobot.id,
-                                saveFuturePositions(*driver.myRobot.lineralVelocity,
+                                saveFuturePositions(-Math.Sqrt(velocity[0] * velocity[0] + velocity[1] * velocity[1]),
                                     driver.CountRotation(driver.myRobot.rotation), driver.myRobot.position));
                             foreach (CarDriver driv in drivers)
                             {
@@ -530,27 +534,31 @@ namespace CityDriver
                             driver.Refresh(visibleCars);
                         }
 
-                    List<Collision> collisions = findCollisions();
+                    List<Collision> collisions = findCollisions(futurePoints);
+                    if (count++ == 100)
+                    {
+                        count = 0;
+                        foreach (var robot in robotsAvoidingCollisions)
+                        {
+                            robot.StopAvoidingCollision();
+                        }
+                        robotsAvoidingCollisions.Clear();
+                    }
                     if (collisions.Count > 0)
                     {
-                        Console.WriteLine("I found collisions for robots: ");
                         foreach (Collision col in collisions)
                         {
                             List<CarDriver> collidedDrivers = getDriversById(drivers, col.Id1, col.Id2);
                             if (collidedDrivers[0].isFirstRight(collidedDrivers[0].myRobot, collidedDrivers[1].myRobot))
                             {
-                                collidedDrivers[1].stopRobot();
+                                robotsAvoidingCollisions.Add(collidedDrivers[1]);
+                                AvoidCollision(collidedDrivers[1], collidedDrivers[0].myRobot.id);
                             }
                             else
                             {
-                                collidedDrivers[0].stopRobot();
+                                robotsAvoidingCollisions.Add(collidedDrivers[0]);
+                                AvoidCollision(collidedDrivers[0], collidedDrivers[1].myRobot.id);
                             }
-//                            foreach (CarDriver driver in driversToStop)
-//                            {
-//                                driver.stopRobot();
-//                                // do stuff
-//                            }
-                            Console.WriteLine(col.Id1 + " with " + col.Id2);
                         }
                     }
                 }
@@ -590,7 +598,7 @@ namespace CityDriver
             var y = position[1];
             int time;
             List<Point> result = new List<Point>();
-            for (time = 1; time < 5; time++)
+            for (time = 0; time < 5; time++)
             {
                 double path = velocity * time;
                 result.Add(new Point(x + path*Math.Sin(angle), y - path*Math.Cos(angle)));
@@ -598,21 +606,21 @@ namespace CityDriver
             return result;
         }
 
-        private unsafe List<Collision> findCollisions()
+        private unsafe List<Collision> findCollisions(Dictionary<int, List<Point>> points)
         {
             List<Collision> result = new List<Collision>();
             List<int> collisionIds = new List<int>();
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 5; i++)
             {
                 List<Point> tmpPoints = new List<Point>();
                 List<int> tmpRobotsIds = new List<int>();
 
-                foreach (int id in futurePoints.Keys)
+                foreach (int id in points.Keys)
                 {
                     if (!collisionIds.Contains(id)) {
                         tmpRobotsIds.Add(id);
-                        tmpPoints.Add(futurePoints[id][i]);
+                        tmpPoints.Add(points[id][i]);
                     }
                     List<int> collisions = checkPoints(tmpPoints);
                     int counter = 1;
@@ -642,7 +650,7 @@ namespace CityDriver
             {
                 for (int j = i + 1; j < points.Count; j++)
                 {
-                    if ((points[i].X - points[j].X) * (points[i].X - points[j].X) + (points[i].Y - points[j].Y) * (points[i].Y - points[j].Y) < 0.3 * 0.3)
+                    if ((points[i].X - points[j].X) * (points[i].X - points[j].X) + (points[i].Y - points[j].Y) * (points[i].Y - points[j].Y) < 0.5 * 0.5)
                     {
                         result.Add(i);
                         result.Add(j);
@@ -652,7 +660,69 @@ namespace CityDriver
             return result;
         }
 
-
+        private void AvoidCollision(CarDriver driver, int id)
+        {
+            bool found = false;
+            var rand = new Random();
+            List<Point> list = futurePoints[id];
+            Dictionary<int, List<Point>> points;
+            int i = 0;
+            while (!found && i++ < 8)
+            {
+                points = new Dictionary<int, List<Point>> {{id, list}};
+                CollisionReaction reaction = (CollisionReaction) rand.Next(4);
+                unsafe {switch (reaction)
+                    {
+                        case CollisionReaction.Fast:
+                            points.Add(driver.myRobot.id,
+                            saveFuturePositions(driver.Velocity + driver.Velocity/3,
+                                driver.CountRotation(driver.myRobot.rotation),driver.myRobot.position));
+                            if (findCollisions(points).Count == 0)
+                            {
+                                found = true;
+                                driver.StartAvoidingCollision(driver.Velocity/3, 0.0);
+                            }
+                            break;
+                        case CollisionReaction.Slow:
+                            points.Add(driver.myRobot.id,
+                            saveFuturePositions(driver.Velocity - driver.Velocity/3,
+                                driver.CountRotation(driver.myRobot.rotation),driver.myRobot.position));
+                            if (findCollisions(points).Count == 0)
+                            {
+                                found = true;
+                                driver.StartAvoidingCollision(-(driver.Velocity/3), 0.0);
+                            }
+                            break;
+                        case CollisionReaction.Rear:
+                            points.Add(driver.myRobot.id,
+                            saveFuturePositions(- driver.Velocity/3,
+                                driver.CountRotation(driver.myRobot.rotation),driver.myRobot.position));
+                            if (findCollisions(points).Count == 0)
+                            {
+                                found = true;
+                                driver.StartAvoidingCollision(-(driver.Velocity*4/3), 0.0);
+                            }
+                            break;
+//                        case CollisionReaction.Right:
+//                        driver.StartAvoidingCollision(0.0, 0.1);
+//                        break;
+//                        case CollisionReaction.Left:
+//                        driver.StartAvoidingCollision(0.0, -0.1);
+//                        break;
+                        case CollisionReaction.Stop:
+                            points.Add(driver.myRobot.id,
+                            saveFuturePositions(0.0,
+                                driver.CountRotation(driver.myRobot.rotation),driver.myRobot.position));
+                            if (findCollisions(points).Count == 0)
+                            {
+                                found = true;
+                                driver.StartAvoidingCollision(-driver.Velocity, -driver.DeltaVelocity);
+                            }
+                            break;
+                    }
+                }
+            }
+        }
 
         private static unsafe bool IsClose(CarDriver driver, CarDriver driv)
         {
