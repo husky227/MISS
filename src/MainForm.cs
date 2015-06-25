@@ -519,7 +519,7 @@ namespace CityDriver
                             Dictionary<int, CarParameters> visibleCars = new Dictionary<int, CarParameters>();
                             var velocity = driver.myRobot.lineralVelocity;
                             futurePoints.Add(driver.myRobot.id,
-                                saveFuturePositions(-Math.Sqrt(velocity[0] * velocity[0] + velocity[1] * velocity[1]),
+                                saveFuturePositions(Math.Sqrt(velocity[0] * velocity[0] + velocity[1] * velocity[1]),
                                     driver.CountRotation(driver.myRobot.rotation), driver.myRobot.position));
                             foreach (CarDriver driv in drivers)
                             {
