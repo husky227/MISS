@@ -601,7 +601,7 @@ namespace CityDriver
             for (time = 0; time < 5; time++)
             {
                 double path = velocity * time;
-                result.Add(new Point(x + path*Math.Sin(angle), y - path*Math.Cos(angle)));
+                result.Add(new Point(x - path*Math.Sin(angle), y + path*Math.Cos(angle)));
             }
             return result;
         }
