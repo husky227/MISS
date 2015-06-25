@@ -650,7 +650,7 @@ namespace CityDriver
             {
                 for (int j = i + 1; j < points.Count; j++)
                 {
-                    if ((points[i].X - points[j].X) * (points[i].X - points[j].X) + (points[i].Y - points[j].Y) * (points[i].Y - points[j].Y) < 0.5 * 0.5)
+                    if ((points[i].X - points[j].X) * (points[i].X - points[j].X) + (points[i].Y - points[j].Y) * (points[i].Y - points[j].Y) < 0.6 * 0.6)
                     {
                         result.Add(i);
                         result.Add(j);
@@ -670,7 +670,7 @@ namespace CityDriver
             while (!found && i++ < 8)
             {
                 points = new Dictionary<int, List<Point>> {{id, list}};
-                CollisionReaction reaction = (CollisionReaction) rand.Next(4);
+                CollisionReaction reaction = (CollisionReaction) rand.Next(6);
                 unsafe {switch (reaction)
                     {
                         case CollisionReaction.Fast:
@@ -703,12 +703,26 @@ namespace CityDriver
                                 driver.StartAvoidingCollision(-(driver.Velocity*4/3), 0.0);
                             }
                             break;
-//                        case CollisionReaction.Right:
-//                        driver.StartAvoidingCollision(0.0, 0.1);
-//                        break;
-//                        case CollisionReaction.Left:
-//                        driver.StartAvoidingCollision(0.0, -0.1);
-//                        break;
+                        case CollisionReaction.Right:
+                            points.Add(driver.myRobot.id,
+                            saveFuturePositions(driver.Velocity,
+                                driver.CountRotation(driver.myRobot.rotation)+0.2,driver.myRobot.position));
+                            if (findCollisions(points).Count == 0)
+                            {
+                                found = true;
+                            }
+                            driver.StartAvoidingCollision(0.0, 0.1);
+                            break;
+                        case CollisionReaction.Left:
+                            points.Add(driver.myRobot.id,
+                            saveFuturePositions(driver.Velocity,
+                                driver.CountRotation(driver.myRobot.rotation)-0.2,driver.myRobot.position));
+                            if (findCollisions(points).Count == 0)
+                            {
+                                found = true;
+                            }
+                            driver.StartAvoidingCollision(0.0, -0.1);
+                            break;
                         case CollisionReaction.Stop:
                             points.Add(driver.myRobot.id,
                             saveFuturePositions(0.0,

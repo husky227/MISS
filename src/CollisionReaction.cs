@@ -5,8 +5,8 @@
         Fast,
         Slow,
         Rear,
-//        Right,
-//        Left,
+        Right,
+        Left,
         Stop
     }
 }

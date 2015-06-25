@@ -220,6 +220,10 @@ namespace CityDriver
 
         private unsafe void MakeNextStep(Dictionary<int, CarParameters> visibleDrivers)
         {
+            if (currentPath.Count < 2)
+            {
+                RandTargetPoint();
+            }
             if (currentNode == targetNode)
             {
                 RandTargetPoint();
